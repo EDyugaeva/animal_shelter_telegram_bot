@@ -31,74 +31,106 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         telegramBot.setUpdatesListener(this);
     }
 
+    /**
+     * receive incoming updates
+     * scan updates, then filter to key message
+     */
     @Override
     public int process(List<Update> updates) {
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
             logger.info(update.message().text());
-            Long chatId = update.message().chat().id();
-            if (update.message().text() != null && update.message().text().equals("/start")) {
-                sendHelloMessage(chatId);
-            }
+            sendStartMessage(update);
             scanUpdates(update);
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
 
+    /**
+     * filter keyboard variants to get response after "/start";
+     * cases "Прислать отчет о питомце" and "Позови волонтера" mast be made later
+     *
+     * @param update
+     */
     private void scanUpdates(Update update) {
         switch (update.message().text()) {
             case "Узнать информацию о приюте":
-                System.out.println("its working");
-                stage1(update);
+                logger.info("update for message: Узнать информацию о приюте");
+                consultationWithNewUser(update);
             case "Как взять собаку из приюта":
-                System.out.println("Этап 2");
+                logger.info("update for message: Как взять собаку из приюта");
+                consultationWithPotentialDogOwner(update);
             case "Прислать отчет о питомце":
-                System.out.println("Этап 3");
+                logger.info("update for message: Прислать отчет о питомце");
             case "Позови волонтера":
-                System.out.println("Позвать волонтера");
-            case "Расписание работы приюта, адрес и схема проезда":
-                sendAdressAndScheldue(update);
-
+                logger.info("update for message: Позови волонтера");
 
         }
     }
 
-    private void sendHelloMessage(Long chatId) {
-        String message = "Hello! This is my first Telegram Bot!";
-        sendMessage(chatId, message);
-        ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup(
-                new String[]{"Узнать информацию о приюте", "Как взять собаку из приюта"},
-                new String[]{"Прислать отчет о питомце", "Позвать волонтера"})
-                .oneTimeKeyboard(true)   // optional
-                .resizeKeyboard(true)    // optional
-                .selective(true);        // optional
-        SendResponse request = telegramBot.execute(new SendMessage(chatId, "Пробуем отправить кнопки").replyMarkup(keyboardMarkup));
-
+    /**
+     * Response on command /start. It makes keyboard with 4 variants
+     *
+     * @param update from process
+     */
+    private void sendStartMessage(Update update) {
+        String message = "Приветствуем! Это телеграм бот приюта для собак";
+        if (update.message().text() != null && update.message().text().equals("/start")) {
+            logger.info("Start message to chatId" + update.message().chat().id());
+            ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup(
+                    new String[]{"Узнать информацию о приюте", "Как взять собаку из приюта"},
+                    new String[]{"Прислать отчет о питомце", "Позвать волонтера"})
+                    .oneTimeKeyboard(true)
+                    .resizeKeyboard(true)
+                    .selective(true);
+            sendMessageWithKeyboard(update, message, keyboardMarkup);
+        }
     }
 
-    private void stage1(Update update) {
-        String message = "Hello! This is bot for dog shelter";
-        Long chatId = update.message().chat().id();
+    /**
+     * Response to the message "Узнать информацию о приюте". It says Hello to user and gives keyboard with 5 variants
+     *
+     * @param update from scanUpdates
+     */
+    private void consultationWithNewUser(Update update) {
+        String message = "Привет, " + update.message().chat().firstName() + "! Здесь некотороя информация о работе нашего приюта. Что Вам интересно?";
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup(
                 new String[]{"О приюте", "Расписание работы приюта, адрес и схема проезда"},
                 new String[]{"Общие рекомендации о ТБ на территории приюта", "Принять и записать контактные данные для связи"},
                 new String[]{"Позвать волонтера"})
-                .oneTimeKeyboard(true)   // optional
-                .resizeKeyboard(true)    // optional
-                .selective(true);        // optional
-        SendResponse request = telegramBot.execute(new SendMessage(chatId, message).replyMarkup(keyboardMarkup));
+                .oneTimeKeyboard(true)
+                .resizeKeyboard(true)
+                .selective(true);
+        sendMessageWithKeyboard(update, message, keyboardMarkup);
+    }
+    /**
+     * Response to the message "Как взять собаку из приюта". It says accompanying message to user and gives keyboard with 11 variants
+     *
+     * @param update from scanUpdates
+     */
+    private void consultationWithPotentialDogOwner(Update update) {
+        String message = "Мы поможем разобраться с бюрократическими и бытовыми вопросами.)";
+        ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup(
+                new String[]{"Правила знакомства с собакой до того, как забрать ее из приюта", "Список документов, для того чтобы взять собаку из приюта"},
+                new String[]{"Список рекомендаций по транспортировке животного", "Список рекомендаций по обустройству дома для щенка"},
+                new String[]{"Список рекомендаций по обустройству дома для взрослой собаки", "Список рекомендаций по обустройству дома для взрослой собаки с ограниченными возмоностями"},
+                new String[]{"Советы кинолога по первичному общению с собакой", "Список проверенных кинологов"},
+                new String[]{"Список причин отказа в заборе собаки из приюта", "Принять и записать контактные данные для связи"},
+                new String[]{"Позвать волонтера"})
+                .oneTimeKeyboard(true)
+                .resizeKeyboard(true)
+                .selective(true);
+        sendMessageWithKeyboard(update, message, keyboardMarkup);
     }
 
-    private void sendAdressAndScheldue(Update update) {
+    /**
+     *Send message to chat from update
+     *
+     * @param update
+     * @param message
+     */
+    private void sendMessage(Update update, String message) {
         Long chatId = update.message().chat().id();
-        String message = "Время работы: " + "/n" +
-                "пн - 14-22" +
-                "вт - 10-22";
-        sendMessage(chatId, message);
-    }
-
-
-    private void sendMessage(Long chatId, String message) {
         SendMessage sendMessage = new SendMessage(chatId, message);
         SendResponse response = telegramBot.execute(sendMessage);
         if (response.isOk()) {
@@ -108,17 +140,20 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         }
     }
 
-    private void sendMessageWithReply(Update update, String message, ReplyKeyboardMarkup keyboardMarkup) {
+    /**
+     * Send message with keyboard to chat from update
+     * @param update
+     * @param message
+     * @param keyboardMarkup
+     */
+    private void sendMessageWithKeyboard(Update update, String message, ReplyKeyboardMarkup keyboardMarkup) {
         Long chatId = update.message().chat().id();
-        SendMessage sendMessage = new SendMessage(chatId, message);
-        SendResponse response = telegramBot.execute(sendMessage);
-
+        SendResponse response = telegramBot.execute(new SendMessage(chatId, message).replyMarkup(keyboardMarkup));
         if (response.isOk()) {
             logger.info("message: {} is sent ", message);
         } else {
             logger.warn("Message was not sent. Error code:  " + response.errorCode());
         }
     }
-
 
 }
