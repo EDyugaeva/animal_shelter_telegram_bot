@@ -4,17 +4,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Objects;
-
 @Entity
-public class Animal {
+public class User {
 
     @Id
     @GeneratedValue
     private Long id;
-    private String animalName;
-    private int animalAge;
+    private String userFirstName;
+    private String userLastName;
 
-    public Animal() {
+    public User() {
 
     }
 
@@ -26,28 +25,28 @@ public class Animal {
         this.id = id;
     }
 
-    public String getAnimalName() {
-        return animalName;
+    public String getUserFirstName() {
+        return userFirstName;
     }
 
-    public void setAnimalName(String animalName) {
-        this.animalName = animalName;
+    public void setUserFirstName(String userFirstName) {
+        this.userFirstName = userFirstName;
     }
 
-    public int getAnimalAge() {
-        return animalAge;
+    public String getUserLastName() {
+        return userLastName;
     }
 
-    public void setAnimalAge(int animalAge) {
-        this.animalAge = animalAge;
+    public void setUserLastName(String userLastName) {
+        this.userLastName = userLastName;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Animal animal = (Animal) o;
-        return id.equals(animal.id);
+        User user = (User) o;
+        return id.equals(user.id);
     }
 
     @Override
@@ -57,10 +56,10 @@ public class Animal {
 
     @Override
     public String toString() {
-        return "Animal{" +
+        return "User{" +
                 "id=" + id +
-                ", animalName='" + animalName + '\'' +
-                ", animalAge=" + animalAge +
+                ", userFirstName='" + userFirstName + '\'' +
+                ", userLastName='" + userLastName + '\'' +
                 '}';
     }
 }
