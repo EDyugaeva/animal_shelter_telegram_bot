@@ -1,6 +1,7 @@
--- liquibase formatted sql
+--liquibase formatted sql
 
--- changeset avvasil:1
+--changeset avvasil:1
+
 CREATE TABLE animals
 (
     id          serial          NOT NULL PRIMARY KEY,
@@ -14,4 +15,3 @@ CREATE TABLE users
     user_firstname  varchar(255)    NOT NULL,
     user_lastname   varchar(255)    NOT NULL
 );
-
