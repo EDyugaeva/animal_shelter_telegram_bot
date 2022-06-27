@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 @Entity
-public abstract class Pet {
+public class Pet {
 
     @Id
     @GeneratedValue
