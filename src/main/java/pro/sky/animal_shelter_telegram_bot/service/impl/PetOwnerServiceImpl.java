@@ -3,7 +3,11 @@ package pro.sky.animal_shelter_telegram_bot.service.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
+import pro.sky.animal_shelter_telegram_bot.repository.PetOwnerRepository;
 import pro.sky.animal_shelter_telegram_bot.service.PetOwnerService;
+
+import java.util.Optional;
+
 /**
  * Service for working with repository PetOwnerRepository
  */
@@ -20,35 +24,35 @@ public class PetOwnerServiceImpl implements PetOwnerService {
 
     @Override
     public PetOwner addPetOwner(PetOwner petOwner) {
-        PetOwner addingPetOwner = PetOwnerRepository.save(petOwner);
+        PetOwner addingPetOwner = petOwnerRepository.save(petOwner);
         logger.info("Pet owner {} is saved", addingPetOwner);
         return addingPetOwner;
     }
 
     @Override
     public void deletePetOwner(PetOwner petOwner) {
-        PetOwnerRepository.deleteById(petOwner.getId());
+        petOwnerRepository.deleteById(petOwner.getId());
         logger.info("Pet owner {} is deleted", petOwner);
 
     }
 
     @Override
     public void deletePetOwner(Long id) {
-        PetOwnerRepository.deleteById(id);
+        petOwnerRepository.deleteById(id);
         logger.info("Pet owner with id {} is deleted", id);
 
     }
 
     @Override
     public PetOwner findPetOwner(Long id) {
-        PetOwner findingPetOwner = PetOwnerRepository.findById(id).get();
+        PetOwner findingPetOwner = petOwnerRepository.findById(id).get();
         logger.info("Pet owner with id {} is found", id);
         return findingPetOwner;
     }
 
     @Override
     public PetOwner changePetOwner(PetOwner petOwner) {
-        PetOwner changingPetOwner = PetOwnerRepository.save(petOwner);
+        PetOwner changingPetOwner = petOwnerRepository.save(petOwner);
         logger.info("Pet owner {} is saved", petOwner);
         return changingPetOwner;
     }
@@ -57,7 +61,7 @@ public class PetOwnerServiceImpl implements PetOwnerService {
      * add phone number to database
      *
      * @param phoneNumber - phone number from telegram
-     * @param id - pet owner id, positive
+     * @param id          - pet owner id, positive
      * @return
      */
     @Override
@@ -66,16 +70,14 @@ public class PetOwnerServiceImpl implements PetOwnerService {
             logger.info("Phone number is empty");
             throw new NullPointerException("Phone number is empty");
         }
-        PetOwner changingPetOwner = PetOwnerRepository.findById(id);
+        PetOwner changingPetOwner = petOwnerRepository.findById(id).orElse(new PetOwner());
         if (changingPetOwner == null) {
-            logger.info("Pet Owner was not found");
-            throw new NullPointerException("Pet Owner was not found");
+            logger.info("Pet Owner was not found, it was created");
         }
         changingPetOwner.setPhoneNumber(phoneNumber);
         logger.info("Pet owner {} is changed. Phone number {} is added.", changingPetOwner + phoneNumber);
-        return PetOwnerRepository.save(changingPetOwner);
+        return petOwnerRepository.save(changingPetOwner);
     }
-
 
 
 }

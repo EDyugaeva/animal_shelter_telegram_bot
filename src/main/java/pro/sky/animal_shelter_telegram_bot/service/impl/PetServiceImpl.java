@@ -1,9 +1,11 @@
 package pro.sky.animal_shelter_telegram_bot.service.impl;
 
+import liquibase.pro.packaged.P;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pro.sky.animal_shelter_telegram_bot.model.pets.Dog;
 import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
+import pro.sky.animal_shelter_telegram_bot.repository.PetRepository;
 import pro.sky.animal_shelter_telegram_bot.service.PetService;
 
 /**
@@ -21,14 +23,14 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public Pet addPet(Pet pet) {
-        Dog addingPet = petRepository.save(pet);
+        Pet addingPet = petRepository.save(pet);
         logger.info("Pet {} is saved", addingPet);
         return addingPet;
     }
 
     @Override
     public void deletePet(Pet pet) {
-        petRepository.deleteById(dog.getId());
+        petRepository.deleteById(pet.getId());
         logger.info("Pet {} is deleted", pet);
     }
 
@@ -46,7 +48,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public Pet changePet(Pet pet) {
-        Dog changingPet = petRepository.save(pet);
+        Pet changingPet = petRepository.save(pet);
         logger.info("Pet {} is saved", pet);
         return changingPet;
     }

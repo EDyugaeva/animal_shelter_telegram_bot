@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 import pro.sky.animal_shelter_telegram_bot.model.Report;
 import pro.sky.animal_shelter_telegram_bot.model.pets.PhotoOfPet;
+import pro.sky.animal_shelter_telegram_bot.repository.PhotoOfPetRepository;
 import pro.sky.animal_shelter_telegram_bot.service.PhotoOfPetService;
 import pro.sky.animal_shelter_telegram_bot.service.ReportService;
 
@@ -119,7 +120,7 @@ public class PhotoOfPetServiceImpl implements PhotoOfPetService {
 
     @Override
     public PhotoOfPet findPhotoByReportId(Long reportId) {
-        return photoOfPetRepository.findByStudentId(reportId).orElse(new Report());
+        return photoOfPetRepository.findByStudentId(reportId).orElse(new PhotoOfPet());
     }
 
 
