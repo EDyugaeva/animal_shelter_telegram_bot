@@ -11,6 +11,6 @@ public interface PetOwnerRepository extends JpaRepository<PetOwner, Long> {
 
     void deleteById(Long id);
 
-    Collection<PetOwner> findPetOwnerById(Long id);
+    PetOwner findPetOwnerById(Long id);
 
 }

@@ -2,6 +2,7 @@ package pro.sky.animal_shelter_telegram_bot.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import pro.sky.animal_shelter_telegram_bot.model.Report;
 import pro.sky.animal_shelter_telegram_bot.repository.ReportRepository;
 import pro.sky.animal_shelter_telegram_bot.service.ReportService;
@@ -9,6 +10,7 @@ import pro.sky.animal_shelter_telegram_bot.service.ReportService;
 /**
  * Service for working with repository ReportRepository
  */
+@Service
 public class ReportServiceImpl implements ReportService {
 
     Logger logger = LoggerFactory.getLogger(ReportServiceImpl.class);

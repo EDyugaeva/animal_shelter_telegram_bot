@@ -3,6 +3,7 @@ package pro.sky.animal_shelter_telegram_bot.service.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pro.sky.animal_shelter_telegram_bot.model.Report;
 import pro.sky.animal_shelter_telegram_bot.model.pets.PhotoOfPet;
@@ -20,7 +21,7 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 /**
  * Service for working with repository PhotoOfPetRepository
  */
-
+@Service
 public class PhotoOfPetServiceImpl implements PhotoOfPetService {
 
 
