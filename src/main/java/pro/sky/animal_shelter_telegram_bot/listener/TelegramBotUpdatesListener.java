@@ -51,22 +51,12 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             scanUpdates(update);
             makereplies(update);
 
-
-
-//            if (update.message().text() != null && update.message().text().equals("Позвать волонтера")) {
-//                logger.info("Volunteer asked to update" + update);
-//                Long chatId = update.message().chat().id();
-//                SendResponse response = telegramBot.execute(se);
-//            }
-//            saveContacts(update);
-
-
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
 
     private void makereplies(Update update) {
-        String message = new String();
+        String message = "";
         switch (update.message().text()) {
             case BUTTON_INFO_SHELTER:
                 message = "Информация о приюте";
@@ -83,7 +73,24 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             case BUTTON_LIST_RECOMMENDATION_ABOUT_TRANSPORTATION:
                 message = "Рекомендации по транспортировке";
                 break;
-
+            case BUTTON_LIST_RECOMMENDATION_ABOUT_HOME_FOR_PUPPY:
+                message = "Рекомендации по обустройству дома для щенят";
+                break;
+            case BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_ADULT_DOG:
+                message = "Рекомендации по обустройству дома для взрослых собак";
+                break;
+            case BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_DOG_WITH_LIMITED_OPPORTUNITIES:
+                message = "Рекомендации по обустройству дома для собак с ограниченными возможностями";
+                break;
+            case BUTTON_ADVICE_CYNOLOGIST:
+                message = "Советы кинолога";
+                break;
+            case BUTTON_LIST_OF_CYNOLOGISTS:
+                message = "Список кинологов";
+                break;
+            case BUTTON_LIST_OF_REASONS_OF_REFUSIAL:
+                message = "Список причин для отказа";
+                break;
         }
 
         sendMessage(update, message);

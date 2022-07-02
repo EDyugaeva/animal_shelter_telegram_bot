@@ -6,7 +6,6 @@ import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 import pro.sky.animal_shelter_telegram_bot.repository.PetOwnerRepository;
 import pro.sky.animal_shelter_telegram_bot.service.PetOwnerService;
 
-import java.util.Optional;
 
 /**
  * Service for working with repository PetOwnerRepository
@@ -46,6 +45,9 @@ public class PetOwnerServiceImpl implements PetOwnerService {
     @Override
     public PetOwner findPetOwner(Long id) {
         PetOwner findingPetOwner = petOwnerRepository.findById(id).get();
+        if (findingPetOwner == null) {
+            throw new NullPointerException("Pet Owner was not found ");
+        }
         logger.info("Pet owner with id {} is found", id);
         return findingPetOwner;
     }

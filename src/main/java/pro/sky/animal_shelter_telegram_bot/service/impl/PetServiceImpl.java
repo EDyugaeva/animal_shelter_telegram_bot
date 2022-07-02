@@ -3,7 +3,6 @@ package pro.sky.animal_shelter_telegram_bot.service.impl;
 import liquibase.pro.packaged.P;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pro.sky.animal_shelter_telegram_bot.model.pets.Dog;
 import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
 import pro.sky.animal_shelter_telegram_bot.repository.PetRepository;
 import pro.sky.animal_shelter_telegram_bot.service.PetService;
@@ -42,6 +41,9 @@ public class PetServiceImpl implements PetService {
     @Override
     public Pet findPet(Long id) {
         Pet findingPet = petRepository.findById(id).get();
+        if (findingPet == null) {
+            throw new NullPointerException("Pet was not found ");
+        }
         logger.info("Pet with id {} is found", id);
         return findingPet;
     }

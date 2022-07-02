@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import pro.sky.animal_shelter_telegram_bot.model.pets.PhotoOfPet;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Repository
 public interface PhotoOfPetRepository extends JpaRepository<PhotoOfPet, Long> {
@@ -13,4 +14,5 @@ public interface PhotoOfPetRepository extends JpaRepository<PhotoOfPet, Long> {
 
     Collection<PhotoOfPet> findPhotoOfPetByReportId(Long id);
 
+    Optional<PhotoOfPet> findByReportId(Long reportId);
 }
