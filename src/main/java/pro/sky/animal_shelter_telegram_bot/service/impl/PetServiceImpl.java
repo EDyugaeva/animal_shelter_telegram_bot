@@ -1,5 +1,6 @@
 package pro.sky.animal_shelter_telegram_bot.service.impl;
 
+import liquibase.pro.packaged.P;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,6 @@ import pro.sky.animal_shelter_telegram_bot.service.PetService;
 /**
  * Service for working with repository DogRepository
  */
-
 @Service
 public class PetServiceImpl implements PetService {
 
@@ -43,6 +43,9 @@ public class PetServiceImpl implements PetService {
     @Override
     public Pet findPet(Long id) {
         Pet findingPet = petRepository.findById(id).get();
+        if (findingPet == null) {
+            throw new NullPointerException("Pet was not found ");
+        }
         logger.info("Pet with id {} is found", id);
         return findingPet;
     }
