@@ -9,8 +9,4 @@ import java.util.Collection;
 @Repository
 public interface VolunteerRepository extends JpaRepository<Volunteer, Long> {
 
-    void deleteById(Long id);
-
-    Collection<Volunteer> findVolunteerById(Long id);
-
 }

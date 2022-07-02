@@ -9,8 +9,4 @@ import java.util.Collection;
 @Repository
 public interface ReportRepository extends JpaRepository<Report, Long> {
 
-    void deleteById(Long id);
-
-    Collection<Report> findReportById(Long id);
-
 }
