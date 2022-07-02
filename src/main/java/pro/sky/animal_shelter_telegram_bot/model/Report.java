@@ -22,7 +22,7 @@ public class Report {
     @OneToOne
     private PhotoOfPet photoOfPet;
 
-    private String data;
+    private String dateOfReport;
     private String diet;
     private String health;
     private String changeInBehavior;
