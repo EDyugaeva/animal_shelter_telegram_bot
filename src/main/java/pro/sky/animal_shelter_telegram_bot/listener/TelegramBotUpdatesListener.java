@@ -14,24 +14,31 @@ import com.pengrad.telegrambot.response.SendResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import pro.sky.animal_shelter_telegram_bot.service.PetOwnerService;
 
 import javax.annotation.PostConstruct;
 
 import java.util.List;
 
+import static pro.sky.animal_shelter_telegram_bot.listener.MessageAnswersConstance.*;
 import static pro.sky.animal_shelter_telegram_bot.listener.MessageConstance.*;
 
 
 @Service
 public class TelegramBotUpdatesListener implements UpdatesListener {
 
+    private boolean savingMessage = false;
+
+    private final PetOwnerService petOwnerService;
+
+    public TelegramBotUpdatesListener(PetOwnerService petOwnerService, TelegramBot telegramBot) {
+        this.petOwnerService = petOwnerService;
+        this.telegramBot = telegramBot;
+    }
+
     private final TelegramBot telegramBot;
     private final Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
 
-
-    public TelegramBotUpdatesListener(TelegramBot telegramBot) {
-        this.telegramBot = telegramBot;
-    }
 
     @PostConstruct
     public void init() {
@@ -47,49 +54,52 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
             logger.info(update.message().text());
+            if (update.message().text() == null) {
+                sendMessage(update, "пустое сообщение");
+            }
             sendStartMessage(update);
             scanUpdates(update);
-            makereplies(update);
+            makeReplies(update);
 
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
 
-    private void makereplies(Update update) {
+    private void makeReplies(Update update) {
         String message = "";
         switch (update.message().text()) {
             case BUTTON_INFO_SHELTER:
-                message = "Информация о приюте";
+                message = INFO_SHELTER;
                 break;
             case BUTTON_GENERAL_RECOMMENDATION:
-                message = "Общие рекомендации";
+                message = GENERAL_RECOMMENDATION;
                 break;
             case BUTTON_RULES_BEFORE_ADOPTING:
-                message = "Правила знакомства";
+                message = RULES_BEFORE_ADOPTING;
                 break;
             case BUTTON_LIST_DOCUMENTS_TO_ADOPT:
-                message = "Лист документов необходимых для взятия животного";
+                message = LIST_DOCUMENTS_TO_ADOPT;
                 break;
-            case BUTTON_LIST_RECOMMENDATION_ABOUT_TRANSPORTATION:
-                message = "Рекомендации по транспортировке";
+            case BUTTON_RECOMMENDATION_ABOUT_TRANSPORTATION:
+                message = RECOMMENDATION_ABOUT_TRANSPORTATION;
                 break;
-            case BUTTON_LIST_RECOMMENDATION_ABOUT_HOME_FOR_PUPPY:
-                message = "Рекомендации по обустройству дома для щенят";
+            case BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_PUPPY:
+                message = RECOMMENDATION_ABOUT_HOME_FOR_PUPPY;
                 break;
             case BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_ADULT_DOG:
-                message = "Рекомендации по обустройству дома для взрослых собак";
+                message = RECOMMENDATION_ABOUT_HOME_FOR_ADULT_DOG;
                 break;
             case BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_DOG_WITH_LIMITED_OPPORTUNITIES:
-                message = "Рекомендации по обустройству дома для собак с ограниченными возможностями";
+                message = RECOMMENDATION_ABOUT_HOME_FOR_DOG_WITH_LIMITED_OPPORTUNITIES;
                 break;
             case BUTTON_ADVICE_CYNOLOGIST:
-                message = "Советы кинолога";
+                message = ADVICE_CYNOLOGIST;
                 break;
             case BUTTON_LIST_OF_CYNOLOGISTS:
-                message = "Список кинологов";
+                message = LIST_OF_CYNOLOGISTS;
                 break;
             case BUTTON_LIST_OF_REASONS_OF_REFUSIAL:
-                message = "Список причин для отказа";
+                message = LIST_OF_REASONS_OF_REFUSIAL;
                 break;
         }
 
@@ -105,25 +115,36 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
      * @param update
      */
     private void scanUpdates(Update update) {
-        if (update.message().text() == null) {
-            sendMessage(update, "пустое сообщение");
-        }
-        if (update.message().text().equals(BUTTON1_1)) {
-            logger.info("update for message: " + BUTTON1_1);
-            consultationWithNewUser(update);
-        } else if (update.message().text().equals(BUTTON1_2)) {
-            logger.info("update for message: " + BUTTON1_2);
-            consultationWithPotentialDogOwner(update);
-        } else if (update.message().text().equals(BUTTON1_3)) {
-            logger.info("update for message: " + BUTTON1_3);
+        switch (update.message().text()) {
+            case BUTTON1_1:
+                logger.info("update for message: " + BUTTON1_1);
+                consultationWithNewUser(update);
+                break;
+            case BUTTON1_2:
+                logger.info("update for message: " + BUTTON1_2);
+                consultationWithPotentialDogOwner(update);
+                break;
+            case BUTTON1_3:
+                logger.info("update for message: " + BUTTON1_3);
+                break;
+            case BUTTON_ASKING_VOLUNTEER:
+                logger.info("update for message: " + BUTTON_ASKING_VOLUNTEER);
+                break;
+            case BUTTON_SCHEDULE:
+                sendAddressAndSchedule(update);
+                break;
+            default:
+                if ((savingMessage) && !update.message().text().equals("Принять и записать контактные данные для связи")) {
+                    try {
+                        sendMessage(update, "Номер " +petOwnerService.setPetOwnersPhoneNumber(update.message().text(), update.message().chat().id()) + " сохранен");
+                        savingMessage = false;
+                    } catch (Exception e) {
+                        sendMessage(update, "Номер записан с ошибкой, введите номер повторно");
+                        savingMessage = true;
+                    }
+                }
 
-        } else if (update.message().text().equals(BUTTON_ASKING_VOLUNTEER)) {
-            logger.info("update for message: " + BUTTON_ASKING_VOLUNTEER);
         }
-        else if (update.message().text().equals("Расписание работы приюта, адрес и схема проезда")) {
-            sendAdressAndScheldue(update);
-        }
-
 
     }
 
@@ -172,8 +193,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         String message = "Мы поможем разобраться с бюрократическими и бытовыми вопросами.)";
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup(
                 new String[]{BUTTON_RULES_BEFORE_ADOPTING, BUTTON_LIST_DOCUMENTS_TO_ADOPT},
-                new String[]{BUTTON_LIST_RECOMMENDATION_ABOUT_TRANSPORTATION, BUTTON_LIST_RECOMMENDATION_ABOUT_HOME_FOR_PUPPY},
-                new String[]{BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_ADULT_DOG,BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_DOG_WITH_LIMITED_OPPORTUNITIES },
+                new String[]{BUTTON_RECOMMENDATION_ABOUT_TRANSPORTATION, BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_PUPPY},
+                new String[]{BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_ADULT_DOG, BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_DOG_WITH_LIMITED_OPPORTUNITIES},
                 new String[]{BUTTON_ADVICE_CYNOLOGIST, BUTTON_LIST_OF_CYNOLOGISTS},
                 new String[]{BUTTON_LIST_OF_REASONS_OF_REFUSIAL, BUTTON_SAVING_CONTACTS},
                 new String[]{BUTTON_ASKING_VOLUNTEER})
@@ -217,40 +238,22 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         }
     }
 
-//    private void saveContacts(Update update) {
-//        if (update.message().text() != null && update.message().text().equals("Принять и записать контактные данные для связи")) {
-//            SendResponse response;
-//            response = telegramBot.execute((new SendMessage(update.message().chat().id(), "Принять и записать контактные данные для связи")).replyMarkup(new ForceReply(isSelective));
-//
-//            CallbackQuery callbackQuery = update.callbackQuery();
-//
-//        }
-//    }
-
     /**
      * Send message to message "Расписание работы приюта, адрес и схема проезда"
      * Photo is on URL
      *
      * @param update
      */
-    private void sendAdressAndScheldue(Update update) {
+    private void sendAddressAndSchedule(Update update) {
         Long chatId = update.message().chat().id();
-        String scheldue = "Время работы: " + "\n" +
-                "пн - 14-22" + "\n" +
-                "вт - 10-22" + "\n" +
-                "ср - 8-18" + "\n" +
-                "чт - выходной " + "\n" +
-                "пт - 10-22" + "\n" +
-                "сб - 10-20" + "\n" +
-                "вс - 12-22";
 
-        sendMessage(update, scheldue);
-        String address = "Какой-то адрес приюта";
-        sendMessage(update, address);
+        sendMessage(update, SCHEDULE);
+
+        sendMessage(update, ADDRESS);
 
         SendResponse response = telegramBot.execute(new SendPhoto(chatId, "https://www.imgonline.com.ua/examples/bee-on-daisy.jpg"));
         if (response.isOk()) {
-            logger.info("photo: {} is sent ");
+            logger.info("photo is sent ");
         } else {
             logger.warn("Photo was not sent. Error code:  " + response.errorCode());
         }

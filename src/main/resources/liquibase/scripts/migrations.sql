@@ -48,3 +48,7 @@ CREATE TABLE photo_of_pet
     file_size           integer         NOT NULL,
     media_type          text            NOT NULL
 );
+
+--changeset edygaeva:1
+
+ALTER TABLE pet_owner ADD CONSTRAINT chat_id_constraint UNIQUE (chat_id);

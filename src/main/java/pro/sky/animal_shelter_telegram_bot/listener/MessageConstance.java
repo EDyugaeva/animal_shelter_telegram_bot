@@ -18,9 +18,9 @@ public class MessageConstance {
 
     public static final String BUTTON_LIST_DOCUMENTS_TO_ADOPT = "Список документов, для того чтобы взять собаку из приюта";
 
-    public static final String BUTTON_LIST_RECOMMENDATION_ABOUT_TRANSPORTATION = "Список рекомендаций по транспортировке животного";
+    public static final String BUTTON_RECOMMENDATION_ABOUT_TRANSPORTATION = "Список рекомендаций по транспортировке животного";
 
-    public static final String BUTTON_LIST_RECOMMENDATION_ABOUT_HOME_FOR_PUPPY = "Список рекомендаций по обустройству дома для щенка";
+    public static final String BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_PUPPY = "Список рекомендаций по обустройству дома для щенка";
 
     public static final String BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_ADULT_DOG = "Список рекомендаций по обустройству дома для взрослой собаки";
 
