@@ -7,6 +7,7 @@ import pro.sky.animal_shelter_telegram_bot.model.Report;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Pet {
@@ -19,12 +20,13 @@ public class Pet {
     private String health;
     private String extraInfoOfPet;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pet_owner_id")
     private PetOwner ownerOfPet;
 
-    @OneToMany
+    @OneToMany(mappedBy = "pet")
     @JsonIgnore
-    private ArrayList<Report> reports;
+    private Set<Report> reports;
 
     public Long getId() {
         return id;
@@ -66,11 +68,11 @@ public class Pet {
         this.ownerOfPet = ownerOfPet;
     }
 
-    public ArrayList<Report> getReports() {
+    public Set<Report> getReports() {
         return reports;
     }
 
-    public void setReports(ArrayList<Report> reports) {
+    public void setReports(Set<Report> reports) {
         this.reports = reports;
     }
 

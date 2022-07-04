@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Set;
 
 
 @Entity
@@ -21,13 +21,13 @@ public class PetOwner {
     private String phoneNumber;
     private Integer dayOfProbation;
 
-    @OneToMany
+    @OneToMany(mappedBy = "ownerOfPet")
     @JsonIgnore
-    private ArrayList<Pet> listOfAdoptedPets;
+    private Set<Pet> setOfAdoptedPets;
 
-    @OneToMany
+    @OneToMany(mappedBy = "petOwner")
     @JsonIgnore
-    private ArrayList<Report> reports;
+    private Set<Report> reports;
 
     public Long getId() {
         return id;
@@ -77,19 +77,19 @@ public class PetOwner {
         this.dayOfProbation = dayOfProbation;
     }
 
-    public ArrayList<Pet> getListOfAdoptedPets() {
-        return listOfAdoptedPets;
+    public Set<Pet> getSetOfAdoptedPets() {
+        return setOfAdoptedPets;
     }
 
-    public void setListOfAdoptedPets(ArrayList<Pet> listOfAdoptedPets) {
-        this.listOfAdoptedPets = listOfAdoptedPets;
+    public void setSetOfAdoptedPets(Set<Pet> listOfAdoptedPets) {
+        this.setOfAdoptedPets = listOfAdoptedPets;
     }
 
-    public ArrayList<Report> getReports() {
+    public Set<Report> getReports() {
         return reports;
     }
 
-    public void setReports(ArrayList<Report> reports) {
+    public void setReports(Set<Report> reports) {
         this.reports = reports;
     }
 
@@ -115,7 +115,7 @@ public class PetOwner {
                 ", chatId=" + chatId +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", dayOfProbation=" + dayOfProbation +
-                ", listOfAdoptedPets=" + listOfAdoptedPets +
+                ", listOfAdoptedPets=" + setOfAdoptedPets +
                 ", reports=" + reports +
                 '}';
     }
