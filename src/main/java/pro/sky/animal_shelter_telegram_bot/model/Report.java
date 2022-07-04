@@ -22,7 +22,7 @@ public class Report {
     @OneToOne
     private PhotoOfPet photoOfPet;
 
-    private String data;
+    private String dateOfReport;
     private String diet;
     private String health;
     private String changeInBehavior;
@@ -62,11 +62,11 @@ public class Report {
     }
 
     public String getData() {
-        return data;
+        return dateOfReport;
     }
 
     public void setData(String data) {
-        this.data = data;
+        this.dateOfReport = dateOfReport;
     }
 
     public String getDiet() {
@@ -128,7 +128,7 @@ public class Report {
                 "id=" + id +
                 ", petOwner=" + petOwner +
                 ", pet=" + pet +
-                ", data='" + data + '\'' +
+                ", data='" + dateOfReport + '\'' +
                 ", diet='" + diet + '\'' +
                 ", health='" + health + '\'' +
                 ", changeInBehavior='" + changeInBehavior + '\'' +
