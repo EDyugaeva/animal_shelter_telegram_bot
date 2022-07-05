@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Objects;
 
 
@@ -23,11 +23,11 @@ public class PetOwner {
 
     @OneToMany
     @JsonIgnore
-    private ArrayList<Pet> listOfAdoptedPets;
+    private Collection<Pet> listOfAdoptedPets;
 
     @OneToMany
     @JsonIgnore
-    private ArrayList<Report> reports;
+    private Collection<Report> reports;
 
     public Long getId() {
         return id;
@@ -77,19 +77,19 @@ public class PetOwner {
         this.dayOfProbation = dayOfProbation;
     }
 
-    public ArrayList<Pet> getListOfAdoptedPets() {
+    public Collection<Pet> getListOfAdoptedPets() {
         return listOfAdoptedPets;
     }
 
-    public void setListOfAdoptedPets(ArrayList<Pet> listOfAdoptedPets) {
+    public void setListOfAdoptedPets(Collection<Pet> listOfAdoptedPets) {
         this.listOfAdoptedPets = listOfAdoptedPets;
     }
 
-    public ArrayList<Report> getReports() {
+    public Collection<Report> getReports() {
         return reports;
     }
 
-    public void setReports(ArrayList<Report> reports) {
+    public void setReports(Collection<Report> reports) {
         this.reports = reports;
     }
 
