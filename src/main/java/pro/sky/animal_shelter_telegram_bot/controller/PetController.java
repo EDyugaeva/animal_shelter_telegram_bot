@@ -131,9 +131,7 @@ public class PetController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Pet is delete from Database",
-                            content = @Content(mediaType = "string",
-                                    examples = @ExampleObject(value = "string"))
+                            description = "Pet is delete from Database"
                     ),
                     @ApiResponse(
                             responseCode = "404",
