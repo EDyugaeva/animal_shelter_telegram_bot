@@ -1,7 +1,6 @@
 --liquibase formatted sql
 
---changeset avvasil:1
-
+--changeSet avvasil:1
 
 CREATE TABLE pet_owner
 (
@@ -31,7 +30,6 @@ CREATE TABLE volunteer
     extra_info          text            NOT NULL
 );
 
-
 CREATE TABLE pet
 (
     id                  serial          NOT NULL PRIMARY KEY,
@@ -39,7 +37,6 @@ CREATE TABLE pet
     health              text            NOT NULL,
     extra_info_of_pet   text            NOT NULL
 );
-
 
 CREATE TABLE photo_of_pet
 (
