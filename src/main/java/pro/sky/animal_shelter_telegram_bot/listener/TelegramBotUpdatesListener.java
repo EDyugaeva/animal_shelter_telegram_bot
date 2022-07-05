@@ -133,8 +133,14 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             case BUTTON_SCHEDULE:
                 sendAddressAndSchedule(update);
                 break;
-            default:
+            case BUTTON_SAVING_CONTACTS:
+                sendMessage(update, "Укажите ваш номер телефона");
+                logger.info("update for message: " + BUTTON_SAVING_CONTACTS);
+                savingMessage = true;
+                break;
+                default:
                 if ((savingMessage) && !update.message().text().equals("Принять и записать контактные данные для связи")) {
+                    logger.info("В листенере условие выполнено");
                     try {
                         sendMessage(update, "Номер " +petOwnerService.setPetOwnersPhoneNumber(update.message().text(), update.message().chat().id()) + " сохранен");
                         savingMessage = false;
@@ -143,7 +149,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                         savingMessage = true;
                     }
                 }
-
         }
 
     }

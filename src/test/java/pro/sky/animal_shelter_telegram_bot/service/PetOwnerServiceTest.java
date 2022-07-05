@@ -1,16 +1,19 @@
 package pro.sky.animal_shelter_telegram_bot.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import static org.junit.jupiter.api.Assertions.*;
 
+import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 import pro.sky.animal_shelter_telegram_bot.repository.PetOwnerRepository;
+import pro.sky.animal_shelter_telegram_bot.service.impl.PetOwnerServiceImpl;
+
+import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 
@@ -20,17 +23,14 @@ import static org.mockito.Mockito.when;
 public class PetOwnerServiceTest {
 
     @InjectMocks
-    private PetOwnerService out;
+    private PetOwnerServiceImpl out;
 
-    @MockBean
+    @Mock
     private PetOwnerRepository petOwnerRepository;
 
     @Test
     void contextLoads() {
     }
-
-    @Autowired
-    ObjectMapper objectMapper;
 
 
     @Test
@@ -39,6 +39,10 @@ public class PetOwnerServiceTest {
         String expected = "78882214285";
 
         Long id = 456789L;
+
+        PetOwner petOwner = new PetOwner();
+
+        when(petOwnerRepository.findPetOwnerByChatId(any(Long.class))).thenReturn(Optional.of(petOwner));
 
         Assertions.assertEquals(out.setPetOwnersPhoneNumber(testPhoneNumber, id), expected);
 

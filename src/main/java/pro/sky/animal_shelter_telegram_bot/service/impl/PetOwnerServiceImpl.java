@@ -1,6 +1,5 @@
 package pro.sky.animal_shelter_telegram_bot.service.impl;
 
-import com.pengrad.telegrambot.model.Update;
 import liquibase.repackaged.org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,7 +83,6 @@ public class PetOwnerServiceImpl implements PetOwnerService {
             logger.info("Phone number is written with mistake");
             throw new IllegalArgumentException("Неправильно введен номер");
         }
-
         PetOwner petOwner = petOwnerRepository.findPetOwnerByChatId(chatId).orElse(new PetOwner());
         petOwner.setChatId(chatId);
         petOwner.setPhoneNumber(newPhoneNumber);
