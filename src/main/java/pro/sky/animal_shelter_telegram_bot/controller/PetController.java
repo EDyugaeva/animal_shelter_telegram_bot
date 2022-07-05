@@ -29,7 +29,7 @@ public class PetController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Send a welcome message",
-                            content = @Content(mediaType = "string",
+                            content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE,
                                     examples = @ExampleObject(value = "string"))
                     )
             },
@@ -56,9 +56,7 @@ public class PetController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "If pets not found",
-                            content = @Content(mediaType = "string",
-                                    examples = @ExampleObject(value = "string"))
+                            description = "If pets not found"
                     )
             },
             tags = "Pets"
@@ -114,9 +112,7 @@ public class PetController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "If pets not found",
-                            content = @Content(mediaType = "string",
-                                    examples = @ExampleObject(value = "string"))
+                            description = "If pets not found"
                     )
             },
             tags = "Pets"
@@ -141,9 +137,7 @@ public class PetController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "If pets not found",
-                            content = @Content(mediaType = "string",
-                                    examples = @ExampleObject(value = "string"))
+                            description = "If pets not found"
                     )
             },
             tags = "Pets"
