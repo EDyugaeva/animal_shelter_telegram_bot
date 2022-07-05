@@ -61,11 +61,11 @@ public class Report {
         this.photoOfPet = photoOfPet;
     }
 
-    public String getdateOfReport() {
+    public String getData() {
         return dateOfReport;
     }
 
-    public void setData(String dateOfReport) {
+    public void setData(String data) {
         this.dateOfReport = dateOfReport;
     }
 
@@ -128,7 +128,7 @@ public class Report {
                 "id=" + id +
                 ", petOwner=" + petOwner +
                 ", pet=" + pet +
-                ", dateOfReport='" + dateOfReport + '\'' +
+                ", data='" + dateOfReport + '\'' +
                 ", diet='" + diet + '\'' +
                 ", health='" + health + '\'' +
                 ", changeInBehavior='" + changeInBehavior + '\'' +
