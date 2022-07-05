@@ -1,5 +1,6 @@
 package pro.sky.animal_shelter_telegram_bot.service.impl;
 
+import liquibase.repackaged.org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -61,25 +62,33 @@ public class PetOwnerServiceImpl implements PetOwnerService {
     }
 
     /**
-     * add phone number to database
+     * add phone number to database from bot
      *
-     * @param phoneNumber - phone number from telegram
-     * @param id          - pet owner id, positive
-     * @return
+     * @param newPhoneNumber - String from update (message) from telegram
+     * @param chatId - chat id fron update (telegram)
+     * @return string message with phone number (how it was saved in database)
+     * @throws NullPointerException - when message is empty
+     * @throws IllegalArgumentException - when message has incorrect letters or symbols
      */
     @Override
-    public PetOwner setPetOwnersPhoneNumber(String phoneNumber, Long id) {
-        if (phoneNumber.isEmpty()) {
+    public String setPetOwnersPhoneNumber(String newPhoneNumber, Long chatId) {
+        if (newPhoneNumber.isEmpty()) {
             logger.info("Phone number is empty");
             throw new NullPointerException("Phone number is empty");
         }
-        PetOwner changingPetOwner = petOwnerRepository.findById(id).orElse(new PetOwner());
-        if (changingPetOwner == null) {
-            logger.info("Pet Owner was not found, it was created");
+        String chars = "qwertyuiopasdfghjklzxcvbnm,./[];'{}#$%^&*";
+        newPhoneNumber = newPhoneNumber.trim().replace("(", "").replace(")", "").replace("-", "");
+
+        if (StringUtils.containsAny(newPhoneNumber, chars) || newPhoneNumber.length() > 11) {
+            logger.info("Phone number is written with mistake");
+            throw new IllegalArgumentException("Неправильно введен номер");
         }
-        changingPetOwner.setPhoneNumber(phoneNumber);
-        logger.info("Pet owner {} is changed. Phone number {} is added.", changingPetOwner + phoneNumber);
-        return petOwnerRepository.save(changingPetOwner);
+        PetOwner petOwner = petOwnerRepository.findPetOwnerByChatId(chatId).orElse(new PetOwner());
+        petOwner.setChatId(chatId);
+        petOwner.setPhoneNumber(newPhoneNumber);
+        logger.info("Номер {} записан", newPhoneNumber);
+        petOwnerRepository.save(petOwner);
+        return newPhoneNumber;
     }
 
 
