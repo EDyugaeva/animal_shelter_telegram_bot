@@ -5,6 +5,7 @@ import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 import pro.sky.animal_shelter_telegram_bot.model.Report;
 
 import javax.persistence.*;
+
 import java.util.Collection;
 import java.util.Objects;
 
