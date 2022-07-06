@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
 
 import javax.persistence.*;
+import java.util.Collection;
+
 import java.util.Objects;
 import java.util.Set;
 
@@ -23,11 +25,13 @@ public class PetOwner {
 
     @OneToMany(mappedBy = "ownerOfPet")
     @JsonIgnore
-    private Set<Pet> setOfAdoptedPets;
+
+    private Collection<Pet> listOfAdoptedPets;
 
     @OneToMany(mappedBy = "petOwner")
     @JsonIgnore
-    private Set<Report> reports;
+
+    private Collection<Report> reports;
 
     public Long getId() {
         return id;
@@ -77,19 +81,20 @@ public class PetOwner {
         this.dayOfProbation = dayOfProbation;
     }
 
-    public Set<Pet> getSetOfAdoptedPets() {
-        return setOfAdoptedPets;
+
+    public Collection<Pet> getListOfAdoptedPets() {
+        return listOfAdoptedPets;
     }
 
-    public void setSetOfAdoptedPets(Set<Pet> listOfAdoptedPets) {
-        this.setOfAdoptedPets = listOfAdoptedPets;
+    public void setListOfAdoptedPets(Collection<Pet> listOfAdoptedPets) {
+        this.listOfAdoptedPets = listOfAdoptedPets;
     }
 
-    public Set<Report> getReports() {
+    public Collection<Report> getReports() {
         return reports;
     }
 
-    public void setReports(Set<Report> reports) {
+    public void setReports(Collection<Report> reports) {
         this.reports = reports;
     }
 

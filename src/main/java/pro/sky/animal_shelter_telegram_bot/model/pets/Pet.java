@@ -5,7 +5,8 @@ import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 import pro.sky.animal_shelter_telegram_bot.model.Report;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 
@@ -26,7 +27,8 @@ public class Pet {
 
     @OneToMany(mappedBy = "pet")
     @JsonIgnore
-    private Set<Report> reports;
+
+    private Collection<Report> reports;
 
     public Long getId() {
         return id;
@@ -68,11 +70,11 @@ public class Pet {
         this.ownerOfPet = ownerOfPet;
     }
 
-    public Set<Report> getReports() {
+    public Collection<Report> getReports() {
         return reports;
     }
 
-    public void setReports(Set<Report> reports) {
+    public void setReports(Collection<Report> reports) {
         this.reports = reports;
     }
 

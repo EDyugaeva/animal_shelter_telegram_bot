@@ -9,6 +9,9 @@ import java.util.Collection;
 @Repository
 public interface PetRepository extends JpaRepository<Pet, Long> {
 
+    void deleteById(Long id);
+
+    Collection<Pet> findPetById(Long id);
 
 }
 

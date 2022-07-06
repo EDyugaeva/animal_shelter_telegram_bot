@@ -1,7 +1,6 @@
 --liquibase formatted sql
 
---changeset avvasil:1
-
+--changeSet avvasil:1
 
 CREATE TABLE pet_owner
 (
@@ -31,7 +30,6 @@ CREATE TABLE volunteer
     extra_info          text            NOT NULL
 );
 
-
 CREATE TABLE pet
 (
     id                  serial          NOT NULL PRIMARY KEY,
@@ -40,7 +38,6 @@ CREATE TABLE pet
     extra_info_of_pet   text            NOT NULL
 );
 
-
 CREATE TABLE photo_of_pet
 (
     id                  serial          NOT NULL PRIMARY KEY,
@@ -48,6 +45,18 @@ CREATE TABLE photo_of_pet
     file_size           integer         NOT NULL,
     media_type          text            NOT NULL
 );
+
+--changeset edygaeva:1
+
+ALTER TABLE pet_owner ADD CONSTRAINT chat_id_constraint UNIQUE (chat_id);
+
+ALTER TABLE pet_owner ALTER COLUMN phone_number TYPE text;
+
+ALTER TABLE pet_owner ALTER COLUMN  first_name DROP  NOT NULL;
+
+ALTER TABLE pet_owner ALTER COLUMN  last_name DROP  NOT NULL;
+
+ALTER TABLE pet_owner ALTER COLUMN  day_of_probation DROP  NOT NULL;
 
 --changeset edygaeva:2
 
@@ -61,7 +70,6 @@ ALTER TABLE photo_of_pet
 ALTER TABLE pet_owner
     ADD FOREIGN KEY (id) REFERENCES pet(id),
     ADD FOREIGN KEY (id) REFERENCES report(id);
-
 
 
 
