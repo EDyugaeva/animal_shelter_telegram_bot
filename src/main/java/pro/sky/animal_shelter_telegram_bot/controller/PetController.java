@@ -18,6 +18,11 @@ import pro.sky.animal_shelter_telegram_bot.service.PetService;
 public class PetController {
 
     private final PetService petService;
+    private final String HELLO_MESSAGE = "You can do it by information of pet:\n" +
+            "1. add pet information\n" +
+            "2. get pet information\n" +
+            "2. update pet information\n" +
+            "4. remove pet information";
 
     public PetController(PetService petService) {
         this.petService = petService;
@@ -37,11 +42,7 @@ public class PetController {
     )
     @GetMapping
     public String helloMessage(){
-        return "You can do it by information of pet:\n" +
-                "1. add pet information\n" +
-                "2. get pet information\n" +
-                "2. update pet information\n" +
-                "4. remove pet information\n";
+        return HELLO_MESSAGE;
     }
 
     @Operation(
