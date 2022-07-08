@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MainController {
 
+    private final String HELLO_MESSAGE = "Welcome to our pet shelter!";
+
     @Operation(
             summary = "Welcome message in our pet shelter",
             responses = {
@@ -25,6 +27,6 @@ public class MainController {
     )
     @GetMapping
     public String helloMessage() {
-        return "Welcome to our pet shelter!";
+        return HELLO_MESSAGE;
     }
 }

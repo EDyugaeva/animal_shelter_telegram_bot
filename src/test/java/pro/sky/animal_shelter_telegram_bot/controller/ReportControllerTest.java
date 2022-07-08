@@ -10,31 +10,37 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsForControllerTests.URL;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class MainControllerTest {
+class ReportControllerTest {
 
     @LocalServerPort
     private int port;
 
+    private final String REPORT_URL = "report";
+
     @Autowired
-    private MainController mainController;
+    private ReportController reportController;
 
     @Autowired
     private TestRestTemplate restTemplate;
 
-    private final String HELLO_MESSAGE = "Welcome to our pet shelter!";
+    private final String HELLO_MESSAGE = "You can do it by reports\n" +
+            "1. add new report\n" +
+            "2. find report\n" +
+            "2. update report\n" +
+            "4. remove report\n";
 
     @Test
     public void contextLoads(){
-        assertThat(mainController).isNotNull();
+        assertThat(reportController).isNotNull();
     }
 
     @Test
     public void testHelloMessage(){
-        assertThat(this.restTemplate.getForObject(URL + port + "/", String.class))
+        assertThat(this.restTemplate.getForObject(URL + port + "/" + REPORT_URL + "/", String.class))
                 .isNotEmpty();
-        assertThat(this.restTemplate.getForObject(URL + port + "/", String.class))
+        assertThat(this.restTemplate.getForObject(URL + port + "/" + REPORT_URL + "/", String.class))
                 .isNotNull();
-        assertThat(this.restTemplate.getForObject(URL + port + "/", String.class))
+        assertThat(this.restTemplate.getForObject(URL + port + "/" + REPORT_URL + "/", String.class))
                 .isEqualTo(HELLO_MESSAGE);
     }
 }

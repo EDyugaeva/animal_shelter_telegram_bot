@@ -19,6 +19,12 @@ public class VolunteerController {
 
     private final VolunteerService volunteerService;
 
+    private final String HELLO_MESSAGE = "You can do it by information of volunteer:\n" +
+            "1. add information about the volunteer\n" +
+            "2. get information about the volunteer\n" +
+            "2. update information about the volunteer\n" +
+            "4. remove information about rhe volunteer\n";
+
     public VolunteerController(VolunteerService volunteerService) {
         this.volunteerService = volunteerService;
     }
@@ -37,11 +43,7 @@ public class VolunteerController {
     )
     @GetMapping
     public String helloMessage(){
-        return "You can do it by information of volunteer:\n" +
-                "1. add information about the volunteer\n" +
-                "2. get information about the volunteer\n" +
-                "2. update information about the volunteer\n" +
-                "4. remove information about rhe volunteer\n";
+        return HELLO_MESSAGE;
     }
 
     @Operation(
@@ -118,7 +120,7 @@ public class VolunteerController {
             tags = "Volunteers"
     )
     @PutMapping
-    public ResponseEntity<Volunteer> editPet(@RequestBody Volunteer volunteer) {
+    public ResponseEntity<Volunteer> editVolunteer(@RequestBody Volunteer volunteer) {
         Volunteer editVolunteer = volunteerService.changeVolunteer(volunteer);
         if (editVolunteer == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

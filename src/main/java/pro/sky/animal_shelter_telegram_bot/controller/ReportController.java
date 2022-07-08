@@ -19,6 +19,12 @@ public class ReportController {
 
     private final ReportService reportService;
 
+    private final String HELLO_MESSAGE = "You can do it by reports\n" +
+            "1. add new report\n" +
+            "2. find report\n" +
+            "2. update report\n" +
+            "4. remove report\n";
+
     public ReportController(ReportService reportService) {
         this.reportService = reportService;
     }
@@ -37,11 +43,7 @@ public class ReportController {
     )
     @GetMapping
     public String helloMessage(){
-        return "You can do it by reports\n" +
-                "1. add new report\n" +
-                "2. find report\n" +
-                "2. update report\n" +
-                "4. remove report\n";
+        return HELLO_MESSAGE;
     }
 
     @Operation(
