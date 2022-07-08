@@ -4,20 +4,27 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 
 
+import com.pengrad.telegrambot.model.File;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.*;
 
+import com.pengrad.telegrambot.request.GetFile;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.request.SendPhoto;
 
+import com.pengrad.telegrambot.response.GetFileResponse;
 import com.pengrad.telegrambot.response.SendResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pro.sky.animal_shelter_telegram_bot.service.PetOwnerService;
+import pro.sky.animal_shelter_telegram_bot.service.PhotoOfPetService;
+import pro.sky.animal_shelter_telegram_bot.service.ReportService;
 
 import javax.annotation.PostConstruct;
 
+import java.net.MalformedURLException;
+import java.time.LocalDate;
 import java.util.List;
 
 import static pro.sky.animal_shelter_telegram_bot.listener.MessageAnswersConstance.*;
@@ -27,12 +34,20 @@ import static pro.sky.animal_shelter_telegram_bot.listener.MessageConstance.*;
 @Service
 public class TelegramBotUpdatesListener implements UpdatesListener {
 
-    private boolean savingMessage = false;
+    private boolean savingPhoneNumber = false;
+
+    private boolean savingReport = false;
 
     private final PetOwnerService petOwnerService;
 
-    public TelegramBotUpdatesListener(PetOwnerService petOwnerService, TelegramBot telegramBot) {
+    private final PhotoOfPetService photoOfPetService;
+
+    private final ReportService reportService;
+
+    public TelegramBotUpdatesListener(PetOwnerService petOwnerService, PhotoOfPetService photoOfPetService, ReportService reportService, TelegramBot telegramBot) {
         this.petOwnerService = petOwnerService;
+        this.photoOfPetService = photoOfPetService;
+        this.reportService = reportService;
         this.telegramBot = telegramBot;
     }
 
@@ -54,12 +69,17 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
             logger.info(update.message().text());
+            if (update.message().text() != null) {
+                sendStartMessage(update);
+                scanUpdates(update);
+                makeReplies(update);
+            }
+            if (savingReport) {
+                savingReports(update);
+            }
             if (update.message().text() == null) {
                 sendMessage(update, "пустое сообщение");
             }
-            sendStartMessage(update);
-            scanUpdates(update);
-            makeReplies(update);
 
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
@@ -102,10 +122,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 message = LIST_OF_REASONS_OF_REFUSIAL;
                 break;
         }
-
         sendMessage(update, message);
-
-
     }
 
     /**
@@ -126,6 +143,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 break;
             case BUTTON1_3:
                 logger.info("update for message: " + BUTTON1_3);
+                sendMessage(update, "Отправьте отчет в виде: состояние здоровья питомца-диета-изменение в поведении ");
+                savingReport = true;
+                logger.info("saving reports = " + savingReport);
                 break;
             case BUTTON_ASKING_VOLUNTEER:
                 logger.info("update for message: " + BUTTON_ASKING_VOLUNTEER);
@@ -136,19 +156,57 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             case BUTTON_SAVING_CONTACTS:
                 sendMessage(update, "Укажите ваш номер телефона");
                 logger.info("update for message: " + BUTTON_SAVING_CONTACTS);
-                savingMessage = true;
+                savingPhoneNumber = true;
                 break;
-                default:
-                if ((savingMessage) && !update.message().text().equals("Принять и записать контактные данные для связи")) {
+            default:
+                if ((savingPhoneNumber) && !update.message().text().equals(BUTTON_SAVING_CONTACTS)) {
                     logger.info("В листенере условие выполнено");
                     try {
-                        sendMessage(update, "Номер " +petOwnerService.setPetOwnersPhoneNumber(update.message().text(), update.message().chat().id()) + " сохранен");
-                        savingMessage = false;
+                        sendMessage(update, "Номер " + petOwnerService.setPetOwnersPhoneNumber(update.message().text(), update.message().chat().id()) + " сохранен");
+                        savingPhoneNumber = false;
                     } catch (Exception e) {
                         sendMessage(update, "Номер записан с ошибкой, введите номер повторно");
-                        savingMessage = true;
+                        savingPhoneNumber = true;
                     }
                 }
+
+        }
+
+    }
+
+    /**
+     * trying to save report. Text works correctly
+     *
+     * @param update
+     */
+    private void savingReports(Update update) {
+        long chatId = update.message().chat().id();
+        String localDate = LocalDate.now().toString();
+
+        if (update.message().text() == null) {
+            logger.info("Report is saving (photo)");
+
+            GetFile getFile = new GetFile(update.message().photo()[2].fileId());
+
+            GetFileResponse response = telegramBot.execute(getFile);
+            File file = response.file();
+
+            String urlPath = telegramBot.getFullFilePath(file);
+
+            photoOfPetService.savePhotoFromStringURL(urlPath, chatId, localDate);
+            logger.info(urlPath);
+            savingReport = false;
+
+        }
+        else if (!update.message().text().equals(BUTTON1_3)) {
+            logger.info("Report is saving (text)");
+            try {
+                String message = reportService.setReportToDataBase(update.message().text(), chatId, localDate);
+                sendMessage(update, "Отчет " + message + " сохранен");
+            } catch (IllegalArgumentException e) {
+                sendMessage(update, "Отчет заполнен с ошибкой");
+            }
+            sendMessage(update, "А теперь отправьте фотографию своего питомца");
         }
 
     }
