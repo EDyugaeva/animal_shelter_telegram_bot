@@ -4,18 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c372aedf-8a59-4bde-b1cc-193faa7e50ea" name="Changes" comment="Started writing tests for Controllers:&#10;MainController and PetController">
-      <change afterPath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/PetOwnerControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/ReportControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/VolunteerControllerTest.java" afterDir="false" />
+    <list default="true" id="c372aedf-8a59-4bde-b1cc-193faa7e50ea" name="Changes" comment="Writing simple tests for all Controllers for methods: helloMessage and contextLoads">
+      <change afterPath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/PetOwnerTestMVC.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/PetOwnerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/PetOwnerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/ReportController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/VolunteerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/VolunteerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/ConstantsForControllerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/ConstantsForControllerTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/MainControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/MainControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/PetControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/PetControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/PetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/PetController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/service/impl/PetServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/service/impl/PetServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,8 +18,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -109,7 +102,7 @@
       <recent name="pro.sky.animal_shelter_telegram_bot.controller" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.VolunteerControllerTest">
+  <component name="RunManager" selected="JUnit.PetOwnerTestMVC">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -188,6 +181,23 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="PetOwnerTestMVC" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="animal_shelter_telegram_bot" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pro.sky.animal_shelter_telegram_bot.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="pro.sky.animal_shelter_telegram_bot.controller" />
+      <option name="MAIN_CLASS_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.PetOwnerTestMVC" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-Djasypt.encryptor.password=InJavaVeritas" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ReportControllerTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="animal_shelter_telegram_bot" />
       <extension name="coverage">
@@ -251,6 +261,7 @@
       <item itemvalue="JUnit.PetOwnerControllerTest" />
       <item itemvalue="JUnit.ReportControllerTest" />
       <item itemvalue="JUnit.VolunteerControllerTest" />
+      <item itemvalue="JUnit.PetOwnerTestMVC" />
       <item itemvalue="Spring Boot.AnimalShelterTelegramBotApplication" />
     </list>
     <recent_temporary>
@@ -281,7 +292,7 @@
       <workItem from="1657206842227" duration="2777000" />
       <workItem from="1657209760217" duration="3682000" />
       <workItem from="1657277331343" duration="2528000" />
-      <workItem from="1657290519782" duration="1874000" />
+      <workItem from="1657290519782" duration="4106000" />
     </task>
     <task id="LOCAL-00001" summary="Модели классов. Создал модели классов, пришлось создать дополнительный класс которго не было в плане PhotoOfPet. Создал абстрактный класс Pet и от него два класса Dog и Cat, но пока у них один и тот же функционал видимо.">
       <created>1655931677499</created>
@@ -409,7 +420,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657199656180</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Writing simple tests for all Controllers for methods: helloMessage and contextLoads">
+      <created>1657292513899</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1657292513899</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -426,7 +444,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/dev" />
+                        <option value="origin/SergeBranch" />
                       </list>
                     </value>
                   </entry>
@@ -453,7 +471,8 @@
     <MESSAGE value="Update PetOwnerController and PetController" />
     <MESSAGE value="Update ReportController.java" />
     <MESSAGE value="Started writing tests for Controllers:&#10;MainController and PetController" />
-    <option name="LAST_COMMIT_MESSAGE" value="Started writing tests for Controllers:&#10;MainController and PetController" />
+    <MESSAGE value="Writing simple tests for all Controllers for methods: helloMessage and contextLoads" />
+    <option name="LAST_COMMIT_MESSAGE" value="Writing simple tests for all Controllers for methods: helloMessage and contextLoads" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/animal_shelter_telegram_bot$AnimalShelterTelegramBotApplication.ic" NAME="AnimalShelterTelegramBotApplication Coverage Results" MODIFIED="1655586759365" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
