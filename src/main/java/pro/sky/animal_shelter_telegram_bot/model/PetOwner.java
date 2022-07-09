@@ -5,7 +5,9 @@ import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
 
 import javax.persistence.*;
 import java.util.Collection;
+
 import java.util.Objects;
+import java.util.Set;
 
 
 @Entity
@@ -21,12 +23,14 @@ public class PetOwner {
     private String phoneNumber;
     private Integer dayOfProbation;
 
-    @OneToMany
+    @OneToMany(mappedBy = "ownerOfPet")
     @JsonIgnore
+
     private Collection<Pet> listOfAdoptedPets;
 
-    @OneToMany
+    @OneToMany(mappedBy = "petOwner")
     @JsonIgnore
+
     private Collection<Report> reports;
 
     public Long getId() {
@@ -76,6 +80,7 @@ public class PetOwner {
     public void setDayOfProbation(Integer dayOfProbation) {
         this.dayOfProbation = dayOfProbation;
     }
+
 
     public Collection<Pet> getListOfAdoptedPets() {
         return listOfAdoptedPets;

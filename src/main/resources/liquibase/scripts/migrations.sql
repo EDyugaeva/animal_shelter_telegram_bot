@@ -58,7 +58,22 @@ ALTER TABLE pet_owner ALTER COLUMN  last_name DROP  NOT NULL;
 
 ALTER TABLE pet_owner ALTER COLUMN  day_of_probation DROP  NOT NULL;
 
---changeset edyugaeva:2
+--changeset edygaeva:2
+
+ALTER TABLE pet
+    ADD FOREIGN KEY (id) REFERENCES report(id);
+
+ALTER TABLE photo_of_pet
+    ADD COLUMN data BYTEA,
+    ADD CONSTRAINT photo_of_pet_report_connection FOREIGN KEY (id) REFERENCES report(id);
+
+ALTER TABLE pet_owner
+    ADD FOREIGN KEY (id) REFERENCES pet(id),
+    ADD FOREIGN KEY (id) REFERENCES report(id);
+
+
+
+--changeset edyugaeva:3
 
 ALTER TABLE report ALTER COLUMN date_of_report TYPE TEXT;
 
