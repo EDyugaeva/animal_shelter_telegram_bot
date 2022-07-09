@@ -21,7 +21,6 @@ public class ReportServiceImpl implements ReportService {
         this.reportRepository = reportRepository;
     }
 
-
     @Override
     public Report addReport(Report report) {
         Report addingReport = reportRepository.save(report);

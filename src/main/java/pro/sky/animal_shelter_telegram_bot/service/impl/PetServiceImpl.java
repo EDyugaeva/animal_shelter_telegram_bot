@@ -43,9 +43,6 @@ public class PetServiceImpl implements PetService {
     @Override
     public Pet findPet(Long id) {
         Pet findingPet = petRepository.findById(id).get();
-        if (findingPet == null) {
-            throw new NullPointerException("Pet was not found ");
-        }
         logger.info("Pet with id {} is found", id);
         return findingPet;
     }

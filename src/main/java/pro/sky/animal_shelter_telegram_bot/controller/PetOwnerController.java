@@ -18,7 +18,6 @@ import pro.sky.animal_shelter_telegram_bot.service.PetOwnerService;
 public class PetOwnerController {
 
     private final PetOwnerService petOwnerService;
-
     private final String HELLO_MESSAGE = "You can do it by information of pet owner:\n" +
             "1. add information about the owner of the pet\n" +
             "2. get information about the owner of the pet\n" +

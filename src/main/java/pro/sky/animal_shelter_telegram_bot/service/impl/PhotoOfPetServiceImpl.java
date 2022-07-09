@@ -24,7 +24,6 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Service
 public class PhotoOfPetServiceImpl implements PhotoOfPetService {
 
-
     private final ReportService reportService;
 
     private final PhotoOfPetRepository photoOfPetRepository;
@@ -123,6 +122,5 @@ public class PhotoOfPetServiceImpl implements PhotoOfPetService {
     public PhotoOfPet findPhotoByReportId(Long reportId) {
         return photoOfPetRepository.findByReportId(reportId).orElse(new PhotoOfPet());
     }
-
 
 }

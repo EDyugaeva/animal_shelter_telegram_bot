@@ -21,7 +21,6 @@ public class VolunteerServiceImpl implements VolunteerService {
         this.volunteerRepository = volunteerRepository;
     }
 
-
     @Override
     public Volunteer addVolunteer(Volunteer volunteer) {
         Volunteer addingVolunteer = volunteerRepository.save(volunteer);
@@ -77,8 +76,4 @@ public class VolunteerServiceImpl implements VolunteerService {
         logger.info("Volunteer {} is changed. Phone number {} is added.", changingVolunteer + phoneNumber);
         return volunteerRepository.save(changingVolunteer);
     }
-
-
-
-
 }

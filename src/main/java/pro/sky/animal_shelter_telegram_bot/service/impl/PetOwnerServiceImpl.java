@@ -22,7 +22,6 @@ public class PetOwnerServiceImpl implements PetOwnerService {
         this.petOwnerRepository = petOwnerRepository;
     }
 
-
     @Override
     public PetOwner addPetOwner(PetOwner petOwner) {
         PetOwner addingPetOwner = petOwnerRepository.save(petOwner);
@@ -90,6 +89,5 @@ public class PetOwnerServiceImpl implements PetOwnerService {
         petOwnerRepository.save(petOwner);
         return newPhoneNumber;
     }
-
 
 }
