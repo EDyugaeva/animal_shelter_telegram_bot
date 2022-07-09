@@ -1,8 +1,10 @@
 package pro.sky.animal_shelter_telegram_bot.service.impl;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pro.sky.animal_shelter_telegram_bot.model.Report;
@@ -13,6 +15,9 @@ import pro.sky.animal_shelter_telegram_bot.service.ReportService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -22,9 +27,9 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
  * Service for working with repository PhotoOfPetRepository
  */
 @Service
+
 public class PhotoOfPetServiceImpl implements PhotoOfPetService {
-
-
+    @Lazy
     private final ReportService reportService;
 
     private final PhotoOfPetRepository photoOfPetRepository;
@@ -40,6 +45,7 @@ public class PhotoOfPetServiceImpl implements PhotoOfPetService {
 
     /**
      * Save photo to database
+     *
      * @param reportId
      * @param photoFile - from telegram
      * @throws IOException
@@ -122,6 +128,52 @@ public class PhotoOfPetServiceImpl implements PhotoOfPetService {
     @Override
     public PhotoOfPet findPhotoByReportId(Long reportId) {
         return photoOfPetRepository.findByReportId(reportId).orElse(new PhotoOfPet());
+    }
+
+    /**
+     * Saving (or changing) photo to database (without setting other params)
+     *
+     * @param urlString - from Photosize
+     * @param chatId    - from update
+     * @param date      - local date (now)
+     */
+    @Override
+    public void savePhotoFromStringURL(String urlString, Long chatId, String date) {
+        Report report = reportService.findReportByChatIdAndDate(chatId, date);
+
+        URL url;
+        try {
+            url = new URL(urlString);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+
+        int filesize = 1024;
+
+        PhotoOfPet photoOfPet = findPhotoByReportId(report.getId());
+        photoOfPet.setReport(report);
+
+        try (InputStream in = url.openStream();
+             BufferedInputStream bis = new BufferedInputStream(in);
+             FileOutputStream fos = new FileOutputStream(report.getId() + report.getdateOfReport())) {
+
+            byte[] data = new byte[filesize];
+            photoOfPet.setData(data);
+
+            int count;
+            while ((count = bis.read(data, 0, 1024)) != -1) {
+                fos.write(data, 0, count);
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        photoOfPet.setReport(report);
+
+        photoOfPetRepository.save(photoOfPet);
+        logger.debug("Photo of pet for report {} is saved ", report.getId());
+
     }
 
 

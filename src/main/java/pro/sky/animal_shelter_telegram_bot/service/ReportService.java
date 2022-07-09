@@ -13,4 +13,8 @@ public interface ReportService {
 
     Report changeReport(Report report);
 
+    String setReportToDataBase(String text, Long chatId, String date);
+
+    Report findReportByChatIdAndDate(Long chatId, String date);
+
 }
