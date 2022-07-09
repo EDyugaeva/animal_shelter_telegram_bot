@@ -8,7 +8,6 @@ import javax.persistence.*;
 
 import java.util.Collection;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 public class Pet {
@@ -27,7 +26,6 @@ public class Pet {
 
     @OneToMany(mappedBy = "pet")
     @JsonIgnore
-
     private Collection<Report> reports;
 
     public Long getId() {
