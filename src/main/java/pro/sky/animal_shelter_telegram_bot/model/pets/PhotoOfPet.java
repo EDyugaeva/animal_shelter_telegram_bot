@@ -20,6 +20,7 @@ public class PhotoOfPet {
     private byte[] data;
 
     @OneToOne
+    @JoinColumn(name = "report_id")
     private Report report;
 
     public Long getId() {
