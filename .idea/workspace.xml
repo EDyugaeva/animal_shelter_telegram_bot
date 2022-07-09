@@ -4,17 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c372aedf-8a59-4bde-b1cc-193faa7e50ea" name="Changes" comment="does not work annotation @WebMvcTest, because not bean PetController? because not bean PetService..">
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+    <list default="true" id="c372aedf-8a59-4bde-b1cc-193faa7e50ea" name="Changes" comment="Refactor serviceImpl">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/animal_shelter_telegram_bot.iml" beforeDir="false" afterPath="$PROJECT_DIR$/animal_shelter_telegram_bot.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/PetOwnerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/PetOwnerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/service/PetService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/service/PetService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/service/impl/PetOwnerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/service/impl/PetOwnerServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/service/impl/PetServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/service/impl/PetServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/service/impl/PhotoOfPetServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/service/impl/PhotoOfPetServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/service/impl/ReportServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/service/impl/ReportServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/service/impl/VolunteerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/service/impl/VolunteerServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/ReportController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +57,7 @@
       <map>
         <entry key="com.haulmont.jpb.jpaInspector" value="true" />
         <entry key="com.haulmont.jpb.jpaPalette" value="false" />
-        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="false" />
       </map>
     </option>
   </component>
@@ -302,7 +294,7 @@
       <workItem from="1657277331343" duration="2528000" />
       <workItem from="1657290519782" duration="5999000" />
       <workItem from="1657307458257" duration="1174000" />
-      <workItem from="1657351702696" duration="8011000" />
+      <workItem from="1657351702696" duration="11730000" />
     </task>
     <task id="LOCAL-00001" summary="Модели классов. Создал модели классов, пришлось создать дополнительный класс которго не было в плане PhotoOfPet. Создал абстрактный класс Pet и от него два класса Dog и Cat, но пока у них один и тот же функционал видимо.">
       <created>1655931677499</created>
@@ -444,7 +436,28 @@
       <option name="project" value="LOCAL" />
       <updated>1657294979406</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Refactor serviceImpl">
+      <created>1657370198174</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1657370198174</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Refactor serviceImpl">
+      <created>1657370226070</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1657370226070</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Refactor serviceImpl">
+      <created>1657370328082</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1657370328082</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -490,7 +503,8 @@
     <MESSAGE value="Started writing tests for Controllers:&#10;MainController and PetController" />
     <MESSAGE value="Writing simple tests for all Controllers for methods: helloMessage and contextLoads" />
     <MESSAGE value="does not work annotation @WebMvcTest, because not bean PetController? because not bean PetService.." />
-    <option name="LAST_COMMIT_MESSAGE" value="does not work annotation @WebMvcTest, because not bean PetController? because not bean PetService.." />
+    <MESSAGE value="Refactor serviceImpl" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor serviceImpl" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
