@@ -61,15 +61,20 @@ ALTER TABLE pet_owner ALTER COLUMN  day_of_probation DROP  NOT NULL;
 --changeset edygaeva:2
 
 ALTER TABLE pet
-    ADD FOREIGN KEY (id) REFERENCES report(id);
+    ADD COLUMN report_id integer,
+    ADD FOREIGN KEY (report_id) REFERENCES report(id);
 
 ALTER TABLE photo_of_pet
     ADD COLUMN data BYTEA,
-    ADD CONSTRAINT photo_of_pet_report_connection FOREIGN KEY (id) REFERENCES report(id);
+    ADD COLUMN report_id integer,
+    ADD CONSTRAINT photo_of_pet_report_connection FOREIGN KEY (report_id) REFERENCES report(id);
 
 ALTER TABLE pet_owner
-    ADD FOREIGN KEY (id) REFERENCES pet(id),
-    ADD FOREIGN KEY (id) REFERENCES report(id);
+    ADD COLUMN pet_id integer,
+    ADD COLUMN report_id integer,
+    ADD FOREIGN KEY (pet_id) REFERENCES pet(id),
+    ADD FOREIGN KEY (report_id) REFERENCES report(id);
+
 
 
 
