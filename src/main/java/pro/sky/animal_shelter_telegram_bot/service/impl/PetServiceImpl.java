@@ -1,6 +1,5 @@
 package pro.sky.animal_shelter_telegram_bot.service.impl;
 
-import liquibase.pro.packaged.P;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
