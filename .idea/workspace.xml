@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c372aedf-8a59-4bde-b1cc-193faa7e50ea" name="Changes" comment="Refactor serviceImpl">
+    <list default="true" id="c372aedf-8a59-4bde-b1cc-193faa7e50ea" name="Changes" comment="Add method uploadPhotoOfPet in ReportController">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/ReportController.java" afterDir="false" />
     </list>
@@ -90,7 +90,7 @@
     "WebServerToolWindowFactoryState": "false",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "last_opened_file_path": "C:/Users/Serge/IdeaProjects/animal_shelter_telegram_bot2",
+    "last_opened_file_path": "C:/Users/Serge/IdeaProjects/HWSchoolHogwards1",
     "spring.configuration.checksum": "20064124ef03306e8aff9b2fbdc08871"
   }
 }]]></component>
@@ -294,7 +294,7 @@
       <workItem from="1657277331343" duration="2528000" />
       <workItem from="1657290519782" duration="5999000" />
       <workItem from="1657307458257" duration="1174000" />
-      <workItem from="1657351702696" duration="11730000" />
+      <workItem from="1657351702696" duration="12679000" />
     </task>
     <task id="LOCAL-00001" summary="Модели классов. Создал модели классов, пришлось создать дополнительный класс которго не было в плане PhotoOfPet. Создал абстрактный класс Pet и от него два класса Dog и Cat, но пока у них один и тот же функционал видимо.">
       <created>1655931677499</created>
@@ -457,7 +457,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657370328082</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Add method uploadPhotoOfPet in ReportController">
+      <created>1657374103612</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1657374103612</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -504,7 +511,8 @@
     <MESSAGE value="Writing simple tests for all Controllers for methods: helloMessage and contextLoads" />
     <MESSAGE value="does not work annotation @WebMvcTest, because not bean PetController? because not bean PetService.." />
     <MESSAGE value="Refactor serviceImpl" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor serviceImpl" />
+    <MESSAGE value="Add method uploadPhotoOfPet in ReportController" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add method uploadPhotoOfPet in ReportController" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
