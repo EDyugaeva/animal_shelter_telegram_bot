@@ -120,7 +120,7 @@ public class PetOwner {
                 ", chatId=" + chatId +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", dayOfProbation=" + dayOfProbation +
-                ", listOfAdoptedPets=" + setOfAdoptedPets +
+                ", listOfAdoptedPets=" + listOfAdoptedPets +
                 ", reports=" + reports +
                 '}';
     }
