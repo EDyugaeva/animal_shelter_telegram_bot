@@ -34,13 +34,22 @@ public class PetServiceImpl implements PetService {
         logger.info("Pet {} is deleted", pet);
     }
 
-    public void deletePet(Long id) {
+    public boolean deletePet(Long id) {
+        if (petRepository.findById(id).isEmpty()){
+            logger.info("Pet with id {} is not found", id);
+            return false;
+        }
         petRepository.deleteById(id);
         logger.info("Pet with id {} is deleted", id);
+        return true;
     }
 
     @Override
     public Pet findPet(Long id) {
+        if (petRepository.findById(id).isEmpty()){
+            logger.info("Pet with id {} is not found", id);
+            return null;
+        }
         Pet findingPet = petRepository.findById(id).get();
         logger.info("Pet with id {} is found", id);
         return findingPet;
@@ -48,6 +57,10 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public Pet changePet(Pet pet) {
+        if (petRepository.findById(pet.getId()).isEmpty()){
+            logger.info("Pet with id {} is not found", pet.getId());
+            return null;
+        }
         Pet changingPet = petRepository.save(pet);
         logger.info("Pet {} is saved", pet);
         return changingPet;
