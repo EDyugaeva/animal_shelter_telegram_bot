@@ -1,6 +1,5 @@
 package pro.sky.animal_shelter_telegram_bot.model;
 
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;

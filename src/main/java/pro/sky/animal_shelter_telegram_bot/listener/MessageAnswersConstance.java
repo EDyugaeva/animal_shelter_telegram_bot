@@ -35,5 +35,4 @@ public class MessageAnswersConstance {
 
     public static final String LIST_OF_REASONS_OF_REFUSIAL = "Список причин для отказа";
 
-
 }

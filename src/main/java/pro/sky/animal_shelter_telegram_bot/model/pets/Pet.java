@@ -20,10 +20,11 @@ public class Pet {
     private String health;
     private String extraInfoOfPet;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pet_owner_id")
     private PetOwner ownerOfPet;
 
-    @OneToMany
+    @OneToMany(mappedBy = "pet")
     @JsonIgnore
     private Collection<Report> reports;
 

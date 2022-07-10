@@ -13,13 +13,15 @@ public class Report {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @ManyToOne()
+    @JoinColumn(name = "pet_owner_id")
     private PetOwner petOwner;
 
-    @ManyToOne
+    @ManyToOne()
+    @JoinColumn(name = "pet_id")
     private Pet pet;
 
-    @OneToOne
+    @OneToOne(mappedBy = "report")
     private PhotoOfPet photoOfPet;
 
     private String dateOfReport;
@@ -53,6 +55,7 @@ public class Report {
         this.pet = pet;
     }
 
+
     public PhotoOfPet getPhotoOfPet() {
         return photoOfPet;
     }
@@ -65,7 +68,7 @@ public class Report {
         return dateOfReport;
     }
 
-    public void setData(String dateOfReport) {
+    public void setdateOfReport(String dateOfReport) {
         this.dateOfReport = dateOfReport;
     }
 

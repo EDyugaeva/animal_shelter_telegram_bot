@@ -13,4 +13,7 @@ public interface PhotoOfPetService {
     void downloadPhotoOfPet(Long reportId, HttpServletResponse response) throws IOException;
 
     PhotoOfPet findPhotoByReportId(Long reportId);
-}
+
+    void savePhotoFromStringURL(String urlString, Long chatId, String date);
+
+    }

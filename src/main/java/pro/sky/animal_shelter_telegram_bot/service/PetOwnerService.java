@@ -1,6 +1,5 @@
 package pro.sky.animal_shelter_telegram_bot.service;
 
-import com.pengrad.telegrambot.model.Update;
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 
 public interface PetOwnerService {
