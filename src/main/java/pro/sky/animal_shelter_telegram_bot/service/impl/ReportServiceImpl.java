@@ -1,20 +1,13 @@
 package pro.sky.animal_shelter_telegram_bot.service.impl;
 
-import com.pengrad.telegrambot.model.PhotoSize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 import pro.sky.animal_shelter_telegram_bot.model.Report;
-import pro.sky.animal_shelter_telegram_bot.model.pets.PhotoOfPet;
 import pro.sky.animal_shelter_telegram_bot.repository.PetOwnerRepository;
 import pro.sky.animal_shelter_telegram_bot.repository.ReportRepository;
-import pro.sky.animal_shelter_telegram_bot.service.PhotoOfPetService;
 import pro.sky.animal_shelter_telegram_bot.service.ReportService;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.LocalDate;
 
 /**
  * Service for working with repository ReportRepository
