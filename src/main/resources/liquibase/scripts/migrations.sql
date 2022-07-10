@@ -60,6 +60,7 @@ ALTER TABLE pet_owner ALTER COLUMN  day_of_probation DROP  NOT NULL;
 
 --changeSet edygaeva:2
 
+
 ALTER TABLE photo_of_pet
     ADD COLUMN data BYTEA,
     ADD COLUMN report_id integer,
@@ -77,7 +78,7 @@ ALTER TABLE report
     ADD FOREIGN KEY (pet_owner_id) REFERENCES pet_owner(id);
 
 
---changeSet edyugaeva:3
+--changeSet edugaeva:3
 
 ALTER TABLE report ALTER COLUMN date_of_report TYPE TEXT;
 
@@ -93,19 +94,5 @@ ALTER TABLE photo_of_pet ALTER COLUMN file_size DROP NOT NULL;
 
 ALTER TABLE photo_of_pet ALTER COLUMN media_type DROP NOT NULL;
 
---changeSet edyugaeva:4
 
-ALTER TABLE report ALTER COLUMN date_of_report TYPE TEXT;
-
-ALTER TABLE report ALTER COLUMN  change_in_behavior DROP  NOT NULL;
-
-ALTER TABLE report ALTER COLUMN  is_report_checked set default false;
-
-ALTER TABLE report ALTER COLUMN  diet DROP  NOT NULL;
-
-ALTER TABLE photo_of_pet ALTER COLUMN file_path DROP NOT NULL;
-
-ALTER TABLE photo_of_pet ALTER COLUMN file_size DROP NOT NULL;
-
-ALTER TABLE photo_of_pet ALTER COLUMN media_type DROP NOT NULL;
 

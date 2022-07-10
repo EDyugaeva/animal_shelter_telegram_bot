@@ -1,9 +1,5 @@
 package pro.sky.animal_shelter_telegram_bot.service.impl;
 
-import pro.sky.animal_shelter_telegram_bot.repository.PhotoOfPetRepository;
-import pro.sky.animal_shelter_telegram_bot.service.PhotoOfPetService;
-import pro.sky.animal_shelter_telegram_bot.service.ReportService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pro.sky.animal_shelter_telegram_bot.model.Report;
 import pro.sky.animal_shelter_telegram_bot.model.pets.PhotoOfPet;
+import pro.sky.animal_shelter_telegram_bot.repository.PhotoOfPetRepository;
+import pro.sky.animal_shelter_telegram_bot.service.PhotoOfPetService;
+import pro.sky.animal_shelter_telegram_bot.service.ReportService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -28,7 +27,6 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
  */
 @Service
 public class PhotoOfPetServiceImpl implements PhotoOfPetService {
-
     @Lazy
     private final ReportService reportService;
 
@@ -45,6 +43,7 @@ public class PhotoOfPetServiceImpl implements PhotoOfPetService {
 
     /**
      * Save photo to database
+     *
      * @param reportId
      * @param photoFile - from telegram
      * @throws IOException
@@ -174,4 +173,6 @@ public class PhotoOfPetServiceImpl implements PhotoOfPetService {
         logger.debug("Photo of pet for report {} is saved ", report.getId());
 
     }
+
+
 }

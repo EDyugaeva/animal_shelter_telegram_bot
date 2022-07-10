@@ -76,4 +76,5 @@ public class VolunteerServiceImpl implements VolunteerService {
         logger.info("Volunteer {} is changed. Phone number {} is added.", changingVolunteer + phoneNumber);
         return volunteerRepository.save(changingVolunteer);
     }
+
 }
