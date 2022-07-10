@@ -46,7 +46,7 @@ CREATE TABLE photo_of_pet
     media_type          text            NOT NULL
 );
 
---changeset edygaeva:1
+--changeSet edygaeva:1
 
 ALTER TABLE pet_owner ADD CONSTRAINT chat_id_constraint UNIQUE (chat_id);
 

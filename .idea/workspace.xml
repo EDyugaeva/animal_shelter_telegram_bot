@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c372aedf-8a59-4bde-b1cc-193faa7e50ea" name="Changes" comment="Add method uploadPhotoOfPet in ReportController">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/ReportController.java" afterDir="false" />
-    </list>
+    <list default="true" id="c372aedf-8a59-4bde-b1cc-193faa7e50ea" name="Changes" comment="Add method findPhotoByReportId in ReportController" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -294,7 +291,7 @@
       <workItem from="1657277331343" duration="2528000" />
       <workItem from="1657290519782" duration="5999000" />
       <workItem from="1657307458257" duration="1174000" />
-      <workItem from="1657351702696" duration="12679000" />
+      <workItem from="1657351702696" duration="12969000" />
     </task>
     <task id="LOCAL-00001" summary="Модели классов. Создал модели классов, пришлось создать дополнительный класс которго не было в плане PhotoOfPet. Создал абстрактный класс Pet и от него два класса Dog и Cat, но пока у них один и тот же функционал видимо.">
       <created>1655931677499</created>
@@ -464,7 +461,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657374103612</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Add method findPhotoByReportId in ReportController">
+      <created>1657374950308</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1657374950308</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -481,7 +485,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/SergeBranch" />
+                        <option value="origin/dev" />
                       </list>
                     </value>
                   </entry>
@@ -512,7 +516,8 @@
     <MESSAGE value="does not work annotation @WebMvcTest, because not bean PetController? because not bean PetService.." />
     <MESSAGE value="Refactor serviceImpl" />
     <MESSAGE value="Add method uploadPhotoOfPet in ReportController" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add method uploadPhotoOfPet in ReportController" />
+    <MESSAGE value="Add method findPhotoByReportId in ReportController" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add method findPhotoByReportId in ReportController" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
