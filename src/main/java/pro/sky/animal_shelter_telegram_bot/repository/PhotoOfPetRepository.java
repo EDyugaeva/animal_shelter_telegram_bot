@@ -12,6 +12,4 @@ public interface PhotoOfPetRepository extends JpaRepository<PhotoOfPet, Long> {
     void deleteById(Long id);
 
     Optional<PhotoOfPet> findByReportId(Long reportId);
-
-
 }

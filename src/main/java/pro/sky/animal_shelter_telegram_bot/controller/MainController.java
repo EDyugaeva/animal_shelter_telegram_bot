@@ -8,10 +8,10 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsOfControllers.HELLO_MESSAGE_IN_MAIN_CONTROLLER;
+
 @RestController
 public class MainController {
-
-    private final String HELLO_MESSAGE = "Welcome to our pet shelter!";
 
     @Operation(
             summary = "Welcome message in our pet shelter",
@@ -27,6 +27,6 @@ public class MainController {
     )
     @GetMapping
     public String helloMessage() {
-        return HELLO_MESSAGE;
+        return HELLO_MESSAGE_IN_MAIN_CONTROLLER;
     }
 }

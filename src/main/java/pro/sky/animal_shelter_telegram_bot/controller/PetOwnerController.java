@@ -13,16 +13,14 @@ import org.springframework.web.bind.annotation.*;
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 import pro.sky.animal_shelter_telegram_bot.service.PetOwnerService;
 
+import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsOfControllers.HELLO_MESSAGE_OF_PET_OWNER_CONTROLLER;
+
 @RestController
 @RequestMapping("/pet-owner")
 public class PetOwnerController {
 
     private final PetOwnerService petOwnerService;
-    private final String HELLO_MESSAGE = "You can do it by information of pet owner:\n" +
-            "1. add information about the owner of the pet\n" +
-            "2. get information about the owner of the pet\n" +
-            "2. update information about the owner of the pet\n" +
-            "4. remove information about the owner of the pet\n";
+
 
     public PetOwnerController(PetOwnerService petOwnerService) {
         this.petOwnerService = petOwnerService;
@@ -42,7 +40,7 @@ public class PetOwnerController {
     )
     @GetMapping
     public String helloMessage(){
-        return HELLO_MESSAGE;
+        return HELLO_MESSAGE_OF_PET_OWNER_CONTROLLER;
     }
 
     @Operation(
