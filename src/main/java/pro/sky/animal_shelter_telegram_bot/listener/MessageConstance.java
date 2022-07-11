@@ -32,6 +32,8 @@ public class MessageConstance {
 
     public static final String BUTTON_LIST_OF_REASONS_OF_REFUSIAL = "Список причин отказа в заборе собаки из приюта";
 
+    public static final String BUTTON_BACK = "Назад в основное меню";
+
 
 
 
