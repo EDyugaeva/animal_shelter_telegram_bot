@@ -22,7 +22,6 @@ public class PetOwnerServiceImpl implements PetOwnerService {
         this.petOwnerRepository = petOwnerRepository;
     }
 
-
     @Override
     public PetOwner addPetOwner(PetOwner petOwner) {
         PetOwner addingPetOwner = petOwnerRepository.save(petOwner);
@@ -47,9 +46,6 @@ public class PetOwnerServiceImpl implements PetOwnerService {
     @Override
     public PetOwner findPetOwner(Long id) {
         PetOwner findingPetOwner = petOwnerRepository.findById(id).get();
-        if (findingPetOwner == null) {
-            throw new NullPointerException("Pet Owner was not found ");
-        }
         logger.info("Pet owner with id {} is found", id);
         return findingPetOwner;
     }
@@ -90,6 +86,5 @@ public class PetOwnerServiceImpl implements PetOwnerService {
         petOwnerRepository.save(petOwner);
         return newPhoneNumber;
     }
-
 
 }

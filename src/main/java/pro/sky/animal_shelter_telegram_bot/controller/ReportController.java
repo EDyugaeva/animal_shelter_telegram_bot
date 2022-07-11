@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import pro.sky.animal_shelter_telegram_bot.model.Report;
 import pro.sky.animal_shelter_telegram_bot.service.ReportService;
 
+import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsOfControllers.HELLO_MESSAGE_OF_REPORT_CONTROLLER;
+
 @RestController
 @RequestMapping("/report")
 public class ReportController {
@@ -37,11 +39,7 @@ public class ReportController {
     )
     @GetMapping
     public String helloMessage(){
-        return "You can do it by reports\n" +
-                "1. add new report\n" +
-                "2. find report\n" +
-                "2. update report\n" +
-                "4. remove report\n";
+        return HELLO_MESSAGE_OF_REPORT_CONTROLLER;
     }
 
     @Operation(
