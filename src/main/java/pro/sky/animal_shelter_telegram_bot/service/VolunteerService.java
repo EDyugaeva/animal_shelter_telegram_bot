@@ -8,7 +8,7 @@ public interface VolunteerService {
 
     void deleteVolunteer(Volunteer volunteer);
 
-    void deleteVolunteer(Long id);
+    boolean deleteVolunteer(Long id);
 
     Volunteer findVolunteer(Long id);
 

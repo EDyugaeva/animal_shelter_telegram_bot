@@ -35,23 +35,35 @@ public class VolunteerServiceImpl implements VolunteerService {
     }
 
     @Override
-    public void deleteVolunteer(Long id) {
+    public boolean deleteVolunteer(Long id) {
+        if (volunteerRepository.findById(id).isEmpty()){
+            logger.info("Volunteer with id {} is not found", id);
+            return false;
+        }
         volunteerRepository.deleteById(id);
         logger.info("Volunteer with id {} is deleted", id);
-
+        return true;
     }
 
     @Override
     public Volunteer findVolunteer(Long id) {
-        Volunteer findingVolunteer = volunteerRepository.findById(id).get();
+        if (volunteerRepository.findById(id).isEmpty()){
+            logger.info("Volunteer with id {} is not found", id);
+            return null;
+        }
+        Volunteer volunteer = volunteerRepository.findById(id).get();
         logger.info("Volunteer with id {} is found", id);
-        return findingVolunteer;
+        return volunteer;
     }
 
     @Override
     public Volunteer changeVolunteer(Volunteer volunteer) {
+        if (volunteerRepository.findById(volunteer.getId()).isEmpty()){
+            logger.info("Volunteer with id {} is not found", volunteer.getId());
+            return null;
+        }
         Volunteer changingVolunteer = volunteerRepository.save(volunteer);
-        logger.info("Volunteer {} is saved", volunteer);
+        logger.info("Volunteer with id {} is saved", volunteer);
         return changingVolunteer;
     }
 
