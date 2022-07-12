@@ -2,6 +2,7 @@ package pro.sky.animal_shelter_telegram_bot.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +38,11 @@ public class PhotoOfPetController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "If photo not found"
+                            description = "If photo not found",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Reports"
@@ -46,6 +51,9 @@ public class PhotoOfPetController {
     public ResponseEntity<byte[]> findPhotoByReportId(@PathVariable Long id) {
         PhotoOfPet photoOfPet = photoOfPetService.findPhotoByReportId(id);
         HttpHeaders headers = new HttpHeaders();
+        if (headers.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
         headers.setContentType(MediaType.parseMediaType(photoOfPet.getMediaType()));
         headers.setContentLength(photoOfPet.getData().length);
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(photoOfPet.getData());
@@ -67,7 +75,11 @@ public class PhotoOfPetController {
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Add photo is to big"
+                            description = "If adding photo is to big",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Reports"
