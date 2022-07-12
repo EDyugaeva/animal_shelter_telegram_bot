@@ -40,23 +40,35 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public void deleteReport(Long id) {
+    public boolean deleteReport(Long id) {
+        if (reportRepository.findById(id).isEmpty()){
+            logger.info("Pet with id {} is not found", id);
+            return false;
+        }
         reportRepository.deleteById(id);
-        logger.info("Report with id {} is deleted", id);
-
+        logger.info("Pet with id {} is deleted", id);
+        return true;
     }
 
     @Override
     public Report findReport(Long id) {
-        Report findingReport = reportRepository.findById(id).get();
-        logger.info("Report with id {} is found", id);
-        return findingReport;
+        if (reportRepository.findById(id).isEmpty()){
+            logger.info("Pet with id {} is not found", id);
+            return null;
+        }
+        Report report = reportRepository.findById(id).get();
+        logger.info("Pet with id {} is found", id);
+        return report;
     }
 
     @Override
     public Report changeReport(Report report) {
+        if (reportRepository.findById(report.getId()).isEmpty()){
+            logger.info("Pet with id {} is not found", report.getId());
+            return null;
+        }
         Report changingReport = reportRepository.save(report);
-        logger.info("Report {} is saved", report);
+        logger.info("Pet {} is saved", report);
         return changingReport;
     }
 
