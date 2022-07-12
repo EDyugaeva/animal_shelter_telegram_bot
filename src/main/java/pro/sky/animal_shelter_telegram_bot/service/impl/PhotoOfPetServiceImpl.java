@@ -1,6 +1,5 @@
 package pro.sky.animal_shelter_telegram_bot.service.impl;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +26,6 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
  * Service for working with repository PhotoOfPetRepository
  */
 @Service
-
 public class PhotoOfPetServiceImpl implements PhotoOfPetService {
     @Lazy
     private final ReportService reportService;

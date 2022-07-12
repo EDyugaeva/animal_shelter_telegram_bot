@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
 import pro.sky.animal_shelter_telegram_bot.service.PetService;
 
+import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsOfControllers.HELLO_MESSAGE_OF_PET_CONTROLLER;
+
 @RestController
 @RequestMapping("/pet")
 public class PetController {
@@ -37,11 +39,7 @@ public class PetController {
     )
     @GetMapping
     public String helloMessage(){
-        return "You can do it by information of pet:\n" +
-                "1. add pet information\n" +
-                "2. get pet information\n" +
-                "2. update pet information\n" +
-                "4. remove pet information\n";
+        return HELLO_MESSAGE_OF_PET_CONTROLLER;
     }
 
     @Operation(
@@ -56,7 +54,11 @@ public class PetController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "If pets not found"
+                            description = "If pets not found",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Pets"
@@ -105,14 +107,18 @@ public class PetController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Update information",
+                            description = "Update information about pet",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = Pet.class))
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "If pets not found"
+                            description = "If pets not found in Database",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Pets"
@@ -131,18 +137,28 @@ public class PetController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Pet is delete from Database"
+                            description = "Pet is delete from Database",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "If pets not found"
+                            description = "if Pet don't delete, because pet not found in Database",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Pets"
     )
     @DeleteMapping("{id}")
     public ResponseEntity<Pet> deletePet(@PathVariable Long id) {
-        petService.deletePet(id);
-        return ResponseEntity.ok().build();
+        if (petService.deletePet(id)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 import pro.sky.animal_shelter_telegram_bot.model.Report;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 @Repository

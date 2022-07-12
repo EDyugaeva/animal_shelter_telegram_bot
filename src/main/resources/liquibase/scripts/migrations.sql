@@ -46,7 +46,7 @@ CREATE TABLE photo_of_pet
     media_type          text            NOT NULL
 );
 
---changeset edygaeva:1
+--changeSet edygaeva:1
 
 ALTER TABLE pet_owner ADD CONSTRAINT chat_id_constraint UNIQUE (chat_id);
 
@@ -58,7 +58,8 @@ ALTER TABLE pet_owner ALTER COLUMN  last_name DROP  NOT NULL;
 
 ALTER TABLE pet_owner ALTER COLUMN  day_of_probation DROP  NOT NULL;
 
---changeset edygaeva:2
+--changeSet edygaeva:2
+
 
 ALTER TABLE photo_of_pet
     ADD COLUMN data BYTEA,
@@ -98,3 +99,5 @@ ALTER TABLE volunteer add COLUMN phone_number text;
 
 --changeSet edygaeva:5
 ALTER TABLE pet_owner ALTER COLUMN phone_number drop not null;
+
+
