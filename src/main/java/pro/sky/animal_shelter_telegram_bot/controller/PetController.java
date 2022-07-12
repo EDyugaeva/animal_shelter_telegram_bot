@@ -113,8 +113,8 @@ public class PetController {
                                     schema = @Schema(implementation = Pet.class))
                     ),
                     @ApiResponse(
-                            responseCode = "404",
-                            description = "If pets not found in Database",
+                            responseCode = "400",
+                            description = "If pets not found in Database, will be received bad request",
                             content = @Content(
                                     mediaType = MediaType.TEXT_PLAIN_VALUE,
                                     schema = @Schema(implementation = ResponseEntity.class)
