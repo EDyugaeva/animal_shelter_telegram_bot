@@ -63,7 +63,7 @@ public class PetOwnerController {
     )
     @GetMapping("{id}")
     public ResponseEntity<PetOwner> findPetOwner(@Parameter(description = "Pet owner id", example = "1") @PathVariable Long id) {
-        PetOwner petOwner = petOwnerService.findPetOwner(id);
+        PetOwner petOwner = petOwnerService.findPetOwnerByChatId(id);
         if (petOwner == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }

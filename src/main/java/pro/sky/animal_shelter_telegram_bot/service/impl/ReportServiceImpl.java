@@ -108,8 +108,8 @@ public class ReportServiceImpl implements ReportService {
      */
     public Report findReportByChatIdAndDate(Long chatId, String date) {
         logger.info("Start finding report by chat id and date");
-        PetOwner petOwner = petOwnerRepository.findPetOwnerByChatId(chatId).orElse(new PetOwner());
-        Report report = reportRepository.findReportByDateOfReportAndPetOwner_ChatId(date, chatId).orElse(new Report());
+        PetOwner petOwner = petOwnerRepository.findPetOwnerByChatId(chatId).get();
+        Report report = reportRepository.findReportByPetOwnerAndDateOfReport(petOwner, date).orElse(new Report());
         if (report.getdateOfReport() == null || report.getPetOwner() == null) {
             logger.info("report is null");
             report.setdateOfReport(date);

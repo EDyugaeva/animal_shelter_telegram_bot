@@ -32,7 +32,9 @@ public class MessageConstance {
 
     public static final String BUTTON_LIST_OF_REASONS_OF_REFUSIAL = "Список причин отказа в заборе собаки из приюта";
 
-
+    public static final String MESSAGE_ASK_FOR_NAME = "Напишите Ваше имя:";
+    public static final String MESSAGE_ASK_FOR_NUMBER = "Напишите Ваш номер телефона";
+    public static final String MESSAGE_NUMBER_WITH_MISTAKE = "Номер записан с ошибкой, введите номер повторно";
 
 
 

@@ -1,6 +1,5 @@
 package pro.sky.animal_shelter_telegram_bot.service;
 
-import com.pengrad.telegrambot.model.Update;
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 
 public interface PetOwnerService {
@@ -16,4 +15,11 @@ public interface PetOwnerService {
     PetOwner changePetOwner(PetOwner petOwner);
 
     String setPetOwnersPhoneNumber(String phoneNumber, Long id);
+    String setPetOwnersName(String name, Long id);
+
+    boolean petOwnerHasName(Long id);
+
+    PetOwner findPetOwnerByChatId(Long chatId);
+
+
 }
