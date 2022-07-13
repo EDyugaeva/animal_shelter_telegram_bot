@@ -17,17 +17,17 @@ public class MessageAnswersConstance {
 
     public static final String GENERAL_RECOMMENDATION = "Общие рекомендации";
 
-    public static final String RULES_BEFORE_ADOPTING = "Правила знакомства с собакой";
+    public static final String RULES_BEFORE_ADOPTING = "Правила знакомства с питомцем";
 
     public static final String LIST_DOCUMENTS_TO_ADOPT = "Лист документов необходимых для взятия животного";
 
     public static final String RECOMMENDATION_ABOUT_TRANSPORTATION = "Рекомендации по транспортировке";
 
-    public static final String RECOMMENDATION_ABOUT_HOME_FOR_PUPPY = "Рекомендации по обустройству дома для щенят";
+    public static final String RECOMMENDATION_ABOUT_HOME_FOR_PUPPY = "Рекомендации по обустройству дома для щенят и котят";
 
-    public static final String RECOMMENDATION_ABOUT_HOME_FOR_ADULT_DOG = "Рекомендации по обустройству дома для взрослых собак";
+    public static final String RECOMMENDATION_ABOUT_HOME_FOR_ADULT_DOG = "Рекомендации по обустройству дома для взрослых питомцев";
 
-    public static final String RECOMMENDATION_ABOUT_HOME_FOR_DOG_WITH_LIMITED_OPPORTUNITIES = "Рекомендации по обустройству дома для собак с ограниченными возможностями";
+    public static final String RECOMMENDATION_ABOUT_HOME_FOR_DOG_WITH_LIMITED_OPPORTUNITIES = "Рекомендации по обустройству дома для питомцев с ограниченными возможностями";
 
     public static final String ADVICE_CYNOLOGIST = "Советы кинолога";
 
