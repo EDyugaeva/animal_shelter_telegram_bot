@@ -37,23 +37,35 @@ public class PetOwnerServiceImpl implements PetOwnerService {
     }
 
     @Override
-    public void deletePetOwner(Long id) {
+    public boolean deletePetOwner(Long id) {
+        if (petOwnerRepository.findById(id).isEmpty()){
+            logger.info("Pet owner with id {} is not found", id);
+            return false;
+        }
         petOwnerRepository.deleteById(id);
         logger.info("Pet owner with id {} is deleted", id);
-
+        return true;
     }
 
     @Override
     public PetOwner findPetOwner(Long id) {
-        PetOwner findingPetOwner = petOwnerRepository.findById(id).get();
+        if (petOwnerRepository.findById(id).isEmpty()){
+            logger.info("Pet owner with id {} is not found", id);
+            return null;
+        }
+        PetOwner petOwner = petOwnerRepository.findById(id).get();
         logger.info("Pet owner with id {} is found", id);
-        return findingPetOwner;
+        return petOwner;
     }
 
     @Override
     public PetOwner changePetOwner(PetOwner petOwner) {
+        if (petOwnerRepository.findById(petOwner.getId()).isEmpty()){
+            logger.info("Pet owner with id {} is not found", petOwner.getId());
+            return null;
+        }
         PetOwner changingPetOwner = petOwnerRepository.save(petOwner);
-        logger.info("Pet owner {} is saved", petOwner);
+        logger.info("Pet owner with id {} is saved", petOwner);
         return changingPetOwner;
     }
 

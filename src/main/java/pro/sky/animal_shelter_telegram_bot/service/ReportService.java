@@ -7,7 +7,7 @@ public interface ReportService {
 
     void deleteReport(Report report);
 
-    void deleteReport(Long id);
+    boolean deleteReport(Long id);
 
     Report findReport(Long id);
 

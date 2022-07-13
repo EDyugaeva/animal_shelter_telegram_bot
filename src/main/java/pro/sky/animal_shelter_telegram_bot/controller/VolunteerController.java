@@ -54,7 +54,11 @@ public class VolunteerController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "If volunteer not found"
+                            description = "If volunteer not found",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Volunteers"
@@ -109,8 +113,12 @@ public class VolunteerController {
                                     schema = @Schema(implementation = Volunteer.class))
                     ),
                     @ApiResponse(
-                            responseCode = "404",
-                            description = "If volunteer not found"
+                            responseCode = "400",
+                            description = "If volunteer not found, will be received bad request",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Volunteers"
@@ -129,18 +137,28 @@ public class VolunteerController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Volunteer is delete from Database"
+                            description = "Volunteer is delete from Database",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "If volunteer not found"
+                            description = "If volunteer not found",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Volunteers"
     )
     @DeleteMapping("{id}")
     public ResponseEntity<Volunteer> deleteVolunteer(@PathVariable Long id) {
-        volunteerService.deleteVolunteer(id);
-        return ResponseEntity.ok().build();
+        if (volunteerService.deleteVolunteer(id)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }

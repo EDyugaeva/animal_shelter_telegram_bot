@@ -54,7 +54,11 @@ public class ReportController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "If report not found"
+                            description = "If report not found",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Reports"
@@ -110,7 +114,11 @@ public class ReportController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "If report not found"
+                            description = "If report not found, will be received bad request",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Reports"
@@ -129,18 +137,28 @@ public class ReportController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Report is delete from Database"
+                            description = "Report is delete from Database",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "If report not found"
+                            description = "If report not found",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Reports"
     )
     @DeleteMapping("{id}")
     public ResponseEntity<Report> deleteReport(@PathVariable Long id) {
-        reportService.deleteReport(id);
-        return ResponseEntity.ok().build();
+        if (reportService.deleteReport(id)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }

@@ -24,14 +24,14 @@ public class PetServiceImpl implements PetService {
     @Override
     public Pet addPet(Pet pet) {
         Pet addingPet = petRepository.save(pet);
-        logger.info("Pet {} is saved", addingPet);
+        logger.info("Pet with id {} is saved", addingPet);
         return addingPet;
     }
 
     @Override
     public void deletePet(Pet pet) {
         petRepository.deleteById(pet.getId());
-        logger.info("Pet {} is deleted", pet);
+        logger.info("Pet with id {} is deleted", pet);
     }
 
     public boolean deletePet(Long id) {
@@ -62,7 +62,7 @@ public class PetServiceImpl implements PetService {
             return null;
         }
         Pet changingPet = petRepository.save(pet);
-        logger.info("Pet {} is saved", pet);
+        logger.info("Pet with id {} is saved", pet);
         return changingPet;
     }
 }
