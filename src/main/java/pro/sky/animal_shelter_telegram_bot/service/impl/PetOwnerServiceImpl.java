@@ -37,23 +37,35 @@ public class PetOwnerServiceImpl implements PetOwnerService {
     }
 
     @Override
-    public void deletePetOwner(Long id) {
+    public boolean deletePetOwner(Long id) {
+        if (petOwnerRepository.findById(id).isEmpty()){
+            logger.info("Pet owner with id {} is not found", id);
+            return false;
+        }
         petOwnerRepository.deleteById(id);
         logger.info("Pet owner with id {} is deleted", id);
-
+        return true;
     }
 
     @Override
     public PetOwner findPetOwner(Long id) {
-        PetOwner findingPetOwner = petOwnerRepository.findById(id).get();
+        if (petOwnerRepository.findById(id).isEmpty()){
+            logger.info("Pet owner with id {} is not found", id);
+            return null;
+        }
+        PetOwner petOwner = petOwnerRepository.findById(id).get();
         logger.info("Pet owner with id {} is found", id);
-        return findingPetOwner;
+        return petOwner;
     }
 
     @Override
     public PetOwner changePetOwner(PetOwner petOwner) {
+        if (petOwnerRepository.findById(petOwner.getId()).isEmpty()){
+            logger.info("Pet owner with id {} is not found", petOwner.getId());
+            return null;
+        }
         PetOwner changingPetOwner = petOwnerRepository.save(petOwner);
-        logger.info("Pet owner {} is saved", petOwner);
+        logger.info("Pet owner with id {} is saved", petOwner);
         return changingPetOwner;
     }
 
@@ -61,23 +73,15 @@ public class PetOwnerServiceImpl implements PetOwnerService {
      * add phone number to database from bot
      *
      * @param newPhoneNumber - String from update (message) from telegram
-     * @param chatId         - chat id fron update (telegram)
+     * @param chatId         - chat id from update (telegram)
      * @return string message with phone number (how it was saved in database)
      * @throws NullPointerException     - when message is empty
-     * @throws IllegalArgumentException - when message has incorrect letters or symbols
      */
     @Override
     public String setPetOwnersPhoneNumber(String newPhoneNumber, Long chatId) {
         if (newPhoneNumber.isEmpty()) {
             logger.info("Phone number is empty");
             throw new NullPointerException("Phone number is empty");
-        }
-        String chars = "qwertyuiopasdfghjklzxcvbnm,./[];'{}#$%^&*";
-        newPhoneNumber = newPhoneNumber.trim().replace("(", "").replace(")", "").replace("-", "");
-
-        if (StringUtils.containsAny(newPhoneNumber, chars) || newPhoneNumber.length() > 11) {
-            logger.info("Phone number {} is written with mistake", newPhoneNumber);
-            throw new IllegalArgumentException("Incorrect phone number");
         }
         PetOwner petOwner = petOwnerRepository.findPetOwnerByChatId(chatId).orElse(new PetOwner());
         petOwner.setChatId(chatId);

@@ -21,7 +21,6 @@ public class PetOwnerController {
 
     private final PetOwnerService petOwnerService;
 
-
     public PetOwnerController(PetOwnerService petOwnerService) {
         this.petOwnerService = petOwnerService;
     }
@@ -55,7 +54,11 @@ public class PetOwnerController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "If pet owner not found"
+                            description = "If pet owner not found",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Pet owners"
@@ -110,8 +113,12 @@ public class PetOwnerController {
                                     schema = @Schema(implementation = PetOwner.class))
                     ),
                     @ApiResponse(
-                            responseCode = "404",
-                            description = "If pet owner not found"
+                            responseCode = "400",
+                            description = "If pet owner not found, will be received bad request",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Pet owners"
@@ -130,18 +137,28 @@ public class PetOwnerController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Pet owner is delete from Database"
+                            description = "Pet owner is delete from Database",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "If pets not found"
+                            description = "If pets not found",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Pet owners"
     )
     @DeleteMapping("{id}")
     public ResponseEntity<PetOwner> deletePetOwner(@PathVariable Long id) {
-        petOwnerService.deletePetOwner(id);
-        return ResponseEntity.ok().build();
+        if (petOwnerService.deletePetOwner(id)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }

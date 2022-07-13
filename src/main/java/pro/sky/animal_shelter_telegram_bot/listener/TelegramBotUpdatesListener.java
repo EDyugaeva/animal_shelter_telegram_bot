@@ -33,9 +33,6 @@ import static pro.sky.animal_shelter_telegram_bot.listener.MessageConstance.*;
 @Service
 public class TelegramBotUpdatesListener implements UpdatesListener {
 
-    private boolean savingPhoneNumber = false;
-
-    private boolean savingName = false;
 
     private boolean savingReport = false;
 
@@ -75,18 +72,15 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 scanUpdates(update);
                 makeReplies(update);
             }
-            if (savingReport) {
-                savingReports(update);
-            }
-            if (savingName) {
-                saveName(update);
-                logger.warn("default is working");
-            }
-            if (savingPhoneNumber) {
-                savePhoneNumberToBase(update);
+
+            if (update.message().contact() != null) {
+                petOwnerService.setPetOwnersName(update.message().contact().firstName(), update.message().chat().id());
+                petOwnerService.setPetOwnersPhoneNumber(update.message().contact().phoneNumber(), update.message().chat().id());
+                sendMessage(update, "Спасибо! Ваш номер сохранен");
 
             }
-            if (update.message().text() == null) {
+
+            if (update.message().text() == null && (update.message().contact() == null)) {
                 sendMessage(update, "пустое сообщение");
             }
 
@@ -164,61 +158,16 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 sendAddressAndSchedule(update);
                 break;
             case BUTTON_SAVING_CONTACTS:
-                logger.info("update for message: " + BUTTON_SAVING_CONTACTS);
-                if (!petOwnerService.petOwnerHasName(update.message().chat().id())) {
-                    sendMessage(update, MESSAGE_ASK_FOR_NAME);
-                    savingName = true;
-                    logger.warn("saving name = " + savingName);
-                }
-                if (petOwnerService.petOwnerHasName(update.message().chat().id())) {
-                    savingPhoneNumber = true;
-                    savingName = false;
-                    sendMessage(update, MESSAGE_ASK_FOR_NUMBER);
-                }
-                break;
+
+                Keyboard keyboard = new ReplyKeyboardMarkup(
+                        new KeyboardButton[]{
+                                new KeyboardButton("contact").requestContact(true),
+                                new KeyboardButton(BUTTON_BACK)
+                        });
+                sendMessageWithKeyboard(update, "Отправьте свой контакт нам", keyboard);
+
         }
 
-    }
-
-    /**
-     * Saving name to database (if it was not saved before)
-     * @param update
-     */
-    private void saveName(Update update) {
-        long chatId = update.message().chat().id();
-        logger.info("Start saving number and name");
-
-        if (!update.message().text().equals(MESSAGE_ASK_FOR_NAME)
-                && !update.message().text().equals(BUTTON_SAVING_CONTACTS)) {
-            sendMessage(update, "Имя " + petOwnerService.setPetOwnersName(update.message().text(), chatId) + " сохранено");
-            logger.info("Name was added to database");
-        }
-        if (petOwnerService.petOwnerHasName(chatId)) {
-            savingPhoneNumber = true;
-            savingName = false;
-            sendMessage(update, MESSAGE_ASK_FOR_NUMBER);
-        }
-
-    }
-
-    /**
-     * Saving phone number to database (after saving name)
-     * @param update
-     */
-    private void savePhoneNumberToBase(Update update) {
-        long chatId = update.message().chat().id();
-        logger.info("Start saving phone number");
-        if (!update.message().text().equals(BUTTON_SAVING_CONTACTS)
-                && !update.message().text().equals(MESSAGE_ASK_FOR_NUMBER)
-                && !update.message().text().equals(petOwnerService.findPetOwnerByChatId(chatId).getFirstName())) {
-            try {
-                sendMessage(update, "Номер " + petOwnerService.setPetOwnersPhoneNumber(update.message().text(), update.message().chat().id()) + " сохранен");
-                savingPhoneNumber = false;
-            } catch (Exception e) {
-                sendMessage(update, MESSAGE_NUMBER_WITH_MISTAKE);
-                savingPhoneNumber = true;
-            }
-        }
     }
 
 
