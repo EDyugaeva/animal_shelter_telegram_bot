@@ -35,6 +35,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private boolean savingPhoneNumber = false;
 
+    private boolean shelterForCats = false;
+
     private boolean savingReport = false;
 
 
@@ -153,8 +155,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             case BUTTON_SCHEDULE:
                 sendAddressAndSchedule(update);
                 break;
-            case BUTTON_BACK:
-                sendMenu(update);
+            case "/start":
+                sendStartMessage(update);
                 break;
             case BUTTON_SAVING_CONTACTS:
                 sendMessage(update, "Укажите ваш номер телефона");
@@ -222,24 +224,40 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     }
 
     /**
-     * Response on command /start
+     * Response on command /start or back
      *
      * @param update from process
      */
     private void sendStartMessage(Update update) {
-        if (update.message().text() != null && update.message().text().equals("/start")) {
-            Long chatId = update.message().chat().id();
-            logger.info("Start message to chatId" + chatId);
+        if (update.message().text().equals("/start") || update.message().text().equals(BUTTON_BACK)) {
+            String message = "Выберете какой приют Вас интересует";
+            ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup(
+                    new String[]{"Приют для кошек"},
+                    new String[]{"Приют для собак"})
+                    .oneTimeKeyboard(true)
+                    .resizeKeyboard(true)
+                    .selective(true);
+            sendMessageWithKeyboard(update, message, keyboardMarkup);
+        }
+        if (update.message().text().equals("Приют для кошек")) {
+            shelterForCats = true;
             sendMenu(update);
         }
+        if (update.message().text().equals("Приют для собак")) {
+            shelterForCats = false;
+            sendMenu(update);
+        }
+
+
     }
+
     /**
      * Keyboard on command /start or back to menu. It makes keyboard with 4 variants
      *
      * @param update from process
      */
     private void sendMenu(Update update) {
-        String message = "Приветствуем! Это телеграм бот приюта для собак";
+        String message = "Приветствуем! Это телеграм бот приюта для животных";
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup(
                 new String[]{BUTTON1_1, BUTTON1_2},
                 new String[]{BUTTON1_3, BUTTON_ASKING_VOLUNTEER})
@@ -274,16 +292,29 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
      */
     private void consultationWithPotentialDogOwner(Update update) {
         String message = "Мы поможем разобраться с бюрократическими и бытовыми вопросами.)";
+
+
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup(
                 new String[]{BUTTON_RULES_BEFORE_ADOPTING, BUTTON_LIST_DOCUMENTS_TO_ADOPT},
                 new String[]{BUTTON_RECOMMENDATION_ABOUT_TRANSPORTATION, BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_PUPPY},
-                new String[]{BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_ADULT_DOG, BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_DOG_WITH_LIMITED_OPPORTUNITIES},
-                new String[]{BUTTON_ADVICE_CYNOLOGIST, BUTTON_LIST_OF_CYNOLOGISTS},
-                new String[]{BUTTON_LIST_OF_REASONS_OF_REFUSIAL, BUTTON_SAVING_CONTACTS},
-                new String[]{BUTTON_ASKING_VOLUNTEER, BUTTON_BACK})
+                new String[]{BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_ADULT_DOG, BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_DOG_WITH_LIMITED_OPPORTUNITIES})
                 .oneTimeKeyboard(true)
                 .resizeKeyboard(true)
                 .selective(true);
+
+        if (shelterForCats) {
+            keyboardMarkup.addRow(BUTTON_LIST_OF_REASONS_OF_REFUSIAL, BUTTON_SAVING_CONTACTS);
+            keyboardMarkup.addRow(BUTTON_ASKING_VOLUNTEER, BUTTON_BACK);
+
+        } else {
+            keyboardMarkup.addRow(BUTTON_ADVICE_CYNOLOGIST, BUTTON_LIST_OF_CYNOLOGISTS);
+            keyboardMarkup.addRow(BUTTON_LIST_OF_REASONS_OF_REFUSIAL, BUTTON_SAVING_CONTACTS);
+            keyboardMarkup.addRow(BUTTON_ASKING_VOLUNTEER, BUTTON_BACK);
+
+
+        }
+
+
         sendMessageWithKeyboard(update, message, keyboardMarkup);
     }
 
