@@ -15,4 +15,10 @@ public interface PetOwnerService {
     PetOwner changePetOwner(PetOwner petOwner);
 
     String setPetOwnersPhoneNumber(String phoneNumber, Long id);
+
+    String setPetOwnersName(String firstName, Long id);
+
+    boolean petOwnerHasName(Long id);
+
+    PetOwner findPetOwnerByChatId(Long chatId);
 }

@@ -35,4 +35,6 @@ public class MessageAnswersConstance {
 
     public static final String LIST_OF_REASONS_OF_REFUSIAL = "Список причин для отказа";
 
+    public static final String SAVED_PHONE_NUMBER = "Спасибо! Ваш номер сохранен";
+
 }

@@ -94,5 +94,9 @@ ALTER TABLE photo_of_pet ALTER COLUMN file_size DROP NOT NULL;
 
 ALTER TABLE photo_of_pet ALTER COLUMN media_type DROP NOT NULL;
 
+--changeSet edugaeva:4
+
+
+ALTER TABLE pet_owner ALTER COLUMN phone_number DROP NOT NULL;
 
 
