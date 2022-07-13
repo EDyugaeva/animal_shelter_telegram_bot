@@ -1,5 +1,7 @@
 package pro.sky.animal_shelter_telegram_bot.listener;
 
+import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
+
 public class MessageConstance {
 
     public static final String BUTTON1_1 = "Узнать информацию о приюте";
@@ -33,6 +35,12 @@ public class MessageConstance {
     public static final String BUTTON_LIST_OF_REASONS_OF_REFUSIAL = "Список причин отказа в заборе питомца из приюта";
 
     public static final String BUTTON_BACK = "Назад в основное меню";
+
+    public static final ReplyKeyboardMarkup KEYBOARD_BACK = new ReplyKeyboardMarkup(
+            BUTTON_BACK)
+            .oneTimeKeyboard(true)
+            .resizeKeyboard(true)
+            .selective(true);
 
 
 

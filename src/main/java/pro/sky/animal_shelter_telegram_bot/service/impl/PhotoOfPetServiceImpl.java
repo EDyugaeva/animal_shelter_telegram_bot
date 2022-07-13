@@ -129,14 +129,16 @@ public class PhotoOfPetServiceImpl implements PhotoOfPetService {
     }
 
     /**
-     * Saving (or changing) photo to database (without setting other params)
+     * * Saving (or changing) photo to database (without setting other params)
      *
-     * @param urlString - from Photosize
+     * @param urlString - from response
      * @param chatId    - from update
-     * @param date      - local date (now)
+     * @param date      date of report
+     * @param filesize  - from response
+     * @param filePath- from response
      */
     @Override
-    public void savePhotoFromStringURL(String urlString, Long chatId, String date) {
+    public void savePhotoFromStringURL(String urlString, Long chatId, String date, Integer filesize, String filePath) {
         Report report = reportService.findReportByChatIdAndDate(chatId, date);
 
         URL url;
@@ -145,8 +147,6 @@ public class PhotoOfPetServiceImpl implements PhotoOfPetService {
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
-
-        int filesize = 1024;
 
         PhotoOfPet photoOfPet = findPhotoByReportId(report.getId());
         photoOfPet.setReport(report);
@@ -168,7 +168,9 @@ public class PhotoOfPetServiceImpl implements PhotoOfPetService {
         }
 
         photoOfPet.setReport(report);
-
+        photoOfPet.setFilePath(filePath);
+        photoOfPet.setFileSize(filesize);
+        photoOfPet.setMediaType("jpg");
         photoOfPetRepository.save(photoOfPet);
         logger.debug("Photo of pet for report {} is saved ", report.getId());
 

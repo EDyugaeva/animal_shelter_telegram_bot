@@ -33,6 +33,8 @@ import static pro.sky.animal_shelter_telegram_bot.listener.MessageConstance.*;
 @Service
 public class TelegramBotUpdatesListener implements UpdatesListener {
 
+    boolean shelterForCats = false;
+
     private boolean savingReport = false;
 
 
@@ -126,7 +128,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 break;
 
         }
-        sendMessage(update, message);
+        sendMessageWithKeyboard(update, message, KEYBOARD_BACK);
     }
 
     /**
@@ -170,8 +172,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                         .selective(true);
                 sendMessageWithKeyboard(update, "Отправьте свой контакт нам", keyboard);
                 break;
-            default:
-
 
         }
 
@@ -185,11 +185,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private void savingReports(Update update) {
         long chatId = update.message().chat().id();
         String localDate = LocalDate.now().toString();
-        ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup(
-                BUTTON_BACK)
-                .oneTimeKeyboard(true)
-                .resizeKeyboard(true)
-                .selective(true);
+
 
 
         if (update.message().text() == null) {
@@ -202,9 +198,13 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
             String urlPath = telegramBot.getFullFilePath(file);
 
-            photoOfPetService.savePhotoFromStringURL(urlPath, chatId, localDate);
+            photoOfPetService.savePhotoFromStringURL(urlPath, chatId, localDate, response.file().fileSize(), response.file().filePath() );
+            logger.info("filesize = "+  response.file().fileSize());
+            logger.info(file.toString());
+
             logger.info(urlPath);
             savingReport = false;
+
 
         } else if (!update.message().text().equals(BUTTON1_3)) {
             logger.info("Report is saving (text)");
@@ -214,7 +214,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             } catch (IllegalArgumentException e) {
                 sendMessage(update, "Отчет заполнен с ошибкой");
             }
-            sendMessageWithKeyboard(update, "А теперь отправьте фотографию своего питомца", keyboardMarkup);
+            sendMessageWithKeyboard(update, "А теперь отправьте фотографию своего питомца", KEYBOARD_BACK);
 
         }
 
