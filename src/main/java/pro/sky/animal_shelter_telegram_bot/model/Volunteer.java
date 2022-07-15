@@ -15,6 +15,7 @@ public class Volunteer {
     private String firstName;
     private String lastName;
     private String extraInfo;
+    private Long chatId;
 
     private String phoneNumber;
 
@@ -24,6 +25,14 @@ public class Volunteer {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Long getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(Long chatId) {
+        this.chatId = chatId;
     }
 
     public Long getId() {
@@ -78,6 +87,8 @@ public class Volunteer {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", extraInfo='" + extraInfo + '\'' +
+                ", chatId=" + chatId +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }
 }

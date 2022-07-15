@@ -3,9 +3,12 @@ package pro.sky.animal_shelter_telegram_bot.service.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 import pro.sky.animal_shelter_telegram_bot.model.Volunteer;
 import pro.sky.animal_shelter_telegram_bot.repository.VolunteerRepository;
 import pro.sky.animal_shelter_telegram_bot.service.VolunteerService;
+
+import java.util.List;
 
 /**
  * Service for working with repository VolunteerRepository
@@ -17,8 +20,11 @@ public class VolunteerServiceImpl implements VolunteerService {
 
     private final VolunteerRepository volunteerRepository;
 
-    public VolunteerServiceImpl(VolunteerRepository volunteerRepository) {
+    private final PetOwnerServiceImpl petOwnerService;
+
+    public VolunteerServiceImpl(VolunteerRepository volunteerRepository, PetOwnerServiceImpl petOwnerService) {
         this.volunteerRepository = volunteerRepository;
+        this.petOwnerService = petOwnerService;
     }
 
     @Override
@@ -36,7 +42,7 @@ public class VolunteerServiceImpl implements VolunteerService {
 
     @Override
     public boolean deleteVolunteer(Long id) {
-        if (volunteerRepository.findById(id).isEmpty()){
+        if (volunteerRepository.findById(id).isEmpty()) {
             logger.info("Volunteer with id {} is not found", id);
             return false;
         }
@@ -47,7 +53,7 @@ public class VolunteerServiceImpl implements VolunteerService {
 
     @Override
     public Volunteer findVolunteer(Long id) {
-        if (volunteerRepository.findById(id).isEmpty()){
+        if (volunteerRepository.findById(id).isEmpty()) {
             logger.info("Volunteer with id {} is not found", id);
             return null;
         }
@@ -56,9 +62,10 @@ public class VolunteerServiceImpl implements VolunteerService {
         return volunteer;
     }
 
+
     @Override
     public Volunteer changeVolunteer(Volunteer volunteer) {
-        if (volunteerRepository.findById(volunteer.getId()).isEmpty()){
+        if (volunteerRepository.findById(volunteer.getId()).isEmpty()) {
             logger.info("Volunteer with id {} is not found", volunteer.getId());
             return null;
         }
@@ -67,26 +74,51 @@ public class VolunteerServiceImpl implements VolunteerService {
         return changingVolunteer;
     }
 
-    /**
-     * add phone number to database
+      /**
+     * add phone number to database. If this phone number was in pet-owner table, chat id will be saved to this table
      *
      * @param phoneNumber - phone number from swagger
-     * @param id          - volunteer id, positive
-     * @return
-     */
+     * @param volunteer   - volunteer
+       */
     @Override
-    public Volunteer setVolunteersPhoneNumber(String phoneNumber, Long id) {
+    public Volunteer setVolunteersPhoneNumber(Volunteer volunteer, String phoneNumber) {
         if (phoneNumber.isEmpty()) {
             logger.info("Phone number is empty");
             throw new NullPointerException("Phone number is empty");
         }
-        Volunteer changingVolunteer = volunteerRepository.findById(id).orElse(new Volunteer());
-        if (changingVolunteer == null) {
-            logger.info("Volunteer was not found, created empty Volunteer");
+        volunteer.setPhoneNumber(phoneNumber);
+
+        try {
+            volunteer.setChatId(petOwnerService.getPetOwnerChatIdByPhoneNumber(phoneNumber));
+        } catch (NullPointerException e) {
+            logger.info("Error");
         }
-        changingVolunteer.setPhoneNumber(phoneNumber);
-        logger.info("Volunteer {} is changed. Phone number {} is added.", changingVolunteer + phoneNumber);
-        return volunteerRepository.save(changingVolunteer);
+
+        logger.info("Volunteer {} is changed. Phone number {} is added.", volunteer + phoneNumber);
+        return volunteerRepository.save(volunteer);
     }
 
+    /**
+     * find volunteer in database
+     * @param phoneNumber
+     * @return volunteer
+     */
+    @Override
+    public Volunteer findVolunteerByPhoneNumber(String phoneNumber) {
+        return volunteerRepository.findVolunteerByPhoneNumber(phoneNumber);
+    }
+
+    /**
+     *
+     * @return list of volunteers
+     */
+    @Override
+    public List<Volunteer> findAllVolunteer() {
+        List<Volunteer> volunteerList = volunteerRepository.findAll();
+        if (volunteerList.isEmpty()) {
+            logger.error("Volunteer list is empty");
+            throw new NotFoundException("Volunteer are empty");
+        }
+        return volunteerList;
+    }
 }

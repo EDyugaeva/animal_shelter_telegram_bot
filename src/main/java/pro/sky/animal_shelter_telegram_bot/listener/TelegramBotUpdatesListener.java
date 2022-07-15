@@ -17,9 +17,11 @@ import com.pengrad.telegrambot.response.SendResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import pro.sky.animal_shelter_telegram_bot.model.Volunteer;
 import pro.sky.animal_shelter_telegram_bot.service.PetOwnerService;
 import pro.sky.animal_shelter_telegram_bot.service.PhotoOfPetService;
 import pro.sky.animal_shelter_telegram_bot.service.ReportService;
+import pro.sky.animal_shelter_telegram_bot.service.VolunteerService;
 
 import javax.annotation.PostConstruct;
 
@@ -33,10 +35,8 @@ import static pro.sky.animal_shelter_telegram_bot.listener.MessageConstance.*;
 @Service
 public class TelegramBotUpdatesListener implements UpdatesListener {
 
-    boolean shelterForCats = false;
-
     private boolean savingReport = false;
-    
+
     private boolean shelterForCats = false;
 
     private final PetOwnerService petOwnerService;
@@ -45,16 +45,19 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private final ReportService reportService;
 
-    public TelegramBotUpdatesListener(PetOwnerService petOwnerService, PhotoOfPetService photoOfPetService, ReportService reportService, TelegramBot telegramBot) {
+    private final VolunteerService volunteerService;
+
+    private final TelegramBot telegramBot;
+
+    private final Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
+
+    public TelegramBotUpdatesListener(PetOwnerService petOwnerService, PhotoOfPetService photoOfPetService, ReportService reportService, VolunteerService volunteerService, TelegramBot telegramBot) {
         this.petOwnerService = petOwnerService;
         this.photoOfPetService = photoOfPetService;
         this.reportService = reportService;
+        this.volunteerService = volunteerService;
         this.telegramBot = telegramBot;
     }
-
-    private final TelegramBot telegramBot;
-    private final Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
-
 
     @PostConstruct
     public void init() {
@@ -69,23 +72,25 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     public int process(List<Update> updates) {
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
+
             if (savingReport) {
                 savingReports(update);
             }
-            if (update.message() == null && update.message().contact() == null) {
+            if (update.message() == null ) {
                 logger.info("Empty message");
             }
-            if (update.message().contact() != null) {
-                petOwnerService.setPetOwnersName(update.message().contact().firstName(), update.message().chat().id());
-                petOwnerService.setPetOwnersPhoneNumber(update.message().contact().phoneNumber(), update.message().chat().id());
-                sendMessage(update, SAVED_PHONE_NUMBER);
-                sendMenu(update);
-            } else if
+            else if
             (update.message().text() != null) {
                 logger.info(update.message().text());
                 sendStartMessage(update);
                 scanUpdates(update);
                 makeReplies(update);
+            }
+            else if (update.message().contact() != null) {
+                petOwnerService.setPetOwnersName(update.message().contact().firstName(), update.message().chat().id());
+                petOwnerService.setPetOwnersPhoneNumber(update.message().contact().phoneNumber(), update.message().chat().id());
+                sendMessage(update, SAVED_PHONE_NUMBER);
+                sendMenu(update);
             }
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
@@ -156,6 +161,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 break;
             case BUTTON_ASKING_VOLUNTEER:
                 logger.info("update for message: " + BUTTON_ASKING_VOLUNTEER);
+                askVolunteer(update);
                 break;
             case BUTTON_SCHEDULE:
                 sendAddressAndSchedule(update);
@@ -164,19 +170,66 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 sendStartMessage(update);
                 break;
             case BUTTON_SAVING_CONTACTS:
-                logger.info("Start saving number and name");
-                Keyboard keyboard = new ReplyKeyboardMarkup(
-                        new KeyboardButton("contact").requestContact(true),
-                        new KeyboardButton(BUTTON_BACK))
-                        .oneTimeKeyboard(true)
-                        .resizeKeyboard(true)
-                        .selective(true);
-                sendMessageWithKeyboard(update, "Отправьте свой контакт нам", keyboard);
+                savingPhoneNumber(update);
                 break;
+            case BUTTON_BACK:
+                sendMenu(update);
+                break;
+
+        }
+    }
+
+    private void savingPhoneNumber(Update update) {
+        logger.info("Start saving number and name");
+        Keyboard keyboard = new ReplyKeyboardMarkup(
+                new KeyboardButton("contact").requestContact(true),
+                new KeyboardButton(BUTTON_BACK))
+                .oneTimeKeyboard(true)
+                .resizeKeyboard(true)
+                .selective(true);
+        sendMessageWithKeyboard(update, "Отправьте свой контакт нам", keyboard);
+    }
+
+
+    private void askVolunteer(Update update) {
+        Long chatId = update.message().chat().id();
+        if (!petOwnerService.petOwnerHasPhoneNumber(chatId)) {
+            sendMessage(update, "Для начала необходимо сохранить Ваши контакты. Затем нажмите кнопку --Позвать волонтера-- повторно");
+            savingPhoneNumber(update);
+
+        }
+        if (petOwnerService.petOwnerHasPhoneNumber(chatId)) {
+            String message = "Вас просил связаться " + petOwnerService.findPetOwnerByChatId(chatId).getFirstName() +
+                    "по номеру телефона " + petOwnerService.findPetOwnerByChatId(chatId).getPhoneNumber();
+            sendMessageToVolunteer(message);
+
+            sendMessageWithKeyboard(update, "Ваши контакты отправлены волонтеру. Он с вами свяжется", KEYBOARD_BACK);
 
         }
 
     }
+
+    private void sendMessageToVolunteer(String message) {
+        List<Volunteer> volunteers = volunteerService.findAllVolunteer();
+        try {
+            for (Volunteer volunteer : volunteers) {
+                Long chatId = volunteer.getChatId();
+                SendMessage sendMessage = new SendMessage(chatId, message);
+                SendResponse response = telegramBot.execute(sendMessage);
+                if (response.isOk()) {
+                    logger.info("message: {} is sent ", message);
+                } else {
+                    logger.warn("Message was not sent. Error code:  " + response.errorCode());
+                }
+
+            }
+        } catch (Exception e) {
+            logger.info("Ошибки");
+        }
+
+
+    }
+
 
     /**
      * trying to save report. Text works correctly
@@ -186,8 +239,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private void savingReports(Update update) {
         long chatId = update.message().chat().id();
         String localDate = LocalDate.now().toString();
-
-
 
         if (update.message().text() == null) {
             logger.info("Report is saving (photo)");
@@ -199,10 +250,10 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
             String urlPath = telegramBot.getFullFilePath(file);
 
-            photoOfPetService.savePhotoFromStringURL(urlPath, chatId, localDate, response.file().fileSize(), response.file().filePath() );
-            logger.info("filesize = "+  response.file().fileSize());
+            photoOfPetService.savePhotoFromStringURL(urlPath, chatId, localDate, response.file().fileSize(), response.file().filePath());
+            logger.info("filesize = " + response.file().fileSize());
             logger.info(file.toString());
-
+            sendMessage(update, "Фотография успешно сохранена. Спасибо! Ждем нового отчета завтра");
             logger.info(urlPath);
             savingReport = false;
 
@@ -227,7 +278,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
      * @param update from process
      */
     private void sendStartMessage(Update update) {
-        if (update.message().text().equals("/start") || update.message().text().equals(BUTTON_BACK)) {
+        if (update.message().text().equals("/start") || update.message().text().equals(BUTTON_CHOSE_SHELTER)) {
             String message = "Выберете какой приют Вас интересует";
             ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup(
                     new String[]{"Приют для кошек"},
@@ -258,7 +309,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         String message = "Приветствуем! Это телеграм бот приюта для животных";
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup(
                 new String[]{BUTTON1_1, BUTTON1_2},
-                new String[]{BUTTON1_3, BUTTON_ASKING_VOLUNTEER})
+                new String[]{BUTTON1_3, BUTTON_ASKING_VOLUNTEER},
+                new String[] {BUTTON_CHOSE_SHELTER}
+                )
                 .oneTimeKeyboard(true)
                 .resizeKeyboard(true)
                 .selective(true);
@@ -324,8 +377,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
      */
     private void sendMessage(Update update, String message) {
         Long chatId = update.message().chat().id();
-        SendMessage sendMessage = new SendMessage(chatId, message);
-        SendResponse response = telegramBot.execute(sendMessage);
+        SendResponse response = telegramBot.execute(new SendMessage(chatId, message));
         if (response.isOk()) {
             logger.info("message: {} is sent ", message);
         } else {
