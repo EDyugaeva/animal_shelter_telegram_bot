@@ -73,10 +73,9 @@ public class PetOwnerServiceImpl implements PetOwnerService {
      * add phone number to database from bot
      *
      * @param newPhoneNumber - String from update (message) from telegram
-     * @param chatId - chat id fron update (telegram)
+     * @param chatId - chat id from update (telegram)
      * @return string message with phone number (how it was saved in database)
      * @throws NullPointerException - when message is empty
-     * @throws IllegalArgumentException - when message has incorrect letters or symbols
      */
     @Override
     public String setPetOwnersPhoneNumber(String newPhoneNumber, Long chatId) {
@@ -84,13 +83,7 @@ public class PetOwnerServiceImpl implements PetOwnerService {
             logger.info("Phone number is empty");
             throw new NullPointerException("Phone number is empty");
         }
-        String chars = "qwertyuiopasdfghjklzxcvbnm,./[];'{}#$%^&*";
-        newPhoneNumber = newPhoneNumber.trim().replace("(", "").replace(")", "").replace("-", "");
 
-        if (StringUtils.containsAny(newPhoneNumber, chars) || newPhoneNumber.length() > 11) {
-            logger.info("Phone number is written with mistake");
-            throw new IllegalArgumentException("Неправильно введен номер");
-        }
         PetOwner petOwner = petOwnerRepository.findPetOwnerByChatId(chatId).orElse(new PetOwner());
         petOwner.setChatId(chatId);
         petOwner.setPhoneNumber(newPhoneNumber);
@@ -98,5 +91,51 @@ public class PetOwnerServiceImpl implements PetOwnerService {
         petOwnerRepository.save(petOwner);
         return newPhoneNumber;
     }
+
+
+    /**
+     * Add name to database from bot
+     *
+     * @param name - String from update (message) from telegram
+     * @param id   - chat id fron update (telegram)
+     * @return string message with name
+     */
+    @Override
+    public String setPetOwnersName(String name, Long id) {
+        if (name.isEmpty()) {
+            logger.info("Name is empty");
+            throw new NullPointerException("Name is empty");
+        }
+        PetOwner petOwner = petOwnerRepository.findPetOwnerByChatId(id).orElse(new PetOwner());
+        petOwner.setChatId(id);
+        petOwner.setFirstName(name);
+        logger.info("Name {} is saved", name);
+        petOwnerRepository.save(petOwner);
+
+        return name;
+    }
+    /**
+     * @param id - chat id
+     * @return true if pet owner has name
+     */
+    @Override
+    public boolean petOwnerHasName(Long id) {
+        PetOwner petOwner = petOwnerRepository.findPetOwnerByChatId(id).orElse(new PetOwner());
+        if (petOwner.getFirstName() != null) return true;
+        return false;
+    }
+
+    /**
+     * @param id - chat id from telegram
+     * @return Pet owner or new Pet owner
+     */
+    @Override
+    public PetOwner findPetOwnerByChatId(Long id) {
+        PetOwner findingPetOwner = petOwnerRepository.findPetOwnerByChatId(id).get();
+
+        logger.info("Pet owner with chat id {} is found", id);
+        return findingPetOwner;
+    }
+
 
 }

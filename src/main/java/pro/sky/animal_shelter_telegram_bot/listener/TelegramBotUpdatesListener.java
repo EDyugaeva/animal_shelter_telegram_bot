@@ -33,10 +33,6 @@ import static pro.sky.animal_shelter_telegram_bot.listener.MessageConstance.*;
 @Service
 public class TelegramBotUpdatesListener implements UpdatesListener {
 
-    private boolean savingPhoneNumber = false;
-
-    private boolean shelterForCats = false;
-
     private boolean savingReport = false;
 
 
@@ -73,8 +69,14 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             if (savingReport) {
                 savingReports(update);
             }
-            if (update.message() == null) {
+            if (update.message() == null && update.message().contact() == null) {
                 logger.info("Empty message");
+            }
+            if (update.message().contact() != null) {
+                petOwnerService.setPetOwnersName(update.message().contact().firstName(), update.message().chat().id());
+                petOwnerService.setPetOwnersPhoneNumber(update.message().contact().phoneNumber(), update.message().chat().id());
+                sendMessage(update, SAVED_PHONE_NUMBER);
+                sendMenu(update);
             } else if
             (update.message().text() != null) {
                 logger.info(update.message().text());
@@ -122,6 +124,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             case BUTTON_LIST_OF_REASONS_OF_REFUSIAL:
                 message = LIST_OF_REASONS_OF_REFUSIAL;
                 break;
+
         }
         sendMessage(update, message);
     }
@@ -133,7 +136,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
      * @param update
      */
     private void scanUpdates(Update update) {
-        Long chatId = update.message().chat().id();
         switch (update.message().text()) {
             case BUTTON1_1:
                 logger.info("update for message: " + BUTTON1_1);
@@ -159,22 +161,17 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 sendStartMessage(update);
                 break;
             case BUTTON_SAVING_CONTACTS:
-                sendMessage(update, "Укажите ваш номер телефона");
-                logger.info("update for message: " + BUTTON_SAVING_CONTACTS);
-                savingPhoneNumber = true;
+                logger.info("Start saving number and name");
+                Keyboard keyboard = new ReplyKeyboardMarkup(
+                        new KeyboardButton("contact").requestContact(true),
+                        new KeyboardButton(BUTTON_BACK))
+                        .oneTimeKeyboard(true)
+                        .resizeKeyboard(true)
+                        .selective(true);
+                sendMessageWithKeyboard(update, "Отправьте свой контакт нам", keyboard);
                 break;
             default:
 
-                if ((savingPhoneNumber) && !update.message().text().equals(BUTTON_SAVING_CONTACTS)) {
-                    logger.info("В листенере условие выполнено");
-                    try {
-                        sendMessage(update, "Номер " + petOwnerService.setPetOwnersPhoneNumber(update.message().text(), update.message().chat().id()) + " сохранен");
-                        savingPhoneNumber = false;
-                    } catch (Exception e) {
-                        sendMessage(update, "Номер записан с ошибкой, введите номер повторно");
-                        savingPhoneNumber = true;
-                    }
-                }
 
         }
 
@@ -189,7 +186,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         long chatId = update.message().chat().id();
         String localDate = LocalDate.now().toString();
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup(
-                new String[]{BUTTON_BACK})
+                BUTTON_BACK)
                 .oneTimeKeyboard(true)
                 .resizeKeyboard(true)
                 .selective(true);
@@ -342,7 +339,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
      * @param message
      * @param keyboardMarkup
      */
-    private void sendMessageWithKeyboard(Update update, String message, ReplyKeyboardMarkup keyboardMarkup) {
+    private void sendMessageWithKeyboard(Update update, String message, Keyboard keyboardMarkup) {
         Long chatId = update.message().chat().id();
         SendResponse response = telegramBot.execute(new SendMessage(chatId, message).replyMarkup(keyboardMarkup));
         if (response.isOk()) {
