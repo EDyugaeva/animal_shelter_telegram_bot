@@ -34,7 +34,8 @@ import static pro.sky.animal_shelter_telegram_bot.listener.MessageConstance.*;
 public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private boolean savingReport = false;
-
+    
+    private boolean shelterForCats = false;
 
     private final PetOwnerService petOwnerService;
 
