@@ -159,10 +159,10 @@ public class VolunteerController {
     )
     @DeleteMapping("{id}")
     public ResponseEntity<Volunteer> deleteVolunteer(@PathVariable Long id) {
-        if (volunteerService.deleteVolunteer(id)) {
-            return ResponseEntity.ok().build();
+        if (volunteerService.deleteVolunteer(id) == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.ok(volunteerService.deleteVolunteer(id));
     }
 
     @Operation(
