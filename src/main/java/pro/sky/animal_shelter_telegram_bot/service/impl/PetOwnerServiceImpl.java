@@ -31,21 +31,15 @@ public class PetOwnerServiceImpl implements PetOwnerService {
     }
 
     @Override
-    public void deletePetOwner(PetOwner petOwner) {
-        petOwnerRepository.deleteById(petOwner.getId());
-        logger.info("Pet owner {} is deleted", petOwner);
-
-    }
-
-    @Override
-    public boolean deletePetOwner(Long id) {
+    public PetOwner deletePetOwner(Long id) {
         if (petOwnerRepository.findById(id).isEmpty()) {
             logger.info("Pet owner with id {} is not found", id);
-            return false;
+            return null;
         }
+        PetOwner deletePetOwner = petOwnerRepository.findById(id).get();
         petOwnerRepository.deleteById(id);
         logger.info("Pet owner with id {} is deleted", id);
-        return true;
+        return deletePetOwner;
     }
 
     @Override
