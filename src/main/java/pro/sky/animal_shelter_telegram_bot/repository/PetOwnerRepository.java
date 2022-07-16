@@ -12,4 +12,6 @@ public interface PetOwnerRepository extends JpaRepository<PetOwner, Long> {
     void deleteById(Long id);
 
     Optional<PetOwner> findPetOwnerByChatId(Long chatId);
+
+    Optional<PetOwner> findPetOwnerByPhoneNumber(String phoneNumber);
 }

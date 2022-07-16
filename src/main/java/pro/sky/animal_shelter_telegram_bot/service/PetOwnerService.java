@@ -18,7 +18,9 @@ public interface PetOwnerService {
 
     String setPetOwnersName(String firstName, Long id);
 
-    boolean petOwnerHasName(Long id);
+    boolean petOwnerHasPhoneNumber(Long chatId);
+
+    Long getPetOwnerChatIdByPhoneNumber(String phoneNumber);
 
     PetOwner findPetOwnerByChatId(Long chatId);
 }

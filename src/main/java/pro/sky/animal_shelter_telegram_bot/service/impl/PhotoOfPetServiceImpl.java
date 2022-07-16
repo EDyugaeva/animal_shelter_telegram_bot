@@ -171,6 +171,7 @@ public class PhotoOfPetServiceImpl implements PhotoOfPetService {
         photoOfPet.setFilePath(filePath);
         photoOfPet.setFileSize(filesize);
         photoOfPet.setMediaType("jpg");
+        photoOfPet.setUrl(urlString);
         photoOfPetRepository.save(photoOfPet);
         logger.debug("Photo of pet for report {} is saved ", report.getId());
 

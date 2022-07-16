@@ -36,6 +36,8 @@ public class MessageConstance {
 
     public static final String BUTTON_BACK = "Назад в основное меню";
 
+    public static final String BUTTON_CHOSE_SHELTER = "К выбору приюта";
+
     public static final ReplyKeyboardMarkup KEYBOARD_BACK = new ReplyKeyboardMarkup(
             BUTTON_BACK)
             .oneTimeKeyboard(true)

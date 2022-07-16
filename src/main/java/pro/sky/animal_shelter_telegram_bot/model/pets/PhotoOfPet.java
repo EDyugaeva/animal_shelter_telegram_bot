@@ -16,11 +16,16 @@ public class PhotoOfPet {
     private long fileSize;
     private String mediaType;
 
+    private String url;
+
     private byte[] data;
 
     @OneToOne
     @JoinColumn(name = "report_id")
     private Report report;
+
+    public PhotoOfPet() {
+    }
 
     public Long getId() {
         return id;
@@ -28,6 +33,14 @@ public class PhotoOfPet {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getFilePath() {
