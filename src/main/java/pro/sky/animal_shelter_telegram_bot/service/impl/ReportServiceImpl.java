@@ -34,20 +34,15 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public void deleteReport(Report report) {
-        reportRepository.deleteById(report.getId());
-        logger.info("Report with id {} is deleted", report);
-    }
-
-    @Override
-    public boolean deleteReport(Long id) {
+    public Report deleteReport(Long id) {
         if (reportRepository.findById(id).isEmpty()){
             logger.info("Report with id {} is not found", id);
-            return false;
+            return null;
         }
+        Report deleteReport = reportRepository.findById(id).get();
         reportRepository.deleteById(id);
         logger.info("Report with id {} is deleted", id);
-        return true;
+        return deleteReport;
     }
 
     @Override

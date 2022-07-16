@@ -5,9 +5,7 @@ import pro.sky.animal_shelter_telegram_bot.model.Report;
 public interface ReportService {
     Report addReport(Report report);
 
-    void deleteReport(Report report);
-
-    boolean deleteReport(Long id);
+    Report deleteReport(Long id);
 
     Report findReport(Long id);
 
