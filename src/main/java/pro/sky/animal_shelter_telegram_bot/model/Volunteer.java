@@ -1,9 +1,10 @@
 package pro.sky.animal_shelter_telegram_bot.model;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -16,7 +17,7 @@ public class Volunteer {
     private String firstName;
     private String lastName;
     private String extraInfo;
-
+    private Long chatId;
     private String phoneNumber;
 
     public String getPhoneNumber() {
@@ -59,6 +60,14 @@ public class Volunteer {
         this.extraInfo = extraInfo;
     }
 
+    public Long getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(Long chatId) {
+        this.chatId = chatId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -79,6 +88,8 @@ public class Volunteer {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", extraInfo='" + extraInfo + '\'' +
+                ", chatId=" + chatId +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }
 }

@@ -46,7 +46,7 @@ CREATE TABLE photo_of_pet
     media_type          text            NOT NULL
 );
 
---changeset edygaeva:1
+--changeSet edygaeva:1
 
 ALTER TABLE pet_owner ADD CONSTRAINT chat_id_constraint UNIQUE (chat_id);
 
@@ -58,7 +58,7 @@ ALTER TABLE pet_owner ALTER COLUMN  last_name DROP  NOT NULL;
 
 ALTER TABLE pet_owner ALTER COLUMN  day_of_probation DROP  NOT NULL;
 
---changeset edygaeva:2
+--changeSet edygaeva:2
 
 
 ALTER TABLE photo_of_pet
@@ -78,7 +78,7 @@ ALTER TABLE report
     ADD FOREIGN KEY (pet_owner_id) REFERENCES pet_owner(id);
 
 
---changeset edyugaeva:3
+--changeSet edugaeva:3
 
 ALTER TABLE report ALTER COLUMN date_of_report TYPE TEXT;
 
@@ -94,19 +94,11 @@ ALTER TABLE photo_of_pet ALTER COLUMN file_size DROP NOT NULL;
 
 ALTER TABLE photo_of_pet ALTER COLUMN media_type DROP NOT NULL;
 
---changeset edyugaeva:3
 
-ALTER TABLE report ALTER COLUMN date_of_report TYPE TEXT;
+--changeSet avvasil:2
 
-ALTER TABLE report ALTER COLUMN  change_in_behavior DROP  NOT NULL;
+ALTER TABLE volunteer ADD COLUMN chat_id bigint;
 
-ALTER TABLE report ALTER COLUMN  is_report_checked set default false;
+--changeSet avvasil:3
 
-ALTER TABLE report ALTER COLUMN  diet DROP  NOT NULL;
-
-ALTER TABLE photo_of_pet ALTER COLUMN file_path DROP NOT NULL;
-
-ALTER TABLE photo_of_pet ALTER COLUMN file_size DROP NOT NULL;
-
-ALTER TABLE photo_of_pet ALTER COLUMN media_type DROP NOT NULL;
-
+ALTER TABLE volunteer ADD COLUMN phone_number text;

@@ -1,5 +1,6 @@
 package pro.sky.animal_shelter_telegram_bot.service.impl;
 
+import liquibase.pro.packaged.L;
 import liquibase.repackaged.org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +8,10 @@ import org.springframework.stereotype.Service;
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 import pro.sky.animal_shelter_telegram_bot.repository.PetOwnerRepository;
 import pro.sky.animal_shelter_telegram_bot.service.PetOwnerService;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Service for working with repository PetOwnerRepository
@@ -91,5 +96,17 @@ public class PetOwnerServiceImpl implements PetOwnerService {
         return newPhoneNumber;
     }
 
+    @Override
+    public Collection<PetOwner> getPetOwnerByDayOfProbation() {
+        List<PetOwner> petOwnersList = new ArrayList<>(petOwnerRepository.getPetOwnerByDayOfProbation());
+        logger.info("Get list of pet owners with days of probation more then zero");
+        return petOwnersList;
+    }
 
+    @Override
+    public Collection<PetOwner> getPetOwnerWithZeroDayOfProbation() {
+        List<PetOwner> petOwnersList = new ArrayList<>(petOwnerRepository.getPetOwnerWithZeroDayOfProbation());
+        logger.info("Get list of pet owners with days of probation equal zero");
+        return petOwnersList;
+    }
 }
