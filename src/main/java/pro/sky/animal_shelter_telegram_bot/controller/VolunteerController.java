@@ -14,7 +14,6 @@ import pro.sky.animal_shelter_telegram_bot.model.Volunteer;
 import pro.sky.animal_shelter_telegram_bot.service.VolunteerService;
 
 import java.util.Collection;
-import java.util.List;
 
 import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsOfControllers.HELLO_MESSAGE_VOLUNTEER_CONTROLLER;
 
@@ -172,8 +171,8 @@ public class VolunteerController {
                             responseCode = "200",
                             description = "List of volunteers",
                             content = @Content(
-                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
-                                    schema = @Schema(implementation = ResponseEntity.class)
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Collection.class)
                             )
                     ),
                     @ApiResponse(
