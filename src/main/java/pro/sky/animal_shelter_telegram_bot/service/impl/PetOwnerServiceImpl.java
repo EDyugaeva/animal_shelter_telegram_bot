@@ -142,7 +142,7 @@ public class PetOwnerServiceImpl implements PetOwnerService {
     @Override
     public boolean petOwnerHasPhoneNumber(Long chatId) {
         PetOwner petOwner = petOwnerRepository.findPetOwnerByChatId(chatId).orElse(new PetOwner());
-        if (!petOwner.getPhoneNumber().isEmpty()) return true;
+        if (petOwner.getPhoneNumber() != null) return true;
         return false;
     }
 
@@ -152,7 +152,7 @@ public class PetOwnerServiceImpl implements PetOwnerService {
      */
     @Override
     public PetOwner findPetOwnerByChatId(Long id) {
-        PetOwner findingPetOwner = petOwnerRepository.findPetOwnerByChatId(id).get();
+        PetOwner findingPetOwner = petOwnerRepository.findPetOwnerByChatId(id).orElse(new PetOwner());
         logger.info("Pet owner with chat id {} is found", id);
         return findingPetOwner;
     }
@@ -160,7 +160,7 @@ public class PetOwnerServiceImpl implements PetOwnerService {
     @Override
     public Long getPetOwnerChatIdByPhoneNumber(String phoneNumber) {
         PetOwner petOwner = petOwnerRepository.findPetOwnerByPhoneNumber(phoneNumber).get();
-        if (petOwner.getChatId() != null) {
+        if (petOwner != null && petOwner.getChatId() != null) {
             return petOwner.getChatId();
         }
         throw new NullPointerException("Pet Owner does not exist");

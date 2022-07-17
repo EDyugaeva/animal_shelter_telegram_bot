@@ -72,21 +72,18 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     public int process(List<Update> updates) {
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
-
             if (savingReport) {
                 savingReports(update);
             }
-            if (update.message() == null ) {
+            if (update.message() == null) {
                 logger.info("Empty message");
-            }
-            else if
+            } else if
             (update.message().text() != null) {
                 logger.info(update.message().text());
                 sendStartMessage(update);
                 scanUpdates(update);
                 makeReplies(update);
-            }
-            else if (update.message().contact() != null) {
+            } else if (update.message().contact() != null) {
                 petOwnerService.setPetOwnersName(update.message().contact().firstName(), update.message().chat().id());
                 petOwnerService.setPetOwnersPhoneNumber(update.message().contact().phoneNumber(), update.message().chat().id());
                 sendMessage(update, SAVED_PHONE_NUMBER);
@@ -134,14 +131,13 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 break;
 
         }
-        sendMessageWithKeyboard(update, message, KEYBOARD_BACK);
+        sendMessage(update, message, KEYBOARD_BACK);
     }
 
     /**
-     * filter keyboard variants to get response after "/start";
-     * cases "Прислать отчет о питомце" and "Позови волонтера" mast be made later
+     * filter keyboard variants to get response on buttons, with need special logic;
      *
-     * @param update
+     * @param update - from process
      */
     private void scanUpdates(Update update) {
         switch (update.message().text()) {
@@ -157,7 +153,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 logger.info("update for message: " + BUTTON1_3);
                 sendMessage(update, "Отправьте отчет в виде: состояние здоровья питомца-диета-изменение в поведении ");
                 savingReport = true;
-                logger.info("saving reports = " + savingReport);
+                logger.info("saving reports = true");
                 break;
             case BUTTON_ASKING_VOLUNTEER:
                 logger.info("update for message: " + BUTTON_ASKING_VOLUNTEER);
@@ -165,9 +161,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 break;
             case BUTTON_SCHEDULE:
                 sendAddressAndSchedule(update);
-                break;
-            case "/start":
-                sendStartMessage(update);
                 break;
             case BUTTON_SAVING_CONTACTS:
                 savingPhoneNumber(update);
@@ -187,7 +180,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 .oneTimeKeyboard(true)
                 .resizeKeyboard(true)
                 .selective(true);
-        sendMessageWithKeyboard(update, "Отправьте свой контакт нам", keyboard);
+        sendMessage(update, "Отправьте свой контакт нам", keyboard);
     }
 
 
@@ -200,10 +193,10 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         }
         if (petOwnerService.petOwnerHasPhoneNumber(chatId)) {
             String message = "Вас просил связаться " + petOwnerService.findPetOwnerByChatId(chatId).getFirstName() +
-                    "по номеру телефона " + petOwnerService.findPetOwnerByChatId(chatId).getPhoneNumber();
+                    " по номеру телефона " + petOwnerService.findPetOwnerByChatId(chatId).getPhoneNumber();
             sendMessageToVolunteer(message);
 
-            sendMessageWithKeyboard(update, "Ваши контакты отправлены волонтеру. Он с вами свяжется", KEYBOARD_BACK);
+            sendMessage(update, "Ваши контакты отправлены волонтеру. Он с вами свяжется", KEYBOARD_BACK);
 
         }
 
@@ -226,15 +219,13 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         } catch (Exception e) {
             logger.info("Ошибки");
         }
-
-
     }
 
 
     /**
-     * trying to save report. Text works correctly
+     * Saving reports to database. There is 2 points: saving text and saving photo
      *
-     * @param update
+     * @param update - from process
      */
     private void savingReports(Update update) {
         long chatId = update.message().chat().id();
@@ -266,10 +257,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             } catch (IllegalArgumentException e) {
                 sendMessage(update, "Отчет заполнен с ошибкой");
             }
-            sendMessageWithKeyboard(update, "А теперь отправьте фотографию своего питомца", KEYBOARD_BACK);
-
+            sendMessage(update, "А теперь отправьте фотографию своего питомца", KEYBOARD_BACK);
         }
-
     }
 
     /**
@@ -286,7 +275,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     .oneTimeKeyboard(true)
                     .resizeKeyboard(true)
                     .selective(true);
-            sendMessageWithKeyboard(update, message, keyboardMarkup);
+            sendMessage(update, message, keyboardMarkup);
         }
         if (update.message().text().equals("Приют для кошек")) {
             shelterForCats = true;
@@ -296,7 +285,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             shelterForCats = false;
             sendMenu(update);
         }
-
 
     }
 
@@ -310,12 +298,12 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup(
                 new String[]{BUTTON1_1, BUTTON1_2},
                 new String[]{BUTTON1_3, BUTTON_ASKING_VOLUNTEER},
-                new String[] {BUTTON_CHOSE_SHELTER}
-                )
+                new String[]{BUTTON_CHOSE_SHELTER}
+        )
                 .oneTimeKeyboard(true)
                 .resizeKeyboard(true)
                 .selective(true);
-        sendMessageWithKeyboard(update, message, keyboardMarkup);
+        sendMessage(update, message, keyboardMarkup);
     }
 
 
@@ -333,7 +321,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 .oneTimeKeyboard(true)
                 .resizeKeyboard(true)
                 .selective(true);
-        sendMessageWithKeyboard(update, message, keyboardMarkup);
+        sendMessage(update, message, keyboardMarkup);
     }
 
     /**
@@ -344,7 +332,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private void consultationWithPotentialDogOwner(Update update) {
         String message = "Мы поможем разобраться с бюрократическими и бытовыми вопросами.)";
 
-
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup(
                 new String[]{BUTTON_RULES_BEFORE_ADOPTING, BUTTON_LIST_DOCUMENTS_TO_ADOPT},
                 new String[]{BUTTON_RECOMMENDATION_ABOUT_TRANSPORTATION, BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_PUPPY},
@@ -353,27 +340,22 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 .resizeKeyboard(true)
                 .selective(true);
 
-        if (shelterForCats) {
-            keyboardMarkup.addRow(BUTTON_LIST_OF_REASONS_OF_REFUSIAL, BUTTON_SAVING_CONTACTS);
-            keyboardMarkup.addRow(BUTTON_ASKING_VOLUNTEER, BUTTON_BACK);
-
-        } else {
+        if (!shelterForCats) {
             keyboardMarkup.addRow(BUTTON_ADVICE_CYNOLOGIST, BUTTON_LIST_OF_CYNOLOGISTS);
-            keyboardMarkup.addRow(BUTTON_LIST_OF_REASONS_OF_REFUSIAL, BUTTON_SAVING_CONTACTS);
-            keyboardMarkup.addRow(BUTTON_ASKING_VOLUNTEER, BUTTON_BACK);
-
 
         }
+        keyboardMarkup.addRow(BUTTON_LIST_OF_REASONS_OF_REFUSIAL, BUTTON_SAVING_CONTACTS);
+        keyboardMarkup.addRow(BUTTON_ASKING_VOLUNTEER, BUTTON_BACK);
 
 
-        sendMessageWithKeyboard(update, message, keyboardMarkup);
+        sendMessage(update, message, keyboardMarkup);
     }
 
     /**
      * Send message to chat from update
      *
-     * @param update
-     * @param message
+     * @param update  - from process
+     * @param message - text which will be sent
      */
     private void sendMessage(Update update, String message) {
         Long chatId = update.message().chat().id();
@@ -381,40 +363,36 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         if (response.isOk()) {
             logger.info("message: {} is sent ", message);
         } else {
-            logger.warn("Message was not sent. Error code:  " + response.errorCode());
+            logger.warn("Message was not sent.  " + response.description());
         }
     }
 
     /**
      * Send message with keyboard to chat from update
      *
-     * @param update
-     * @param message
-     * @param keyboardMarkup
+     * @param update         - from process
+     * @param message        - text, which will be sent
+     * @param keyboardMarkup - keyboard, which could be sent with message
      */
-    private void sendMessageWithKeyboard(Update update, String message, Keyboard keyboardMarkup) {
+    private void sendMessage(Update update, String message, Keyboard keyboardMarkup) {
         Long chatId = update.message().chat().id();
-        SendResponse response = telegramBot.execute(new SendMessage(chatId, message).replyMarkup(keyboardMarkup));
+        SendMessage sendMessage = new SendMessage(chatId, message).replyMarkup(keyboardMarkup);
+        SendResponse response = telegramBot.execute(sendMessage);
         if (response.isOk()) {
-            logger.info("message: {} is sent ", message);
-        } else {
-            logger.warn("Message was not sent. Error code:  " + response.errorCode());
+            logger.info("message: " + message + " is sent");
         }
     }
 
     /**
      * Send message to message "Расписание работы приюта, адрес и схема проезда"
-     * Photo is on URL
+     * Photo is on URL, should be another
      *
-     * @param update
+     * @param update - from process
      */
     private void sendAddressAndSchedule(Update update) {
         Long chatId = update.message().chat().id();
-
         sendMessage(update, SCHEDULE);
-
         sendMessage(update, ADDRESS);
-
         SendResponse response = telegramBot.execute(new SendPhoto(chatId, "https://www.imgonline.com.ua/examples/bee-on-daisy.jpg"));
         if (response.isOk()) {
             logger.info("photo is sent ");
