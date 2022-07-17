@@ -26,6 +26,8 @@ import pro.sky.animal_shelter_telegram_bot.service.VolunteerService;
 
 import javax.annotation.PostConstruct;
 
+import java.io.IOError;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -214,9 +216,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 sendMessage(update, "в данный момент нет свободных волонтеров. Пожалуйста, обратитесь позже");
 
             }
-
         }
-
     }
 
     /**
@@ -234,7 +234,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             } else {
                 logger.warn("Message was not sent. Error code:  " + response.errorCode());
             }
-
         }
 
     }
@@ -252,18 +251,20 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         if (update.message().text() == null) {
             logger.info("Report is saving (photo)");
 
-            GetFile getFile = new GetFile(update.message().photo()[2].fileId());
+            GetFile getFileRequest = new GetFile(update.message().photo()[2].fileId());
+            GetFileResponse getFileResponse = telegramBot.execute(getFileRequest);
 
-            GetFileResponse response = telegramBot.execute(getFile);
-            File file = response.file();
+            System.out.println(update.message().caption());
 
-            String urlPath = telegramBot.getFullFilePath(file);
+            try {
+                File file = getFileResponse.file();
+                byte[] fileContent = telegramBot.getFileContent(file);
+                photoOfPetService.uploadPhotoFromTg(chatId, fileContent, file, localDate);
 
-            photoOfPetService.savePhotoFromStringURL(urlPath, chatId, localDate, response.file().fileSize(), response.file().filePath());
-            logger.info("filesize = " + response.file().fileSize());
-            logger.info(file.toString());
+            } catch (IOException e) {
+                logger.error("Photo was not downloaded");
+            }
             sendMessage(update, "Фотография успешно сохранена. Спасибо! Ждем нового отчета завтра");
-            logger.info(urlPath);
             savingReport = false;
 
 
