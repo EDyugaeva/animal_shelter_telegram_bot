@@ -3,6 +3,7 @@ package pro.sky.animal_shelter_telegram_bot.service.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 import pro.sky.animal_shelter_telegram_bot.model.Report;
 import pro.sky.animal_shelter_telegram_bot.repository.PetOwnerRepository;
@@ -41,7 +42,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public boolean deleteReport(Long id) {
-        if (reportRepository.findById(id).isEmpty()){
+        if (reportRepository.findById(id).isEmpty()) {
             logger.info("Report with id {} is not found", id);
             return false;
         }
@@ -52,7 +53,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public Report findReport(Long id) {
-        if (reportRepository.findById(id).isEmpty()){
+        if (reportRepository.findById(id).isEmpty()) {
             logger.info("Report with id {} is not found", id);
             return null;
         }
@@ -63,7 +64,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public Report changeReport(Report report) {
-        if (reportRepository.findById(report.getId()).isEmpty()){
+        if (reportRepository.findById(report.getId()).isEmpty()) {
             logger.info("Report with id {} is not found", report.getId());
             return null;
         }
@@ -123,4 +124,17 @@ public class ReportServiceImpl implements ReportService {
 
     }
 
+    @Override
+    public Report setMarkOnReport(Long id, String result) {
+        Report report = findReport(id);
+        if (report == null) {
+            logger.warn("Report with ID {} was not found", id);
+            throw new NotFoundException("Report was not found");
+        }
+        report.setResult(result);
+        report.setReportChecked(true);
+        logger.info("Mark was set on report " + id);
+
+        return reportRepository.save(report);
+    }
 }

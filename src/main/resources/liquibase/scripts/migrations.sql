@@ -114,5 +114,3 @@ ALTER TABLE volunteer ALTER COLUMN extra_info DROP NOT NULL;
 
 ALTER TABLE volunteer add COLUMN phone_number text;
 
-
-
