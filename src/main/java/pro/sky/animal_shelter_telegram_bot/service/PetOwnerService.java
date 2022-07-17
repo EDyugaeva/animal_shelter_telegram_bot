@@ -1,6 +1,5 @@
 package pro.sky.animal_shelter_telegram_bot.service;
 
-import com.pengrad.telegrambot.model.Update;
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 
 import java.util.Collection;
@@ -11,7 +10,7 @@ public interface PetOwnerService {
 
     void deletePetOwner(PetOwner petOwner);
 
-    void deletePetOwner(Long id);
+    boolean deletePetOwner(Long id);
 
     PetOwner findPetOwner(Long id);
 
@@ -23,4 +22,11 @@ public interface PetOwnerService {
 
     Collection<PetOwner> getPetOwnerWithZeroDayOfProbation();
 
+    String setPetOwnersName(String firstName, Long id);
+
+    boolean petOwnerHasPhoneNumber(Long chatId);
+
+    Long getPetOwnerChatIdByPhoneNumber(String phoneNumber);
+
+    PetOwner findPetOwnerByChatId(Long chatId);
 }

@@ -16,9 +16,6 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-
-
-
 @ExtendWith(MockitoExtension.class)
 public class PetOwnerServiceTest {
 
@@ -35,8 +32,7 @@ public class PetOwnerServiceTest {
 
     @Test
     public void testSetPetOwnersPhoneNumber() {
-        String testPhoneNumber = "7(888)221-42-85";
-        String expected = "78882214285";
+        String testPhoneNumber = "+79992214290";
 
         Long id = 456789L;
 
@@ -44,11 +40,8 @@ public class PetOwnerServiceTest {
 
         when(petOwnerRepository.findPetOwnerByChatId(any(Long.class))).thenReturn(Optional.of(petOwner));
 
-        Assertions.assertEquals(out.setPetOwnersPhoneNumber(testPhoneNumber, id), expected);
+        Assertions.assertEquals(out.setPetOwnersPhoneNumber(testPhoneNumber, id), testPhoneNumber);
 
-        Assertions.assertThrows(IllegalArgumentException.class,() -> out.setPetOwnersPhoneNumber("7(888)221-42-85a", id));
-        Assertions.assertThrows(IllegalArgumentException.class,() -> out.setPetOwnersPhoneNumber("7(888)221-42-85][]'", id));
-        Assertions.assertThrows(IllegalArgumentException.class,() -> out.setPetOwnersPhoneNumber("895144598750", id));
         Assertions.assertThrows(NullPointerException.class,() -> out.setPetOwnersPhoneNumber("", id));
 
 

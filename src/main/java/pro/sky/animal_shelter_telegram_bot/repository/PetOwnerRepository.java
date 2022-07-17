@@ -6,15 +6,12 @@ import org.springframework.stereotype.Repository;
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
 
-import java.util.Collection;
 import java.util.Optional;
 
 @Repository
 public interface PetOwnerRepository extends JpaRepository<PetOwner, Long> {
 
     void deleteById(Long id);
-
-    Collection<PetOwner> findPetOwnerById(Long id);
 
     Optional<PetOwner> findPetOwnerByChatId(Long chatId);
 
@@ -24,4 +21,5 @@ public interface PetOwnerRepository extends JpaRepository<PetOwner, Long> {
     @Query(value = "SELECT * FROM pet_owner WHERE day_of_probation = 0", nativeQuery = true)
     Collection<PetOwner> getPetOwnerWithZeroDayOfProbation();
 
+    Optional<PetOwner> findPetOwnerByPhoneNumber(String phoneNumber);
 }

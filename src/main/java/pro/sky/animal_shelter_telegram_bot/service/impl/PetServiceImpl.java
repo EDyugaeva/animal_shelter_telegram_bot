@@ -1,6 +1,5 @@
 package pro.sky.animal_shelter_telegram_bot.service.impl;
 
-import liquibase.pro.packaged.P;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -25,35 +24,45 @@ public class PetServiceImpl implements PetService {
     @Override
     public Pet addPet(Pet pet) {
         Pet addingPet = petRepository.save(pet);
-        logger.info("Pet {} is saved", addingPet);
+        logger.info("Pet with id {} is saved", addingPet);
         return addingPet;
     }
 
     @Override
     public void deletePet(Pet pet) {
         petRepository.deleteById(pet.getId());
-        logger.info("Pet {} is deleted", pet);
+        logger.info("Pet with id {} is deleted", pet);
     }
 
-    public void deletePet(Long id) {
+    public boolean deletePet(Long id) {
+        if (petRepository.findById(id).isEmpty()){
+            logger.info("Pet with id {} is not found", id);
+            return false;
+        }
         petRepository.deleteById(id);
         logger.info("Pet with id {} is deleted", id);
+        return true;
     }
 
     @Override
     public Pet findPet(Long id) {
-        Pet findingPet = petRepository.findById(id).get();
-        if (findingPet == null) {
-            throw new NullPointerException("Pet was not found ");
+        if (petRepository.findById(id).isEmpty()){
+            logger.info("Pet with id {} is not found", id);
+            return null;
         }
+        Pet findingPet = petRepository.findById(id).get();
         logger.info("Pet with id {} is found", id);
         return findingPet;
     }
 
     @Override
     public Pet changePet(Pet pet) {
+        if (petRepository.findById(pet.getId()).isEmpty()){
+            logger.info("Pet with id {} is not found", pet.getId());
+            return null;
+        }
         Pet changingPet = petRepository.save(pet);
-        logger.info("Pet {} is saved", pet);
+        logger.info("Pet with id {} is saved", pet);
         return changingPet;
     }
 }
