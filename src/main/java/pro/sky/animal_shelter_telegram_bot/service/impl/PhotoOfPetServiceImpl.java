@@ -125,7 +125,7 @@ public class PhotoOfPetServiceImpl implements PhotoOfPetService {
 
     @Override
     public PhotoOfPet findPhotoByReportId(Long reportId) {
-        return photoOfPetRepository.findByReportId(reportId).orElse(new PhotoOfPet());
+        return photoOfPetRepository.findPhotoOfPetByReportId(reportId).orElse(new PhotoOfPet());
     }
 
     /**

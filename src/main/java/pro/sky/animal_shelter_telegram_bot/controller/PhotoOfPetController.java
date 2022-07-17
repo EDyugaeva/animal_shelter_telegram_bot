@@ -51,9 +51,9 @@ public class PhotoOfPetController {
     public ResponseEntity<byte[]> findPhotoByReportId(@PathVariable Long id) {
         PhotoOfPet photoOfPet = photoOfPetService.findPhotoByReportId(id);
         HttpHeaders headers = new HttpHeaders();
-        if (headers.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+//        if (headers.isEmpty()) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        }
         headers.setContentType(MediaType.parseMediaType(photoOfPet.getMediaType()));
         headers.setContentLength(photoOfPet.getData().length);
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(photoOfPet.getData());
