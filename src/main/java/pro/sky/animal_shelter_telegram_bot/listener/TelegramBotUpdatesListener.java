@@ -17,6 +17,7 @@ import com.pengrad.telegrambot.response.SendResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 import pro.sky.animal_shelter_telegram_bot.model.Volunteer;
 import pro.sky.animal_shelter_telegram_bot.service.PetOwnerService;
 import pro.sky.animal_shelter_telegram_bot.service.PhotoOfPetService;
@@ -93,6 +94,10 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
 
+    /**
+     * Send standard text replies
+     * @param update - from process
+     */
     private void makeReplies(Update update) {
         String message = "";
         switch (update.message().text()) {
@@ -172,6 +177,10 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         }
     }
 
+    /**
+     * Send message with keyboard to save message
+     * @param update - from process
+     */
     private void savingPhoneNumber(Update update) {
         logger.info("Start saving number and name");
         Keyboard keyboard = new ReplyKeyboardMarkup(
@@ -183,7 +192,11 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         sendMessage(update, "Отправьте свой контакт нам", keyboard);
     }
 
-
+    /**
+     * Is calling volunteer
+     * If there are none volunteer - send message, that they are busy
+     * @param update - from process
+     */
     private void askVolunteer(Update update) {
         Long chatId = update.message().chat().id();
         if (!petOwnerService.petOwnerHasPhoneNumber(chatId)) {
@@ -194,31 +207,36 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         if (petOwnerService.petOwnerHasPhoneNumber(chatId)) {
             String message = "Вас просил связаться " + petOwnerService.findPetOwnerByChatId(chatId).getFirstName() +
                     " по номеру телефона " + petOwnerService.findPetOwnerByChatId(chatId).getPhoneNumber();
-            sendMessageToVolunteer(message);
+            try {
+                sendMessageToVolunteer(message);
+                sendMessage(update, "Ваши контакты отправлены волонтеру. Он с вами свяжется", KEYBOARD_BACK);
+            } catch (NotFoundException e) {
+                sendMessage(update, "в данный момент нет свободных волонтеров. Пожалуйста, обратитесь позже");
 
-            sendMessage(update, "Ваши контакты отправлены волонтеру. Он с вами свяжется", KEYBOARD_BACK);
+            }
 
         }
 
     }
 
+    /**
+     *  Send all volunteers a message
+     * @param message - message from askVolunteer
+     */
     private void sendMessageToVolunteer(String message) {
         List<Volunteer> volunteers = volunteerService.findAllVolunteer();
-        try {
-            for (Volunteer volunteer : volunteers) {
-                Long chatId = volunteer.getChatId();
-                SendMessage sendMessage = new SendMessage(chatId, message);
-                SendResponse response = telegramBot.execute(sendMessage);
-                if (response.isOk()) {
-                    logger.info("message: {} is sent ", message);
-                } else {
-                    logger.warn("Message was not sent. Error code:  " + response.errorCode());
-                }
-
+        for (Volunteer volunteer : volunteers) {
+            Long chatId = volunteer.getChatId();
+            SendMessage sendMessage = new SendMessage(chatId, message);
+            SendResponse response = telegramBot.execute(sendMessage);
+            if (response.isOk()) {
+                logger.info("message: {} is sent ", message);
+            } else {
+                logger.warn("Message was not sent. Error code:  " + response.errorCode());
             }
-        } catch (Exception e) {
-            logger.info("Ошибки");
+
         }
+
     }
 
 
