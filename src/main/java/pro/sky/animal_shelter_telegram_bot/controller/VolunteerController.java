@@ -15,7 +15,6 @@ import pro.sky.animal_shelter_telegram_bot.model.Volunteer;
 import pro.sky.animal_shelter_telegram_bot.service.VolunteerService;
 
 import java.util.Collection;
-import java.util.List;
 
 import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsOfControllers.HELLO_MESSAGE_VOLUNTEER_CONTROLLER;
 
@@ -160,10 +159,10 @@ public class VolunteerController {
     )
     @DeleteMapping("{id}")
     public ResponseEntity<Volunteer> deleteVolunteer(@PathVariable Long id) {
-        if (volunteerService.deleteVolunteer(id)) {
-            return ResponseEntity.ok().build();
+        if (volunteerService.deleteVolunteer(id) == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.ok(volunteerService.deleteVolunteer(id));
     }
 
     @Operation(
@@ -173,8 +172,8 @@ public class VolunteerController {
                             responseCode = "200",
                             description = "List of volunteers",
                             content = @Content(
-                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
-                                    schema = @Schema(implementation = ResponseEntity.class)
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Collection.class)
                             )
                     ),
                     @ApiResponse(

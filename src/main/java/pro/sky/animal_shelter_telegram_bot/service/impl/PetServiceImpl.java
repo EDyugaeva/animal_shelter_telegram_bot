@@ -28,20 +28,15 @@ public class PetServiceImpl implements PetService {
         return addingPet;
     }
 
-    @Override
-    public void deletePet(Pet pet) {
-        petRepository.deleteById(pet.getId());
-        logger.info("Pet with id {} is deleted", pet);
-    }
-
-    public boolean deletePet(Long id) {
+    public Pet deletePet(Long id) {
         if (petRepository.findById(id).isEmpty()){
             logger.info("Pet with id {} is not found", id);
-            return false;
+            return null;
         }
+        Pet deletePet = petRepository.findById(id).get();
         petRepository.deleteById(id);
         logger.info("Pet with id {} is deleted", id);
-        return true;
+        return deletePet;
     }
 
     @Override

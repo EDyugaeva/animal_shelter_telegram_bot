@@ -111,7 +111,8 @@ public class ReportController {
                             description = "Update report",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Report.class))
+                                    schema = @Schema(implementation = Report.class)
+                            )
                     ),
                     @ApiResponse(
                             responseCode = "404",
@@ -140,8 +141,8 @@ public class ReportController {
                             responseCode = "200",
                             description = "Report is delete from Database",
                             content = @Content(
-                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
-                                    schema = @Schema(implementation = ResponseEntity.class)
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Report.class)
                             )
                     ),
                     @ApiResponse(
@@ -157,9 +158,9 @@ public class ReportController {
     )
     @DeleteMapping("{id}")
     public ResponseEntity<Report> deleteReport(@PathVariable Long id) {
-        if (reportService.deleteReport(id)) {
-            return ResponseEntity.ok().build();
+        if (reportService.deleteReport(id) == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.ok(reportService.deleteReport(id));
     }
 }

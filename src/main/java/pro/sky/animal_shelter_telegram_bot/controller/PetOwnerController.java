@@ -118,8 +118,7 @@ public class PetOwnerController {
                             description = "If pet owner not found, will be received bad request",
                             content = @Content(
                                     mediaType = MediaType.TEXT_PLAIN_VALUE,
-                                    schema = @Schema(implementation = ResponseEntity.class)
-                            )
+                                    schema = @Schema(implementation = ResponseEntity.class))
                     )
             },
             tags = "Pet owners"
@@ -140,26 +139,24 @@ public class PetOwnerController {
                             responseCode = "200",
                             description = "Pet owner is delete from Database",
                             content = @Content(
-                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
-                                    schema = @Schema(implementation = ResponseEntity.class)
-                            )
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = PetOwner.class))
                     ),
                     @ApiResponse(
                             responseCode = "404",
                             description = "If pets not found",
                             content = @Content(
                                     mediaType = MediaType.TEXT_PLAIN_VALUE,
-                                    schema = @Schema(implementation = ResponseEntity.class)
-                            )
+                                    schema = @Schema(implementation = ResponseEntity.class))
                     )
             },
             tags = "Pet owners"
     )
     @DeleteMapping("{id}")
     public ResponseEntity<PetOwner> deletePetOwner(@PathVariable Long id) {
-        if (petOwnerService.deletePetOwner(id)) {
-            return ResponseEntity.ok().build();
+        if (petOwnerService.deletePetOwner(id) == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.ok(petOwnerService.deletePetOwner(id));
     }
 }
