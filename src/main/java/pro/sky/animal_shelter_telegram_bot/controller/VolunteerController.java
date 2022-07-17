@@ -204,8 +204,8 @@ public class VolunteerController {
             tags = "Volunteers"
     )
     @PutMapping(path = "/phone-number")
-    public ResponseEntity<Volunteer> editVolunteer(@RequestParam Long id,
-                                                   @RequestParam String phoneNumber) {
+    public ResponseEntity<Volunteer> editVolunteer(@Parameter (description = "Volunteer id", example = "1")@RequestParam Long id,
+                                                   @Parameter (description = "Phone number", example = "+79554478895")@RequestParam String phoneNumber) {
         Volunteer editVolunteer = volunteerService.findVolunteer(id);
         if (editVolunteer == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

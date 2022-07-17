@@ -24,7 +24,7 @@ public class ReportServiceTest {
     }
 
     @Test
-    private void testSetReportToDataBase() {
+    public void testSetReportToDataBase() {
         String textReport = "Отчет1-отчет2-отчет3";
 
 

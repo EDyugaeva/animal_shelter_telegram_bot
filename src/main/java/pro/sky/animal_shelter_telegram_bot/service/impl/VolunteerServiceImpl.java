@@ -102,8 +102,8 @@ public class VolunteerServiceImpl implements VolunteerService {
 
     /**
      * find volunteer in database
-     * @param phoneNumber
-     * @return volunteer
+     * @param phoneNumber - phone number in format +7....
+     * @return volunteer - volunteer from database
      */
     @Override
     public Volunteer findVolunteerByPhoneNumber(String phoneNumber) {
@@ -123,4 +123,6 @@ public class VolunteerServiceImpl implements VolunteerService {
         }
         return volunteerList;
     }
+
+
 }
