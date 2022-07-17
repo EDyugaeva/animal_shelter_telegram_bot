@@ -1,7 +1,9 @@
 package pro.sky.animal_shelter_telegram_bot.service;
 
-import org.webjars.NotFoundException;
+import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 import pro.sky.animal_shelter_telegram_bot.model.Report;
+
+import java.util.Collection;
 
 public interface ReportService {
     Report addReport(Report report);
@@ -19,5 +21,7 @@ public interface ReportService {
     Report findReportByChatIdAndDate(Long chatId, String date);
 
     Report setMarkOnReport(Long id, String result) throws NotFoundException;
+
+    Collection<Report> getUncheckedReports();
 
 }

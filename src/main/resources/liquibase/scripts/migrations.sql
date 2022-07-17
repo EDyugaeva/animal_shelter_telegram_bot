@@ -94,6 +94,15 @@ ALTER TABLE photo_of_pet ALTER COLUMN file_size DROP NOT NULL;
 
 ALTER TABLE photo_of_pet ALTER COLUMN media_type DROP NOT NULL;
 
+
+--changeSet avvasil:2
+
+ALTER TABLE volunteer ADD COLUMN chat_id bigint;
+
+--changeSet avvasil:3
+
+ALTER TABLE volunteer ADD COLUMN phone_number text;
+
 --changeSet edugaeva:4
 
 ALTER TABLE pet_owner ALTER COLUMN phone_number DROP NOT NULL;
@@ -102,15 +111,11 @@ ALTER TABLE pet_owner ALTER COLUMN phone_number DROP NOT NULL;
 
 ALTER TABLE photo_of_pet add COLUMN url text;
 
---changeSet edygaeva:5
-
-ALTER TABLE volunteer add COLUMN chat_id bigint;
 
 --changeSet edygaeva:6
 
 ALTER TABLE volunteer ALTER COLUMN extra_info DROP NOT NULL;
 
---changeSet edygaeva:7
 
-ALTER TABLE volunteer add COLUMN phone_number text;
+
 

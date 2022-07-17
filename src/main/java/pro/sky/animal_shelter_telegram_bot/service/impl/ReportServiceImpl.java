@@ -10,6 +10,13 @@ import pro.sky.animal_shelter_telegram_bot.repository.PetOwnerRepository;
 import pro.sky.animal_shelter_telegram_bot.repository.ReportRepository;
 import pro.sky.animal_shelter_telegram_bot.service.ReportService;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 /**
  * Service for working with repository ReportRepository
  */
@@ -122,6 +129,13 @@ public class ReportServiceImpl implements ReportService {
         }
         return report;
 
+    }
+
+    @Override
+    public Collection<Report> getUncheckedReports() {
+        List<Report> reportsList = new ArrayList<>(reportRepository.getUncheckedReports());
+        logger.info("Get list of unchecked reports");
+        return reportsList;
     }
 
     @Override

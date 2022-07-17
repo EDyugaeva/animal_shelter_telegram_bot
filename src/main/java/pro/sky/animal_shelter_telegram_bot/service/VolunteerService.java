@@ -16,6 +16,8 @@ public interface VolunteerService {
 
     Volunteer changeVolunteer(Volunteer volunteer);
 
+    Volunteer setVolunteersPhoneNumber(String phoneNumber, Long id);
+
     Volunteer setVolunteersPhoneNumber(Volunteer volunteer, String phoneNumber);
 
     Volunteer findVolunteerByPhoneNumber(String phoneNumber);
