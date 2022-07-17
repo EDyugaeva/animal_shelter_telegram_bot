@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 import pro.sky.animal_shelter_telegram_bot.model.Volunteer;
 import pro.sky.animal_shelter_telegram_bot.repository.VolunteerRepository;
+import pro.sky.animal_shelter_telegram_bot.service.PetOwnerService;
 import pro.sky.animal_shelter_telegram_bot.service.VolunteerService;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class VolunteerServiceImpl implements VolunteerService {
 
     private final VolunteerRepository volunteerRepository;
 
-    private final PetOwnerServiceImpl petOwnerService;
+    private final PetOwnerService petOwnerService;
 
     public VolunteerServiceImpl(VolunteerRepository volunteerRepository, PetOwnerServiceImpl petOwnerService) {
         this.volunteerRepository = volunteerRepository;
@@ -74,7 +75,9 @@ public class VolunteerServiceImpl implements VolunteerService {
         return changingVolunteer;
     }
 
-      /**
+
+
+    /**
      * add phone number to database. If this phone number was in pet-owner table, chat id will be saved to this table
      *
      * @param phoneNumber - phone number from swagger
@@ -87,14 +90,13 @@ public class VolunteerServiceImpl implements VolunteerService {
             throw new NullPointerException("Phone number is empty");
         }
         volunteer.setPhoneNumber(phoneNumber);
-
         try {
             volunteer.setChatId(petOwnerService.getPetOwnerChatIdByPhoneNumber(phoneNumber));
         } catch (NullPointerException e) {
             logger.info("Error");
         }
 
-        logger.info("Volunteer {} is changed. Phone number {} is added.", volunteer + phoneNumber);
+        logger.info("Volunteer {} is changed. Phone number {} is added.", volunteer, phoneNumber);
         return volunteerRepository.save(volunteer);
     }
 

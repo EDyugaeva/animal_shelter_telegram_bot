@@ -34,13 +34,6 @@ public class Volunteer {
         this.phoneNumber = phoneNumber;
     }
 
-    public Long getChatId() {
-        return chatId;
-    }
-
-    public void setChatId(Long chatId) {
-        this.chatId = chatId;
-    }
 
     public Long getId() {
         return id;

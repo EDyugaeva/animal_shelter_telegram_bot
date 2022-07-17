@@ -110,6 +110,9 @@ public class PetOwnerServiceImpl implements PetOwnerService {
         List<PetOwner> petOwnersList = new ArrayList<>(petOwnerRepository.getPetOwnerWithZeroDayOfProbation());
         logger.info("Get list of pet owners with days of probation equal zero");
         return petOwnersList;
+    }
+
+
     /**
      * Add name to database from bot
      *
@@ -117,7 +120,7 @@ public class PetOwnerServiceImpl implements PetOwnerService {
      * @param id   - chat id fron update (telegram)
      * @return string message with name
      */
-    @Override
+        @Override
     public String setPetOwnersName(String name, Long id) {
         if (name.isEmpty()) {
             logger.info("Name is empty");

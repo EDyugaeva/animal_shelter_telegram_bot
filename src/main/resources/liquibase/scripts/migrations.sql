@@ -111,9 +111,6 @@ ALTER TABLE pet_owner ALTER COLUMN phone_number DROP NOT NULL;
 
 ALTER TABLE photo_of_pet add COLUMN url text;
 
---changeSet edygaeva:5
-
-ALTER TABLE volunteer add COLUMN chat_id bigint;
 
 --changeSet edygaeva:6
 

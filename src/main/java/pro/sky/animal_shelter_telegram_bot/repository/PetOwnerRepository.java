@@ -4,8 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
-import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @Repository
