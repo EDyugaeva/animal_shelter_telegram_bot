@@ -16,6 +16,7 @@ import com.pengrad.telegrambot.response.GetFileResponse;
 import com.pengrad.telegrambot.response.SendResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Service;
 import pro.sky.animal_shelter_telegram_bot.model.Volunteer;
 import pro.sky.animal_shelter_telegram_bot.service.PetOwnerService;
@@ -76,17 +77,15 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             if (savingReport) {
                 savingReports(update);
             }
-            if (update.message() == null ) {
+            if (update.message() == null) {
                 logger.info("Empty message");
-            }
-            else if
+            } else if
             (update.message().text() != null) {
                 logger.info(update.message().text());
                 sendStartMessage(update);
                 scanUpdates(update);
                 makeReplies(update);
-            }
-            else if (update.message().contact() != null) {
+            } else if (update.message().contact() != null) {
                 petOwnerService.setPetOwnersName(update.message().contact().firstName(), update.message().chat().id());
                 petOwnerService.setPetOwnersPhoneNumber(update.message().contact().phoneNumber(), update.message().chat().id());
                 sendMessage(update, SAVED_PHONE_NUMBER);
@@ -261,12 +260,20 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         } else if (!update.message().text().equals(BUTTON1_3)) {
             logger.info("Report is saving (text)");
             try {
-                String message = reportService.setReportToDataBase(update.message().text(), chatId, localDate);
-                sendMessage(update, "Отчет " + message + " сохранен");
+                String[] message = reportService.setReportToDataBase(update.message().text(), chatId, localDate);
+                sendMessage(update, "Состояние здоровья: " + message[0] + " сохранено");
+                sendMessage(update, "Диета питомца: " + message[1] + " сохранено");
+                sendMessage(update, "Изменение в поведении: " + message[2] + " сохранено");
+                sendMessageWithKeyboard(update, "А теперь отправьте фотографию своего питомца", KEYBOARD_BACK);
             } catch (IllegalArgumentException e) {
                 sendMessage(update, "Отчет заполнен с ошибкой");
             }
-            sendMessageWithKeyboard(update, "А теперь отправьте фотографию своего питомца", KEYBOARD_BACK);
+            catch (InvalidDataAccessApiUsageException e) {
+                savingReport = false;
+                sendMessage(update, "У вас нет питомца. Обратитесь в приют");
+                sendMenu(update);
+            }
+
 
         }
 
@@ -310,8 +317,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup(
                 new String[]{BUTTON1_1, BUTTON1_2},
                 new String[]{BUTTON1_3, BUTTON_ASKING_VOLUNTEER},
-                new String[] {BUTTON_CHOSE_SHELTER}
-                )
+                new String[]{BUTTON_CHOSE_SHELTER}
+        )
                 .oneTimeKeyboard(true)
                 .resizeKeyboard(true)
                 .selective(true);

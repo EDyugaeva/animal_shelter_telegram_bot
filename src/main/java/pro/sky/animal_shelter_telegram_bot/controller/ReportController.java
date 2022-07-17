@@ -187,7 +187,7 @@ public class ReportController {
     )
     @PutMapping("/markReport")
     public ResponseEntity<Report> setMarkOnReport(@RequestParam(name = "Id отчета") Long id,
-                                                  @RequestParam(name = "Результат") String result) {
+                                                  @RequestParam(name = "Хороший/нормальный/плохой") String result) {
 
         return ResponseEntity.ok(reportService.setMarkOnReport(id, result));
     }

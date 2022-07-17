@@ -10,12 +10,10 @@ import pro.sky.animal_shelter_telegram_bot.repository.PetOwnerRepository;
 import pro.sky.animal_shelter_telegram_bot.repository.ReportRepository;
 import pro.sky.animal_shelter_telegram_bot.service.ReportService;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 
 /**
  * Service for working with repository ReportRepository
@@ -83,15 +81,14 @@ public class ReportServiceImpl implements ReportService {
     /**
      * Saving report (or changing) by text from telegram
      *
-     * @param text   - from mrssage
+     * @param text   - from message
      * @param chatId - from update
      * @param date   - local date (now)
      * @return message to send
      */
     @Override
-    public String setReportToDataBase(String text, Long chatId, String date) {
+    public String[] setReportToDataBase(String text, Long chatId, String date) {
         logger.info("Setting report to database");
-        String reportText = "Отчет с текстом: --" + text + "-- добавлен ";
 
         Report report = findReportByChatIdAndDate(chatId, date);
 
@@ -110,7 +107,7 @@ public class ReportServiceImpl implements ReportService {
         reportRepository.save(report);
         logger.info("Отчет {} сохранен", report.getId());
 
-        return reportText;
+        return parsingText;
     }
 
     /**
@@ -134,10 +131,19 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public Collection<Report> getUncheckedReports() {
         List<Report> reportsList = new ArrayList<>(reportRepository.getUncheckedReports());
+        if (reportsList.isEmpty()) {
+            throw new NullPointerException("List of result is empty");
+        }
         logger.info("Get list of unchecked reports");
         return reportsList;
     }
 
+    /**
+     * Set mark to report (will be saved in database)
+     * @param id - report id (will get from telegram chat)
+     * @param result - mark
+     * @return saved report
+     */
     @Override
     public Report setMarkOnReport(Long id, String result) {
         Report report = findReport(id);
@@ -145,10 +151,17 @@ public class ReportServiceImpl implements ReportService {
             logger.warn("Report with ID {} was not found", id);
             throw new NotFoundException("Report was not found");
         }
+        if (result.isEmpty()) {
+            logger.warn("Result us empty");
+            throw new NullPointerException("Result us empty");
+        }
         report.setResult(result);
         report.setReportChecked(true);
         logger.info("Mark was set on report " + id);
-
-        return reportRepository.save(report);
+        reportRepository.save(report);
+        return report;
     }
+
+
+
 }

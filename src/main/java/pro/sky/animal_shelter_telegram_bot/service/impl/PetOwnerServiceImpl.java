@@ -114,10 +114,10 @@ public class PetOwnerServiceImpl implements PetOwnerService {
 
 
     /**
-     * Add name to database from bot
+     * Add name to database ONLY from bot (setting day of probation = -1)
      *
      * @param name - String from update (message) from telegram
-     * @param id   - chat id fron update (telegram)
+     * @param id   - chat id from update (telegram)
      * @return string message with name
      */
         @Override
@@ -129,6 +129,8 @@ public class PetOwnerServiceImpl implements PetOwnerService {
         PetOwner petOwner = petOwnerRepository.findPetOwnerByChatId(id).orElse(new PetOwner());
         petOwner.setChatId(id);
         petOwner.setFirstName(name);
+        petOwner.setDayOfProbation(-1);
+
         logger.info("Name {} is saved", name);
         petOwnerRepository.save(petOwner);
 

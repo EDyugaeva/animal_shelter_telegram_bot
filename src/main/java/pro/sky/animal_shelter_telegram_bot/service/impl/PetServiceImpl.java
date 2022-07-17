@@ -24,7 +24,7 @@ public class PetServiceImpl implements PetService {
     @Override
     public Pet addPet(Pet pet) {
         Pet addingPet = petRepository.save(pet);
-        logger.info("Pet with id {} is saved", addingPet);
+        logger.info("Pet with id {} is saved", addingPet.getId());
         return addingPet;
     }
 
