@@ -29,6 +29,7 @@ public class PetOwner {
     @OneToMany(mappedBy = "petOwner")
     @JsonIgnore
 
+
     private Collection<Report> reports;
 
     public Long getId() {
@@ -118,8 +119,6 @@ public class PetOwner {
                 ", chatId=" + chatId +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", dayOfProbation=" + dayOfProbation +
-                ", listOfAdoptedPets=" + listOfAdoptedPets +
-                ", reports=" + reports +
                 '}';
     }
 }

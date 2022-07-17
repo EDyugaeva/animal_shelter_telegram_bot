@@ -4,6 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+
     <list default="true" id="c372aedf-8a59-4bde-b1cc-193faa7e50ea" name="Changes" comment="Update VolunteerController, VolunteerService">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/PhotoOfPetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/PhotoOfPetController.java" afterDir="false" />
@@ -18,6 +19,7 @@
       <list>
         <option value="JUnit5 Test Class" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -29,6 +31,7 @@
     </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
+
         <entry key="$PROJECT_DIR$" value="schelter_to_cats" />
       </map>
     </option>
@@ -73,6 +76,7 @@
     </option>
   </component>
   <component name="ProjectId" id="2AlYibeIVMfGhXOhxRNlQOUG6ag" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
@@ -245,6 +249,7 @@
     </configuration>
     <configuration name="AnimalShelterTelegramBotApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <option name="ACTIVE_PROFILES" />
+      
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <module name="animal_shelter_telegram_bot" />
@@ -288,15 +293,14 @@
       <workItem from="1656346981531" duration="310000" />
       <workItem from="1656575790447" duration="1294000" />
       <workItem from="1657038376542" duration="1552000" />
-      <workItem from="1657193279591" duration="12861000" />
-      <workItem from="1657206842227" duration="2777000" />
-      <workItem from="1657209760217" duration="3682000" />
-      <workItem from="1657277331343" duration="2528000" />
-      <workItem from="1657290519782" duration="5999000" />
-      <workItem from="1657307458257" duration="1174000" />
-      <workItem from="1657351702696" duration="12969000" />
-      <workItem from="1657568307731" duration="1691000" />
-      <workItem from="1657652713779" duration="4570000" />
+      <workItem from="1657446893805" duration="46000" />
+      <workItem from="1657447013226" duration="20612000" />
+      <workItem from="1657641679870" duration="4808000" />
+      <workItem from="1657903818322" duration="9992000" />
+      <workItem from="1657956598028" duration="670000" />
+      <workItem from="1657957518544" duration="600000" />
+      <workItem from="1657959142078" duration="9357000" />
+
     </task>
     <task id="LOCAL-00001" summary="Модели классов. Создал модели классов, пришлось создать дополнительный класс которго не было в плане PhotoOfPet. Создал абстрактный класс Pet и от него два класса Dog и Cat, но пока у них один и тот же функционал видимо.">
       <created>1655931677499</created>

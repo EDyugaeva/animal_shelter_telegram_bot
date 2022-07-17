@@ -1,5 +1,7 @@
 package pro.sky.animal_shelter_telegram_bot.listener;
 
+import liquibase.pro.packaged.S;
+
 public class MessageAnswersConstance {
 
     public static final String ADDRESS = "Адрес приюта";
@@ -34,6 +36,9 @@ public class MessageAnswersConstance {
     public static final String LIST_OF_CYNOLOGISTS = "Список кинологов";
 
     public static final String LIST_OF_REASONS_OF_REFUSIAL = "Список причин для отказа";
+
+    public static final String BAD_REPORT = "Дорогой усыновитель, мы заметили, что ты заполняешь отчет не так подробно, как необходимо." +
+            " Пожалуйста, подойди ответственнее к этому занятию. В противном случае, волонтеры приюта будут обязаны самолично проверять условия содержания собаки";
 
     public static final String SAVED_PHONE_NUMBER = "Спасибо! Ваш номер сохранен";
 
