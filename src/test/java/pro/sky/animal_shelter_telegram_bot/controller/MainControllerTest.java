@@ -7,6 +7,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsForControllerTests.HELLO_MESSAGE_MAIN_CONTROLLER;
 import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsForControllerTests.URL;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -21,8 +22,6 @@ class MainControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    private final String HELLO_MESSAGE = "Welcome to our pet shelter!";
-
     @Test
     public void contextLoads(){
         assertThat(mainController).isNotNull();
@@ -35,6 +34,6 @@ class MainControllerTest {
         assertThat(this.restTemplate.getForObject(URL + port + "/", String.class))
                 .isNotNull();
         assertThat(this.restTemplate.getForObject(URL + port + "/", String.class))
-                .isEqualTo(HELLO_MESSAGE);
+                .isEqualTo(HELLO_MESSAGE_MAIN_CONTROLLER);
     }
 }

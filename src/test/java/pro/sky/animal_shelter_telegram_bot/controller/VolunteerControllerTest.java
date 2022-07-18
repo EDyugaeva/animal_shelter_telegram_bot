@@ -7,7 +7,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsForControllerTests.URL;
+import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsForControllerTests.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class VolunteerControllerTest {
@@ -15,19 +15,11 @@ class VolunteerControllerTest {
     @LocalServerPort
     private int port;
 
-    private final String VOLUNTEER_URL = "volunteer";
-
     @Autowired
     private VolunteerController volunteerController;
 
     @Autowired
     private TestRestTemplate restTemplate;
-
-    private final String HELLO_MESSAGE = "You can do it by information of volunteer:\n" +
-            "1. add information about the volunteer\n" +
-            "2. get information about the volunteer\n" +
-            "2. update information about the volunteer\n" +
-            "4. remove information about rhe volunteer\n";
 
     @Test
     public void contextLoads(){
@@ -41,6 +33,6 @@ class VolunteerControllerTest {
         assertThat(this.restTemplate.getForObject(URL + port + "/" + VOLUNTEER_URL + "/", String.class))
                 .isNotNull();
         assertThat(this.restTemplate.getForObject(URL + port + "/" + VOLUNTEER_URL + "/", String.class))
-                .isEqualTo(HELLO_MESSAGE);
+                .isEqualTo(HELLO_MESSAGE_VOLUNTEER_CONTROLLER);
     }
 }
