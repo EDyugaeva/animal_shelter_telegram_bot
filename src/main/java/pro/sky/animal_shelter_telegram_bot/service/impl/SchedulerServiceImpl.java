@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 import pro.sky.animal_shelter_telegram_bot.model.Report;
 import pro.sky.animal_shelter_telegram_bot.model.Volunteer;
@@ -39,7 +40,12 @@ public class SchedulerServiceImpl implements SchedulerService {
     public void endOfProbationChecking() {
 
         Volunteer volunteer = volunteerServiceImpl.findVolunteer(1L);
-        Collection<PetOwner> petOwnersList = petOwnerServiceImpl.getPetOwnerWithZeroDayOfProbation();
+        Collection<PetOwner> petOwnersList;
+        try {
+            petOwnersList = petOwnerServiceImpl.getPetOwnerWithZeroDayOfProbation();
+        } catch (NotFoundException e) {
+            return;
+        }
 
         if (petOwnersList.isEmpty()) {
             logger.info("No pet owners with days of probation equal zero");
