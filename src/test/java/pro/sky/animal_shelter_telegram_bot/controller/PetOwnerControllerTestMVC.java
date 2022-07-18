@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsForControllerTests.*;
 
 @WebMvcTest(controllers = PetOwnerController.class)
-public class PetOwnerTestMVC {
+public class PetOwnerControllerTestMVC {
 
     private final String LOCAL_URL = URL + PORT + "/" + PET_OWNER_URL + "/";
 
