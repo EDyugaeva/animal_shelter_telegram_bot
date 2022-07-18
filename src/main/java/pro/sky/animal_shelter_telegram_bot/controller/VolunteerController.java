@@ -1,3 +1,4 @@
+
 package pro.sky.animal_shelter_telegram_bot.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,17 +14,15 @@ import org.springframework.web.bind.annotation.*;
 import pro.sky.animal_shelter_telegram_bot.model.Volunteer;
 import pro.sky.animal_shelter_telegram_bot.service.VolunteerService;
 
+import java.util.Collection;
+
+import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsOfControllers.HELLO_MESSAGE_VOLUNTEER_CONTROLLER;
+
 @RestController
 @RequestMapping("volunteer")
 public class VolunteerController {
 
     private final VolunteerService volunteerService;
-
-    private final String HELLO_MESSAGE = "You can do it by information of volunteer:\n" +
-            "1. add information about the volunteer\n" +
-            "2. get information about the volunteer\n" +
-            "2. update information about the volunteer\n" +
-            "4. remove information about rhe volunteer\n";
 
     public VolunteerController(VolunteerService volunteerService) {
         this.volunteerService = volunteerService;
@@ -42,8 +41,8 @@ public class VolunteerController {
             tags = "Volunteers"
     )
     @GetMapping
-    public String helloMessage(){
-        return HELLO_MESSAGE;
+    public String helloMessage() {
+        return HELLO_MESSAGE_VOLUNTEER_CONTROLLER;
     }
 
     @Operation(
@@ -58,7 +57,11 @@ public class VolunteerController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "If volunteer not found"
+                            description = "If volunteer not found",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Volunteers"
@@ -113,8 +116,12 @@ public class VolunteerController {
                                     schema = @Schema(implementation = Volunteer.class))
                     ),
                     @ApiResponse(
-                            responseCode = "404",
-                            description = "If volunteer not found"
+                            responseCode = "400",
+                            description = "If volunteer not found, will be received bad request",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Volunteers"
@@ -133,18 +140,78 @@ public class VolunteerController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Volunteer is delete from Database"
+                            description = "Volunteer is delete from Database",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "If volunteer not found"
+                            description = "If volunteer not found",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Volunteers"
     )
     @DeleteMapping("{id}")
     public ResponseEntity<Volunteer> deleteVolunteer(@PathVariable Long id) {
-        volunteerService.deleteVolunteer(id);
-        return ResponseEntity.ok().build();
+        if (volunteerService.deleteVolunteer(id) == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(volunteerService.deleteVolunteer(id));
     }
+
+    @Operation(
+            summary = "Find all volunteer",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "List of volunteers",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Collection.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "If volunteer not found",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
+                    )
+            },
+            tags = "Volunteers"
+    )
+    @GetMapping(path = "/all")
+    public ResponseEntity<String> findAll() {
+        return ResponseEntity.ok(volunteerService.findAllVolunteer().toString());
+    }
+
+    @Operation(
+            summary = "Set phone number to find chat id in data base",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Volunteer"
+                    )
+            },
+            tags = "Volunteers"
+    )
+    @PutMapping(path = "/phone-number")
+    public ResponseEntity<Volunteer> editVolunteer(@RequestParam Long id,
+                                                   @RequestParam String phoneNumber) {
+        Volunteer editVolunteer = volunteerService.findVolunteer(id);
+        if (editVolunteer == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        volunteerService.setVolunteersPhoneNumber(editVolunteer, phoneNumber);
+        volunteerService.changeVolunteer(editVolunteer);
+        return ResponseEntity.ok(editVolunteer);
+    }
+
 }

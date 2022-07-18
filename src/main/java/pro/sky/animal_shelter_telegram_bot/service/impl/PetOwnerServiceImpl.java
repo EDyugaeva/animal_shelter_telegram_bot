@@ -1,5 +1,6 @@
 package pro.sky.animal_shelter_telegram_bot.service.impl;
 
+import liquibase.pro.packaged.L;
 import liquibase.repackaged.org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +8,11 @@ import org.springframework.stereotype.Service;
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 import pro.sky.animal_shelter_telegram_bot.repository.PetOwnerRepository;
 import pro.sky.animal_shelter_telegram_bot.service.PetOwnerService;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Service for working with repository PetOwnerRepository
@@ -30,30 +36,36 @@ public class PetOwnerServiceImpl implements PetOwnerService {
     }
 
     @Override
-    public void deletePetOwner(PetOwner petOwner) {
-        petOwnerRepository.deleteById(petOwner.getId());
-        logger.info("Pet owner {} is deleted", petOwner);
-
-    }
-
-    @Override
-    public void deletePetOwner(Long id) {
+    public PetOwner deletePetOwner(Long id) {
+        if (petOwnerRepository.findById(id).isEmpty()) {
+            logger.info("Pet owner with id {} is not found", id);
+            return null;
+        }
+        PetOwner deletePetOwner = petOwnerRepository.findById(id).get();
         petOwnerRepository.deleteById(id);
         logger.info("Pet owner with id {} is deleted", id);
-
+        return deletePetOwner;
     }
 
     @Override
     public PetOwner findPetOwner(Long id) {
-        PetOwner findingPetOwner = petOwnerRepository.findById(id).get();
+        if (petOwnerRepository.findById(id).isEmpty()) {
+            logger.info("Pet owner with id {} is not found", id);
+            return null;
+        }
+        PetOwner petOwner = petOwnerRepository.findById(id).get();
         logger.info("Pet owner with id {} is found", id);
-        return findingPetOwner;
+        return petOwner;
     }
 
     @Override
     public PetOwner changePetOwner(PetOwner petOwner) {
+        if (petOwnerRepository.findById(petOwner.getId()).isEmpty()) {
+            logger.info("Pet owner with id {} is not found", petOwner.getId());
+            return null;
+        }
         PetOwner changingPetOwner = petOwnerRepository.save(petOwner);
-        logger.info("Pet owner {} is saved", petOwner);
+        logger.info("Pet owner with id {} is saved", petOwner);
         return changingPetOwner;
     }
 
@@ -61,10 +73,9 @@ public class PetOwnerServiceImpl implements PetOwnerService {
      * add phone number to database from bot
      *
      * @param newPhoneNumber - String from update (message) from telegram
-     * @param chatId - chat id fron update (telegram)
+     * @param chatId         - chat id from update (telegram)
      * @return string message with phone number (how it was saved in database)
      * @throws NullPointerException - when message is empty
-     * @throws IllegalArgumentException - when message has incorrect letters or symbols
      */
     @Override
     public String setPetOwnersPhoneNumber(String newPhoneNumber, Long chatId) {
@@ -72,13 +83,7 @@ public class PetOwnerServiceImpl implements PetOwnerService {
             logger.info("Phone number is empty");
             throw new NullPointerException("Phone number is empty");
         }
-        String chars = "qwertyuiopasdfghjklzxcvbnm,./[];'{}#$%^&*";
-        newPhoneNumber = newPhoneNumber.trim().replace("(", "").replace(")", "").replace("-", "");
 
-        if (StringUtils.containsAny(newPhoneNumber, chars) || newPhoneNumber.length() > 11) {
-            logger.info("Phone number is written with mistake");
-            throw new IllegalArgumentException("Неправильно введен номер");
-        }
         PetOwner petOwner = petOwnerRepository.findPetOwnerByChatId(chatId).orElse(new PetOwner());
         petOwner.setChatId(chatId);
         petOwner.setPhoneNumber(newPhoneNumber);
@@ -87,4 +92,71 @@ public class PetOwnerServiceImpl implements PetOwnerService {
         return newPhoneNumber;
     }
 
+    @Override
+    public Collection<PetOwner> getPetOwnerByDayOfProbation() {
+        List<PetOwner> petOwnersList = new ArrayList<>(petOwnerRepository.getPetOwnerByDayOfProbation());
+        logger.info("Get list of pet owners with days of probation more then zero");
+        return petOwnersList;
+    }
+
+    @Override
+    public Collection<PetOwner> getPetOwnerWithZeroDayOfProbation() {
+        List<PetOwner> petOwnersList = new ArrayList<>(petOwnerRepository.getPetOwnerWithZeroDayOfProbation());
+        logger.info("Get list of pet owners with days of probation equal zero");
+        return petOwnersList;
+    }
+
+
+    /**
+     * Add name to database from bot
+     *
+     * @param name - String from update (message) from telegram
+     * @param id   - chat id fron update (telegram)
+     * @return string message with name
+     */
+        @Override
+    public String setPetOwnersName(String name, Long id) {
+        if (name.isEmpty()) {
+            logger.info("Name is empty");
+            throw new NullPointerException("Name is empty");
+        }
+        PetOwner petOwner = petOwnerRepository.findPetOwnerByChatId(id).orElse(new PetOwner());
+        petOwner.setChatId(id);
+        petOwner.setFirstName(name);
+        logger.info("Name {} is saved", name);
+        petOwnerRepository.save(petOwner);
+
+        return name;
+    }
+
+    /**
+     * @param chatId - chat id
+     * @return true if pet owner has name
+     */
+    @Override
+    public boolean petOwnerHasPhoneNumber(Long chatId) {
+        PetOwner petOwner = petOwnerRepository.findPetOwnerByChatId(chatId).orElse(new PetOwner());
+        if (petOwner.getPhoneNumber() != null) return true;
+        return false;
+    }
+
+    /**
+     * @param id - chat id from telegram
+     * @return Pet owner or new Pet owner
+     */
+    @Override
+    public PetOwner findPetOwnerByChatId(Long id) {
+        PetOwner findingPetOwner = petOwnerRepository.findPetOwnerByChatId(id).orElse(new PetOwner());
+        logger.info("Pet owner with chat id {} is found", id);
+        return findingPetOwner;
+    }
+
+    @Override
+    public Long getPetOwnerChatIdByPhoneNumber(String phoneNumber) {
+        PetOwner petOwner = petOwnerRepository.findPetOwnerByPhoneNumber(phoneNumber).get();
+        if (petOwner != null && petOwner.getChatId() != null) {
+            return petOwner.getChatId();
+        }
+        throw new NullPointerException("Pet Owner does not exist");
+    }
 }

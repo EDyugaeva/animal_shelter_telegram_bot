@@ -1,9 +1,11 @@
 package pro.sky.animal_shelter_telegram_bot.listener;
 
+import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
+
 public class MessageConstance {
 
     public static final String BUTTON1_1 = "Узнать информацию о приюте";
-    public static final String BUTTON1_2 = "Как взять собаку из приюта";
+    public static final String BUTTON1_2 = "Как взять питомца из приюта";
     public static final String BUTTON1_3 = "Прислать отчет о питомце";
     public static final String BUTTON_ASKING_VOLUNTEER = "Позвать волонтера";
     public static final String BUTTON_INFO_SHELTER = "О приюте";
@@ -20,17 +22,27 @@ public class MessageConstance {
 
     public static final String BUTTON_RECOMMENDATION_ABOUT_TRANSPORTATION = "Список рекомендаций по транспортировке животного";
 
-    public static final String BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_PUPPY = "Список рекомендаций по обустройству дома для щенка";
+    public static final String BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_PUPPY = "Список рекомендаций по обустройству дома для щенка или котенка";
 
-    public static final String BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_ADULT_DOG = "Список рекомендаций по обустройству дома для взрослой собаки";
+    public static final String BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_ADULT_DOG = "Список рекомендаций по обустройству дома для взрослого животного";
 
-    public static final String BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_DOG_WITH_LIMITED_OPPORTUNITIES = "Список рекомендаций по обустройству дома для собаки с ограниченными возможностями";
+    public static final String BUTTON_RECOMMENDATION_ABOUT_HOME_FOR_DOG_WITH_LIMITED_OPPORTUNITIES = "Список рекомендаций по обустройству дома для животного с ограниченными возможностями";
 
     public static final String BUTTON_ADVICE_CYNOLOGIST = "Советы кинолога по первичному общению с собакой";
 
     public static final String BUTTON_LIST_OF_CYNOLOGISTS = "Список проверенных кинологов";
 
-    public static final String BUTTON_LIST_OF_REASONS_OF_REFUSIAL = "Список причин отказа в заборе собаки из приюта";
+    public static final String BUTTON_LIST_OF_REASONS_OF_REFUSIAL = "Список причин отказа в заборе питомца из приюта";
+
+    public static final String BUTTON_BACK = "Назад в основное меню";
+
+    public static final String BUTTON_CHOSE_SHELTER = "К выбору приюта";
+
+    public static final ReplyKeyboardMarkup KEYBOARD_BACK = new ReplyKeyboardMarkup(
+            BUTTON_BACK)
+            .oneTimeKeyboard(true)
+            .resizeKeyboard(true)
+            .selective(true);
 
 
 

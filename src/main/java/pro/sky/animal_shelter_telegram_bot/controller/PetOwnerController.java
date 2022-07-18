@@ -1,3 +1,4 @@
+
 package pro.sky.animal_shelter_telegram_bot.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,16 +14,13 @@ import org.springframework.web.bind.annotation.*;
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 import pro.sky.animal_shelter_telegram_bot.service.PetOwnerService;
 
+import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsOfControllers.HELLO_MESSAGE_OF_PET_OWNER_CONTROLLER;
+
 @RestController
 @RequestMapping("/pet-owner")
 public class PetOwnerController {
 
     private final PetOwnerService petOwnerService;
-    private final String HELLO_MESSAGE = "You can do it by information of pet owner:\n" +
-            "1. add information about the owner of the pet\n" +
-            "2. get information about the owner of the pet\n" +
-            "2. update information about the owner of the pet\n" +
-            "4. remove information about the owner of the pet\n";
 
     public PetOwnerController(PetOwnerService petOwnerService) {
         this.petOwnerService = petOwnerService;
@@ -42,7 +40,7 @@ public class PetOwnerController {
     )
     @GetMapping
     public String helloMessage(){
-        return HELLO_MESSAGE;
+        return HELLO_MESSAGE_OF_PET_OWNER_CONTROLLER;
     }
 
     @Operation(
@@ -57,7 +55,11 @@ public class PetOwnerController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "If pet owner not found"
+                            description = "If pet owner not found",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Pet owners"
@@ -112,8 +114,11 @@ public class PetOwnerController {
                                     schema = @Schema(implementation = PetOwner.class))
                     ),
                     @ApiResponse(
-                            responseCode = "404",
-                            description = "If pet owner not found"
+                            responseCode = "400",
+                            description = "If pet owner not found, will be received bad request",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class))
                     )
             },
             tags = "Pet owners"
@@ -132,18 +137,26 @@ public class PetOwnerController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Pet owner is delete from Database"
+                            description = "Pet owner is delete from Database",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = PetOwner.class))
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "If pets not found"
+                            description = "If pets not found",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class))
                     )
             },
             tags = "Pet owners"
     )
     @DeleteMapping("{id}")
     public ResponseEntity<PetOwner> deletePetOwner(@PathVariable Long id) {
-        petOwnerService.deletePetOwner(id);
-        return ResponseEntity.ok().build();
+        if (petOwnerService.deletePetOwner(id) == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(petOwnerService.deletePetOwner(id));
     }
 }

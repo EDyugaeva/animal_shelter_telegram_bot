@@ -14,13 +14,14 @@ public class PhotoOfPet {
 
     private String filePath;
     private long fileSize;
-    private String mediaType;
-
-    @Lob
     private byte[] data;
 
     @OneToOne
+    @JoinColumn(name = "report_id")
     private Report report;
+
+    public PhotoOfPet() {
+    }
 
     public Long getId() {
         return id;
@@ -29,6 +30,7 @@ public class PhotoOfPet {
     public void setId(Long id) {
         this.id = id;
     }
+
 
     public String getFilePath() {
         return filePath;
@@ -46,13 +48,7 @@ public class PhotoOfPet {
         this.fileSize = fileSize;
     }
 
-    public String getMediaType() {
-        return mediaType;
-    }
 
-    public void setMediaType(String mediaType) {
-        this.mediaType = mediaType;
-    }
 
     public byte[] getData() {
         return data;
@@ -89,7 +85,6 @@ public class PhotoOfPet {
                 "id=" + id +
                 ", filePath='" + filePath + '\'' +
                 ", fileSize=" + fileSize +
-                ", mediaType='" + mediaType + '\'' +
                 ", report=" + report +
                 '}';
     }

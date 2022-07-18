@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c372aedf-8a59-4bde-b1cc-193faa7e50ea" name="Changes" comment="Add method uploadPhotoOfPet in ReportController">
+
+    <list default="true" id="c372aedf-8a59-4bde-b1cc-193faa7e50ea" name="Changes" comment="Update VolunteerController, VolunteerService">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/ReportController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/PhotoOfPetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/PhotoOfPetController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +19,7 @@
       <list>
         <option value="JUnit5 Test Class" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -29,7 +31,8 @@
     </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev" />
+
+        <entry key="$PROJECT_DIR$" value="schelter_to_cats" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -57,7 +60,7 @@
       <map>
         <entry key="com.haulmont.jpb.jpaInspector" value="true" />
         <entry key="com.haulmont.jpb.jpaPalette" value="false" />
-        <entry key="com.haulmont.jpb.jpaStructure" value="false" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
       </map>
     </option>
   </component>
@@ -73,27 +76,28 @@
     </option>
   </component>
   <component name="ProjectId" id="2AlYibeIVMfGhXOhxRNlQOUG6ag" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "last_opened_file_path": "C:/Users/Serge/IdeaProjects/HWSchoolHogwards1",
-    "spring.configuration.checksum": "20064124ef03306e8aff9b2fbdc08871"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Serge/IdeaProjects/HWSchoolHogwards1&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;20064124ef03306e8aff9b2fbdc08871&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -245,6 +249,7 @@
     </configuration>
     <configuration name="AnimalShelterTelegramBotApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <option name="ACTIVE_PROFILES" />
+      
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <module name="animal_shelter_telegram_bot" />
@@ -288,13 +293,14 @@
       <workItem from="1656346981531" duration="310000" />
       <workItem from="1656575790447" duration="1294000" />
       <workItem from="1657038376542" duration="1552000" />
-      <workItem from="1657193279591" duration="12861000" />
-      <workItem from="1657206842227" duration="2777000" />
-      <workItem from="1657209760217" duration="3682000" />
-      <workItem from="1657277331343" duration="2528000" />
-      <workItem from="1657290519782" duration="5999000" />
-      <workItem from="1657307458257" duration="1174000" />
-      <workItem from="1657351702696" duration="12679000" />
+      <workItem from="1657446893805" duration="46000" />
+      <workItem from="1657447013226" duration="20612000" />
+      <workItem from="1657641679870" duration="4808000" />
+      <workItem from="1657903818322" duration="9992000" />
+      <workItem from="1657956598028" duration="670000" />
+      <workItem from="1657957518544" duration="600000" />
+      <workItem from="1657959142078" duration="9357000" />
+
     </task>
     <task id="LOCAL-00001" summary="Модели классов. Создал модели классов, пришлось создать дополнительный класс которго не было в плане PhotoOfPet. Создал абстрактный класс Pet и от него два класса Dog и Cat, но пока у них один и тот же функционал видимо.">
       <created>1655931677499</created>
@@ -464,7 +470,35 @@
       <option name="project" value="LOCAL" />
       <updated>1657374103612</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Add method findPhotoByReportId in ReportController">
+      <created>1657374950308</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1657374950308</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Update PetOwnerController, PetOwnerService">
+      <created>1657654056386</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1657654056386</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Update ReportController, ReportService">
+      <created>1657655159305</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1657655159305</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Update VolunteerController, VolunteerService">
+      <created>1657655935933</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1657655935933</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -512,7 +546,11 @@
     <MESSAGE value="does not work annotation @WebMvcTest, because not bean PetController? because not bean PetService.." />
     <MESSAGE value="Refactor serviceImpl" />
     <MESSAGE value="Add method uploadPhotoOfPet in ReportController" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add method uploadPhotoOfPet in ReportController" />
+    <MESSAGE value="Add method findPhotoByReportId in ReportController" />
+    <MESSAGE value="Update PetOwnerController, PetOwnerService" />
+    <MESSAGE value="Update ReportController, ReportService" />
+    <MESSAGE value="Update VolunteerController, VolunteerService" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update VolunteerController, VolunteerService" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

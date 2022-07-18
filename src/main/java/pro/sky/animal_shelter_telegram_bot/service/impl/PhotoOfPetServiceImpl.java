@@ -1,8 +1,10 @@
 package pro.sky.animal_shelter_telegram_bot.service.impl;
 
+import com.pengrad.telegrambot.model.File;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pro.sky.animal_shelter_telegram_bot.model.Report;
@@ -13,8 +15,12 @@ import pro.sky.animal_shelter_telegram_bot.service.ReportService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Objects;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
@@ -23,7 +29,7 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
  */
 @Service
 public class PhotoOfPetServiceImpl implements PhotoOfPetService {
-
+    @Lazy
     private final ReportService reportService;
 
     private final PhotoOfPetRepository photoOfPetRepository;
@@ -39,9 +45,10 @@ public class PhotoOfPetServiceImpl implements PhotoOfPetService {
 
     /**
      * Save photo to database
-     * @param reportId
+     *
+     * @param reportId - report ID
      * @param photoFile - from telegram
-     * @throws IOException
+     * @throws IOException - if exception in creating directories
      */
     @Override
     public void uploadPhotoOfPet(Long reportId, MultipartFile photoFile) throws IOException {
@@ -76,7 +83,6 @@ public class PhotoOfPetServiceImpl implements PhotoOfPetService {
         photoOfPet.setReport(report);
         photoOfPet.setFilePath(filePath.toString());
         photoOfPet.setFileSize(photoFile.getSize());
-        photoOfPet.setMediaType(photoFile.getContentType());
         try {
             photoOfPet.setData(photoFile.getBytes());
         } catch (IOException e) {
@@ -109,7 +115,6 @@ public class PhotoOfPetServiceImpl implements PhotoOfPetService {
                 BufferedOutputStream bos = new BufferedOutputStream(os, filesize)
         ) {
             response.setStatus(200);
-            response.setContentType(photoOfPet.getMediaType());
             response.setContentLength((int) photoOfPet.getFileSize());
             bis.transferTo(bos);
         } catch (IOException e) {
@@ -120,7 +125,36 @@ public class PhotoOfPetServiceImpl implements PhotoOfPetService {
 
     @Override
     public PhotoOfPet findPhotoByReportId(Long reportId) {
-        return photoOfPetRepository.findByReportId(reportId).orElse(new PhotoOfPet());
+        return photoOfPetRepository.findPhotoOfPetByReportId(reportId).orElse(new PhotoOfPet());
     }
 
+    /**
+     *  Saving (or changing) photo to database (without setting other params)
+     * @param chatId  - from update
+     * @param data - bytes[] from message
+     * @param file - from message
+     * @param date - date now
+     * @throws IOException - if file was not created
+     */
+    @Override
+    public void uploadPhotoFromTg(Long chatId, byte[] data, File file, String date) throws IOException {
+        Report report = reportService.findReportByChatIdAndDate(chatId, date);
+        PhotoOfPet photoOfPet = findPhotoByReportId(report.getId());
+        Path filePath = Path.of(String.valueOf(data), "capture" + "." + getExtensions(Objects.requireNonNull(file.filePath())));
+        try {
+            Files.createDirectories(filePath.getParent());
+            Files.deleteIfExists(filePath);
+        } catch (IOException e) {
+            logger.warn("File is not created");
+            throw new IOException("Error in creating file");
+        }
+
+        photoOfPet.setFilePath(filePath.toString());
+        photoOfPet.setFileSize(file.fileSize());
+        photoOfPet.setData(data);
+
+        photoOfPetRepository.save(photoOfPet);
+
+
+    }
 }
