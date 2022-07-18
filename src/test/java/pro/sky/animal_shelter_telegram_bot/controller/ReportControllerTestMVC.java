@@ -48,7 +48,6 @@ public class ReportControllerTestMVC {
     private final String DATE_OF_REPORT = "12.12.2021";
     private final String DIET = "Meat";
     private final String  HEALTH = "Health is nice";
-    private final boolean IS_REPORT_CHECKED = true;
     private final String RESULT = "Report is fine";
     private final JSONObject reportObject = new JSONObject();
 
@@ -58,13 +57,11 @@ public class ReportControllerTestMVC {
         reportObject.put("dateOfReport", DATE_OF_REPORT);
         reportObject.put("diet", DIET);
         reportObject.put("health", HEALTH);
-        reportObject.put("isReportChecked", IS_REPORT_CHECKED);
         reportObject.put("result", RESULT);
         REPORT.setId(ID);
         REPORT.setdateOfReport(DATE_OF_REPORT);
         REPORT.setDiet(DIET);
         REPORT.setHealth(HEALTH);
-        REPORT.setReportChecked(IS_REPORT_CHECKED);
         REPORT.setResult(RESULT);
     }
 
