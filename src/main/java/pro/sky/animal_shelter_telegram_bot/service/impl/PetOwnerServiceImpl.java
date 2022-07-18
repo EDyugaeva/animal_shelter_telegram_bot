@@ -141,9 +141,9 @@ public class PetOwnerServiceImpl implements PetOwnerService {
         petOwner.setChatId(id);
         petOwner.setFirstName(name);
         petOwner.setDayOfProbation(-1);
+        petOwnerRepository.save(petOwner);
 
         logger.info("Name {} is saved", name);
-        petOwnerRepository.save(petOwner);
 
         return petOwner;
     }
@@ -216,6 +216,7 @@ public class PetOwnerServiceImpl implements PetOwnerService {
         String message = "Поздравляем! Ваш испытательный срок прошел успешно!";
         sendMessage(chatId, message);
         petOwner.setDayOfProbation(-1);
+        petOwnerRepository.save(petOwner);
         return "Испытательный срок усыновителя с id = " + id + " прошел успешно!";
     }
 
@@ -230,6 +231,7 @@ public class PetOwnerServiceImpl implements PetOwnerService {
         String message = "Вы не прошли испытательный срок. С вами свяжется волонтер и объяснит, как действовать дальше";
         sendMessage(chatId, message);
         petOwner.setDayOfProbation(-100);
+        petOwnerRepository.save(petOwner);
 
         return "Испытательный срок усыновителя с id = " + id + " прошел не успешно!. Свяжитесь с ним по номеру : " + petOwner.getPhoneNumber();
     }
