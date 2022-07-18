@@ -3,6 +3,7 @@ package pro.sky.animal_shelter_telegram_bot.controller;
 public class ConstantsForControllerTests {
 
     public final static String URL = "http://localhost:";
+    public final static String PORT = "8080";
     public final static String PET_URL = "pet";
     public final static String PET_OWNER_URL = "pet-owner";
     public final static String REPORT_URL = "report";

@@ -23,13 +23,10 @@ public class PetOwner {
 
     @OneToMany(mappedBy = "ownerOfPet")
     @JsonIgnore
-
     private Collection<Pet> listOfAdoptedPets;
 
     @OneToMany(mappedBy = "petOwner")
     @JsonIgnore
-
-
     private Collection<Report> reports;
 
     public Long getId() {
