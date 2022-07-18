@@ -114,7 +114,6 @@ public class VolunteerServiceImpl implements VolunteerService {
         List<Volunteer> volunteerList = volunteerRepository.findAll();
         if (volunteerList.isEmpty()) {
             logger.error("Volunteer list is empty");
-            throw new NotFoundException("Volunteer are empty");
         }
         return volunteerList;
     }
