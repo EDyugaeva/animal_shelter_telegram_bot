@@ -40,6 +40,7 @@ public class PetOwnerServiceTest {
 
         when(petOwnerRepository.findPetOwnerByChatId(any(Long.class))).thenReturn(Optional.of(petOwner));
 
+
         Assertions.assertEquals(out.setPetOwnersPhoneNumber(testPhoneNumber, id), testPhoneNumber);
 
         Assertions.assertThrows(NullPointerException.class,() -> out.setPetOwnersPhoneNumber("", id));

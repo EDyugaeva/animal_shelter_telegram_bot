@@ -116,6 +116,7 @@ ALTER TABLE photo_of_pet add COLUMN url text;
 
 ALTER TABLE volunteer ALTER COLUMN extra_info DROP NOT NULL;
 
+
 --changeSet edygaeva:7
 
 ALTER TABLE photo_of_pet drop COLUMN media_type;

@@ -16,6 +16,7 @@ import com.pengrad.telegrambot.response.GetFileResponse;
 import com.pengrad.telegrambot.response.SendResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 import pro.sky.animal_shelter_telegram_bot.model.Volunteer;
@@ -271,10 +272,18 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         } else if (!update.message().text().equals(BUTTON1_3)) {
             logger.info("Report is saving (text)");
             try {
-                String message = reportService.setReportToDataBase(update.message().text(), chatId, localDate);
-                sendMessage(update, "Отчет " + message + " сохранен");
+                String[] message = reportService.setReportToDataBase(update.message().text(), chatId, localDate);
+                sendMessage(update, "Состояние здоровья: " + message[0] + " сохранено");
+                sendMessage(update, "Диета питомца: " + message[1] + " сохранено");
+                sendMessage(update, "Изменение в поведении: " + message[2] + " сохранено");
+                sendMessageWithKeyboard(update, "А теперь отправьте фотографию своего питомца", KEYBOARD_BACK);
             } catch (IllegalArgumentException e) {
                 sendMessage(update, "Отчет заполнен с ошибкой");
+            }
+            catch (InvalidDataAccessApiUsageException e) {
+                savingReport = false;
+                sendMessage(update, "У вас нет питомца. Обратитесь в приют");
+                sendMenu(update);
             }
             sendMessage(update, "А теперь отправьте фотографию своего питомца", KEYBOARD_BACK);
         }

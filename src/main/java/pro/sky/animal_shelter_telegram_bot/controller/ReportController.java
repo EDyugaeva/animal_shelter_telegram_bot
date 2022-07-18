@@ -39,7 +39,7 @@ public class ReportController {
             tags = "Reports"
     )
     @GetMapping
-    public String helloMessage(){
+    public String helloMessage() {
         return HELLO_MESSAGE_OF_REPORT_CONTROLLER;
     }
 
@@ -162,5 +162,34 @@ public class ReportController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok(reportService.deleteReport(id));
+    }
+
+    @Operation(
+            summary = "Set mark on report",
+
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Mark was sent correctly",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Report.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "If report not found, will be received bad request",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
+                    )
+            },
+            tags = "Reports"
+    )
+    @PutMapping("/markReport")
+    public ResponseEntity<Report> setMarkOnReport(@RequestParam(name = "Id отчета") Long id,
+                                                  @RequestParam(name = "Хороший/нормальный/плохой") String result) {
+
+        return ResponseEntity.ok(reportService.setMarkOnReport(id, result));
     }
 }
