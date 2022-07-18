@@ -96,7 +96,7 @@ public class Pet {
                 ", nameOfPet='" + nameOfPet + '\'' +
                 ", health='" + health + '\'' +
                 ", extraInfoOfPet='" + extraInfoOfPet + '\'' +
-                ", ownerOfPet=" + ownerOfPet +
+                ", ownerOfPet=" + ownerOfPet.getFirstName() +
                 '}';
     }
 }

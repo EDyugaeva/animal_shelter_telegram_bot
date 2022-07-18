@@ -1,5 +1,6 @@
 package pro.sky.animal_shelter_telegram_bot.service;
 
+import pro.sky.animal_shelter_telegram_bot.model.Report;
 import pro.sky.animal_shelter_telegram_bot.model.Volunteer;
 
 import java.util.List;
@@ -19,4 +20,5 @@ public interface VolunteerService {
     Volunteer findVolunteerByPhoneNumber(String phoneNumber);
 
     List<Volunteer> findAllVolunteer();
+
 }

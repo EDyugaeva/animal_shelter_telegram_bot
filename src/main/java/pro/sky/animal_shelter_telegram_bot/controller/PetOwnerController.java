@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 import pro.sky.animal_shelter_telegram_bot.service.PetOwnerService;
 
+import java.util.Collection;
+
 import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsOfControllers.HELLO_MESSAGE_OF_PET_OWNER_CONTROLLER;
 
 @RestController
@@ -39,7 +41,7 @@ public class PetOwnerController {
             tags = "Pet owners"
     )
     @GetMapping
-    public String helloMessage(){
+    public String helloMessage() {
         return HELLO_MESSAGE_OF_PET_OWNER_CONTROLLER;
     }
 
@@ -158,5 +160,114 @@ public class PetOwnerController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok(petOwnerService.deletePetOwner(id));
+    }
+
+
+    @Operation(
+            summary = "Find pet owners with day of probation = 0",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Found pet owners:",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = PetOwner.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "If pet owner not found",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
+                    )
+            },
+            tags = "Pet owners"
+    )
+    @GetMapping(path = "/zero-probation")
+    public ResponseEntity<Collection<PetOwner>> findPetOwner() {
+        Collection<PetOwner> petOwner = petOwnerService.getPetOwnerWithZeroDayOfProbation();
+        return ResponseEntity.ok(petOwner);
+    }
+
+    @Operation(
+            summary = "Update information about a pet owner",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Update information",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = PetOwner.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "If pet owner not found",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
+                    )
+
+            },
+            tags = "Pet owners"
+    )
+    @PutMapping("/probation-days")
+    public ResponseEntity<PetOwner> changeDayOfProbationInPetOwner(@Parameter(description = "Pet owner id", example = "15") @RequestParam Long id,
+                                                                   @Parameter(description = "amount of extra day (could be negative)", example = "-2") @RequestParam Integer amountOfDays) {
+        PetOwner petOwner = petOwnerService.setExtraDayOfProbation(id, amountOfDays);
+
+        return ResponseEntity.ok(petOwner);
+    }
+
+    @Operation (
+            summary = "Say, that probation is over",
+            responses = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Update information",
+                    content = @Content(
+                            mediaType = MediaType.TEXT_PLAIN_VALUE)
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "If pet owner not found",
+                    content = @Content(
+                            mediaType = MediaType.TEXT_PLAIN_VALUE
+                    )
+            )
+    },
+            tags = "Pet owners"
+    )
+    @PutMapping("/probation")
+    public ResponseEntity<String> probationIsOver(@Parameter (description = "Pet owner id", example = "25")@RequestParam Long id) {
+        String message = petOwnerService.sayThatProbationIsOverSuccessfully(id);
+        return ResponseEntity.ok(message);
+    }
+
+    @Operation (
+            summary = "Say, that probation is over",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Update information",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE)
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "If pet owner not found",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE
+                            )
+                    )
+
+            },
+            tags = "Pet owners"
+    )
+    @PutMapping("/probation-unsuccessfully")
+    public ResponseEntity<String> probationIsOverUnsuccessfully(@Parameter (description = "Pet owner id", example = "25")@RequestParam Long id) {
+        String message = petOwnerService.sayThatProbationIsOverNotSuccessfully(id);
+        return ResponseEntity.ok(message);
     }
 }

@@ -6,13 +6,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 import pro.sky.animal_shelter_telegram_bot.model.Report;
 import pro.sky.animal_shelter_telegram_bot.model.Volunteer;
+import pro.sky.animal_shelter_telegram_bot.service.PetOwnerService;
+import pro.sky.animal_shelter_telegram_bot.service.ReportService;
 import pro.sky.animal_shelter_telegram_bot.service.SchedulerService;
+import pro.sky.animal_shelter_telegram_bot.service.VolunteerService;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Service for working with repository SchedulerRepository
@@ -21,25 +26,30 @@ import java.util.Collection;
 @Service
 public class SchedulerServiceImpl implements SchedulerService {
 
-    private final PetOwnerServiceImpl petOwnerServiceImpl;
+    private final PetOwnerService petOwnerService;
     private final TelegramBot telegramBot;
-    private final VolunteerServiceImpl volunteerServiceImpl;
-    private final ReportServiceImpl reportServiceImpl;
+    private final VolunteerService volunteerService;
+    private final ReportService reportService;
 
     private final Logger logger = LoggerFactory.getLogger(SchedulerServiceImpl.class);
 
-    public SchedulerServiceImpl(PetOwnerServiceImpl petOwnerServiceImpl, TelegramBot telegramBot, VolunteerServiceImpl volunteerServiceImpl, ReportServiceImpl reportServiceImpl) {
-        this.petOwnerServiceImpl = petOwnerServiceImpl;
+    public SchedulerServiceImpl(PetOwnerService petOwnerServiceImpl, TelegramBot telegramBot, VolunteerService volunteerServiceImpl, ReportService reportServiceImpl) {
+        this.petOwnerService = petOwnerServiceImpl;
         this.telegramBot = telegramBot;
-        this.volunteerServiceImpl = volunteerServiceImpl;
-        this.reportServiceImpl = reportServiceImpl;
+        this.volunteerService = volunteerServiceImpl;
+        this.reportService = reportServiceImpl;
     }
 
     @Scheduled(cron = "0 0/1 * * * *")
     public void endOfProbationChecking() {
 
-        Volunteer volunteer = volunteerServiceImpl.findVolunteer(1L);
-        Collection<PetOwner> petOwnersList = petOwnerServiceImpl.getPetOwnerWithZeroDayOfProbation();
+        Volunteer volunteer = volunteerService.findVolunteer(1L);
+        Collection<PetOwner> petOwnersList;
+        try {
+            petOwnersList = petOwnerService.getPetOwnerWithZeroDayOfProbation();
+        } catch (NotFoundException e) {
+            return;
+        }
 
         if (petOwnersList.isEmpty()) {
             logger.info("No pet owners with days of probation equal zero");
@@ -56,12 +66,8 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     @Scheduled(cron = "5 0/1 * * * *")
     public void dailyReportReminder() {
-
-        Collection<PetOwner> petOwnersList = petOwnerServiceImpl.getPetOwnerByDayOfProbation();
-
-        if (petOwnersList.isEmpty()) {
-            logger.info("No pet owners with days of probation more then zero");
-        } else {
+        try {
+            Collection<PetOwner> petOwnersList = petOwnerService.getPetOwnerByDayOfProbation();
             for (PetOwner petOwner : petOwnersList) {
                 logger.info("Processing scheduler task dailyReportReminder for {}", petOwner);
                 SendMessage dailyReportReminderMsg = new SendMessage(petOwner.getChatId(),
@@ -69,27 +75,35 @@ public class SchedulerServiceImpl implements SchedulerService {
                                 "! Пришлите, пожалуйста, ежедневный отчёт о состоянии Вашего питомца.");
                 telegramBot.execute(dailyReportReminderMsg);
                 petOwner.setDayOfProbation(petOwner.getDayOfProbation() - 1);
-                petOwnerServiceImpl.changePetOwner(petOwner);
+                petOwnerService.changePetOwner(petOwner);
             }
+
+        } catch (NotFoundException e) {
+            logger.info("No pet owners with days of probation more then zero");
+
         }
     }
 
     @Scheduled(cron = "0 0/2 * * * *")
     public void volunteerCheckReportReminder() {
-
-        Volunteer volunteer = volunteerServiceImpl.findVolunteer(1L);
-        Collection<Report> reportsList = new ArrayList<>(reportServiceImpl.getUncheckedReports());
-
-        if (reportsList.isEmpty()) {
-            logger.info("No reports to check.");
-        } else {
-            logger.info("Processing scheduler task volunteerCheckReportReminder for {}", volunteer);
-            for (Report report : reportsList) {
-                SendMessage volunteerCheckReportReminderMsg = new SendMessage(volunteer.getChatId(),
-                        "Привет, " + volunteer.getFirstName() + " " + volunteer.getLastName() +
-                                "! Тебе необходимо проверить отчёт с ID=" + report.getId().toString());
-                telegramBot.execute(volunteerCheckReportReminderMsg);
+        List<Volunteer> volunteerList = volunteerService.findAllVolunteer();
+        if (!volunteerList.isEmpty()) {
+            try {
+                Collection<Report> reportsList = new ArrayList<>(reportService.getUncheckedReports());
+                for (Volunteer volunteer : volunteerList) {
+                    logger.info("Processing scheduler task volunteerCheckReportReminder for {}", volunteer);
+                    for (Report report : reportsList) {
+                        SendMessage volunteerCheckReportReminderMsg = new SendMessage(volunteer.getChatId(),
+                                "Привет, " + volunteer.getFirstName() + " " + volunteer.getLastName() +
+                                        "! Тебе необходимо проверить отчёт с ID=" + report.getId().toString());
+                        telegramBot.execute(volunteerCheckReportReminderMsg);
+                    }
+                }
+            } catch (NullPointerException e) {
+                logger.info("All reports are checked");
             }
+        } else {
+            logger.error("We do not have volunteers");
         }
     }
 
