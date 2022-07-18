@@ -8,9 +8,7 @@ public interface PetOwnerService {
 
     PetOwner addPetOwner(PetOwner petOwner);
 
-    void deletePetOwner(PetOwner petOwner);
-
-    boolean deletePetOwner(Long id);
+    PetOwner deletePetOwner(Long id);
 
     PetOwner findPetOwner(Long id);
 

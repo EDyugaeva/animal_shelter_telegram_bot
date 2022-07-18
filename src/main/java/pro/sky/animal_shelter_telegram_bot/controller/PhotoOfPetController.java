@@ -50,11 +50,10 @@ public class PhotoOfPetController {
     @GetMapping(value = "/{id}/photo")
     public ResponseEntity<byte[]> findPhotoByReportId(@PathVariable Long id) {
         PhotoOfPet photoOfPet = photoOfPetService.findPhotoByReportId(id);
-        HttpHeaders headers = new HttpHeaders();
-        if (headers.isEmpty()) {
+        if (photoOfPet.getFileSize() == 0) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        headers.setContentType(MediaType.parseMediaType(photoOfPet.getMediaType()));
+        HttpHeaders headers = new HttpHeaders();
         headers.setContentLength(photoOfPet.getData().length);
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(photoOfPet.getData());
     }

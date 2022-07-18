@@ -6,9 +6,7 @@ public interface PetService {
 
     Pet addPet(Pet pet);
 
-    void deletePet(Pet pet);
-
-    boolean deletePet(Long id);
+    Pet deletePet(Long id);
 
     Pet findPet(Long id);
 

@@ -16,6 +16,7 @@ import com.pengrad.telegrambot.response.GetFileResponse;
 import com.pengrad.telegrambot.response.SendResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 import pro.sky.animal_shelter_telegram_bot.model.Volunteer;
@@ -26,6 +27,8 @@ import pro.sky.animal_shelter_telegram_bot.service.VolunteerService;
 
 import javax.annotation.PostConstruct;
 
+import java.io.IOError;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -214,9 +217,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 sendMessage(update, "в данный момент нет свободных волонтеров. Пожалуйста, обратитесь позже");
 
             }
-
         }
-
     }
 
     /**
@@ -234,7 +235,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             } else {
                 logger.warn("Message was not sent. Error code:  " + response.errorCode());
             }
-
         }
 
     }
@@ -252,28 +252,38 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         if (update.message().text() == null) {
             logger.info("Report is saving (photo)");
 
-            GetFile getFile = new GetFile(update.message().photo()[2].fileId());
+            GetFile getFileRequest = new GetFile(update.message().photo()[2].fileId());
+            GetFileResponse getFileResponse = telegramBot.execute(getFileRequest);
 
-            GetFileResponse response = telegramBot.execute(getFile);
-            File file = response.file();
+            System.out.println(update.message().caption());
 
-            String urlPath = telegramBot.getFullFilePath(file);
+            try {
+                File file = getFileResponse.file();
+                byte[] fileContent = telegramBot.getFileContent(file);
+                photoOfPetService.uploadPhotoFromTg(chatId, fileContent, file, localDate);
 
-            photoOfPetService.savePhotoFromStringURL(urlPath, chatId, localDate, response.file().fileSize(), response.file().filePath());
-            logger.info("filesize = " + response.file().fileSize());
-            logger.info(file.toString());
+            } catch (IOException e) {
+                logger.error("Photo was not downloaded");
+            }
             sendMessage(update, "Фотография успешно сохранена. Спасибо! Ждем нового отчета завтра");
-            logger.info(urlPath);
             savingReport = false;
 
 
         } else if (!update.message().text().equals(BUTTON1_3)) {
             logger.info("Report is saving (text)");
             try {
-                String message = reportService.setReportToDataBase(update.message().text(), chatId, localDate);
-                sendMessage(update, "Отчет " + message + " сохранен");
+                String[] message = reportService.setReportToDataBase(update.message().text(), chatId, localDate);
+                sendMessage(update, "Состояние здоровья: " + message[0] + " сохранено");
+                sendMessage(update, "Диета питомца: " + message[1] + " сохранено");
+                sendMessage(update, "Изменение в поведении: " + message[2] + " сохранено");
+                sendMessageWithKeyboard(update, "А теперь отправьте фотографию своего питомца", KEYBOARD_BACK);
             } catch (IllegalArgumentException e) {
                 sendMessage(update, "Отчет заполнен с ошибкой");
+            }
+            catch (InvalidDataAccessApiUsageException e) {
+                savingReport = false;
+                sendMessage(update, "У вас нет питомца. Обратитесь в приют");
+                sendMenu(update);
             }
             sendMessage(update, "А теперь отправьте фотографию своего питомца", KEYBOARD_BACK);
         }
