@@ -140,9 +140,8 @@ public class PetController {
                             responseCode = "200",
                             description = "Pet is delete from Database",
                             content = @Content(
-                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
-                                    schema = @Schema(implementation = ResponseEntity.class)
-                            )
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Pet.class))
                     ),
                     @ApiResponse(
                             responseCode = "404",
@@ -157,9 +156,9 @@ public class PetController {
     )
     @DeleteMapping("{id}")
     public ResponseEntity<Pet> deletePet(@PathVariable Long id) {
-        if (petService.deletePet(id)) {
-            return ResponseEntity.ok().build();
+        if (petService.deletePet(id) == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.ok(petService.deletePet(id));
     }
 }

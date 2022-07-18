@@ -14,10 +14,6 @@ public class PhotoOfPet {
 
     private String filePath;
     private long fileSize;
-    private String mediaType;
-
-    private String url;
-
     private byte[] data;
 
     @OneToOne
@@ -35,13 +31,6 @@ public class PhotoOfPet {
         this.id = id;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 
     public String getFilePath() {
         return filePath;
@@ -59,13 +48,7 @@ public class PhotoOfPet {
         this.fileSize = fileSize;
     }
 
-    public String getMediaType() {
-        return mediaType;
-    }
 
-    public void setMediaType(String mediaType) {
-        this.mediaType = mediaType;
-    }
 
     public byte[] getData() {
         return data;
@@ -102,7 +85,6 @@ public class PhotoOfPet {
                 "id=" + id +
                 ", filePath='" + filePath + '\'' +
                 ", fileSize=" + fileSize +
-                ", mediaType='" + mediaType + '\'' +
                 ", report=" + report +
                 '}';
     }
