@@ -9,9 +9,6 @@ import pro.sky.animal_shelter_telegram_bot.repository.PetOwnerRepository;
 import pro.sky.animal_shelter_telegram_bot.repository.ReportRepository;
 import pro.sky.animal_shelter_telegram_bot.service.ReportService;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

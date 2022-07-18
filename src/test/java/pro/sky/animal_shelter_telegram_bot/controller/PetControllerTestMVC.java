@@ -122,7 +122,7 @@ public class PetControllerTestMVC {
     }
 
     @Test
-    public void testDeletePetOwner() throws Exception {
+    public void testDeletePet() throws Exception {
         when(petRepository.save(any(Pet.class))).thenReturn(PET);
         when(petRepository.findById(any(Long.class))).thenReturn(Optional.of(PET));
 
@@ -139,7 +139,7 @@ public class PetControllerTestMVC {
     }
 
     @Test
-    public void testDeletePetOwnerIfNotFound() throws Exception {
+    public void testDeletePetIfNotFound() throws Exception {
         when(petRepository.findById(any(Long.class))).thenReturn(Optional.empty());
         mockMvc.perform(MockMvcRequestBuilders.delete(LOCAL_URL + ID)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
