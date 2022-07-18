@@ -255,8 +255,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             GetFile getFileRequest = new GetFile(update.message().photo()[2].fileId());
             GetFileResponse getFileResponse = telegramBot.execute(getFileRequest);
 
-            System.out.println(update.message().caption());
-
             try {
                 File file = getFileResponse.file();
                 byte[] fileContent = telegramBot.getFileContent(file);
@@ -276,7 +274,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 sendMessage(update, "Состояние здоровья: " + message[0] + " сохранено");
                 sendMessage(update, "Диета питомца: " + message[1] + " сохранено");
                 sendMessage(update, "Изменение в поведении: " + message[2] + " сохранено");
-                sendMessageWithKeyboard(update, "А теперь отправьте фотографию своего питомца", KEYBOARD_BACK);
+                sendMessage(update, "А теперь отправьте фотографию своего питомца", KEYBOARD_BACK);
             } catch (IllegalArgumentException e) {
                 sendMessage(update, "Отчет заполнен с ошибкой");
             }

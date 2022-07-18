@@ -129,8 +129,8 @@ public class Report {
     public String toString() {
         return "Report{" +
                 "id=" + id +
-                ", petOwner=" + petOwner +
-                ", pet=" + pet +
+                ", petOwner=" +
+                ", pet=" +
                 ", dateOfReport='" + dateOfReport + '\'' +
                 ", diet='" + diet + '\'' +
                 ", health='" + health + '\'' +

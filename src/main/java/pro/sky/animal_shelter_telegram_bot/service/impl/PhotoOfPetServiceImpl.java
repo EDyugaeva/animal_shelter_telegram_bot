@@ -148,7 +148,7 @@ public class PhotoOfPetServiceImpl implements PhotoOfPetService {
             logger.warn("File is not created");
             throw new IOException("Error in creating file");
         }
-
+        photoOfPet.setReport(report);
         photoOfPet.setFilePath(filePath.toString());
         photoOfPet.setFileSize(file.fileSize());
         photoOfPet.setData(data);
