@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Service for working with repository SchedulerRepository
+ * Service for working with repository SchedulerRepository //??? We will do new table?
  */
 
 @Service
@@ -40,30 +40,42 @@ public class SchedulerServiceImpl implements SchedulerService {
         this.reportService = reportServiceImpl;
     }
 
+    /**
+     * Method is searching for pet owners with day_of_probation = 0
+     * Send every day (!) messages to volunteer with Pet owner IDs
+     *
+     */
     @Scheduled(cron = "0 0/1 * * * *")
     public void endOfProbationChecking() {
 
-        Volunteer volunteer = volunteerService.findVolunteer(1L);
+        List<Volunteer> volunteerList = volunteerService.findAllVolunteers();
         Collection<PetOwner> petOwnersList;
-        try {
-            petOwnersList = petOwnerService.getPetOwnerWithZeroDayOfProbation();
-        } catch (NotFoundException e) {
-            return;
-        }
-
-        if (petOwnersList.isEmpty()) {
-            logger.info("No pet owners with days of probation equal zero");
-        } else {
-            for (PetOwner petOwner : petOwnersList) {
-                logger.info("Processing scheduler task endOfProbationChecking for {}", petOwner);
-                SendMessage endOfProbationCheckingMsg = new SendMessage(volunteer.getChatId(),
-                        "Привет, " + volunteer.getFirstName() + " " + volunteer.getLastName() +
-                                "! Похоже, что у усыновителя с ID=" + petOwner.getId() + " закончился испытательный период. Тебе необходимо решить, что делать дальше.");
-                telegramBot.execute(endOfProbationCheckingMsg);
+        if (!volunteerList.isEmpty()) {
+            try {
+                petOwnersList = petOwnerService.getPetOwnerWithZeroDayOfProbation();
+            } catch (NotFoundException e) {
+                logger.info("No pet owners with days of probation equal zero");
+                return;
             }
+            for (Volunteer volunteer :
+                    volunteerList) {
+                for (PetOwner petOwner : petOwnersList) {
+                    logger.info("Processing scheduler task endOfProbationChecking for {}", petOwner);
+                    SendMessage endOfProbationCheckingMsg = new SendMessage(volunteer.getChatId(),
+                            "Привет, " + volunteer.getFirstName() + " " + volunteer.getLastName() +
+                                    "! Похоже, что у усыновителя с ID=" + petOwner.getId() + " закончился испытательный период. Тебе необходимо решить, что делать дальше.");
+                    telegramBot.execute(endOfProbationCheckingMsg);
+                }
+            }
+        } else {
+            logger.error("Volunteer list is empty");
         }
     }
 
+    /**
+     * Method is sending a notification to a pet owner, of he (or she) did not send a report
+     * Every day
+     */
     @Scheduled(cron = "5 0/1 * * * *")
     public void dailyReportReminder() {
         try {
@@ -84,6 +96,11 @@ public class SchedulerServiceImpl implements SchedulerService {
         }
     }
 
+    /**
+     * Method is searching for reports, which are not checked
+     * Send report IDs to ALL(?) volunteer
+     * Every 2 days
+     */
     @Scheduled(cron = "0 0/2 * * * *")
     public void volunteerCheckReportReminder() {
         List<Volunteer> volunteerList = volunteerService.findAllVolunteers();

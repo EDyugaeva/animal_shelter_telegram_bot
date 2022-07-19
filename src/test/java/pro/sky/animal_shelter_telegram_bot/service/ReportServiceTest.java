@@ -33,7 +33,7 @@ public class ReportServiceTest {
     }
 
     @Test
-    void testSetReportMark() {
+    public void testSetReportMark() {
         String result = "Хороший";
         Report report = new Report();
         report.setPetOwner(new PetOwner());
@@ -53,7 +53,7 @@ public class ReportServiceTest {
 
 
     @Test
-    void testGetUncheckedReport() {
+    public void testGetUncheckedReport() {
         Report report1 = new Report();
         Report report2 = new Report();
 
@@ -72,7 +72,7 @@ public class ReportServiceTest {
     }
 
     @Test
-    void testFindReportByChatIdAndDate() {
+    public void testFindReportByChatIdAndDate() {
         Long chatId = 456789L;
         String date = "17.07.22";
         PetOwner petOwner = new PetOwner();
@@ -94,7 +94,7 @@ public class ReportServiceTest {
 
 
     @Test
-    void testSetReportDoDataBase() {
+    public void testSetReportDoDataBase() {
         Long chatId = 456789L;
         String date = "17.07.22";
 
@@ -114,9 +114,9 @@ public class ReportServiceTest {
 
         String[] outMessage = out.setReportToDataBase(message,chatId, date) ;
 
-        Assertions.assertEquals(health, outMessage);
-        Assertions.assertEquals(diet, outMessage);
-        Assertions.assertEquals(behaviour, outMessage);
+        Assertions.assertEquals(health, outMessage[0]);
+        Assertions.assertEquals(diet, outMessage[1]);
+        Assertions.assertEquals(behaviour, outMessage[2]);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> out.setReportToDataBase("seufsf", chatId, date));
 
