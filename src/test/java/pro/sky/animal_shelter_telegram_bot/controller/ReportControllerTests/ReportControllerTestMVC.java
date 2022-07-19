@@ -45,11 +45,7 @@ public class ReportControllerTestMVC {
     private ReportController reportController;
 
     private final Report REPORT = new Report();
-    private final long ID = 1L;
-    private final String DATE_OF_REPORT = "12.12.2021";
-    private final String DIET = "Meat";
-    private final String  HEALTH = "Health is nice";
-    private final String RESULT = "Report is fine";
+
     private final JSONObject reportObject = new JSONObject();
 
     @BeforeEach

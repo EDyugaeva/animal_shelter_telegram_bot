@@ -1,12 +1,5 @@
 package pro.sky.animal_shelter_telegram_bot.model;
 
-
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
-import java.util.Collection;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;

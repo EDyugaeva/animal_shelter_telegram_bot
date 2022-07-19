@@ -42,10 +42,7 @@ public class PetControllerTestMVC {
     private PetController petController;
 
     private final Pet PET = new Pet();
-    private final long ID = 1L;
-    private final String NAME_OF_PET = "Barsik";
-    private final String HEALTH = "Health is nice";
-    private final String EXTRA_INFO_OF_PET = "This is a dog";
+
     private final JSONObject petOwnerObject = new JSONObject();
 
     @BeforeEach
