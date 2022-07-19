@@ -1,5 +1,6 @@
 package pro.sky.animal_shelter_telegram_bot.controller.PetOwnerControllerTests;
 
+import com.pengrad.telegrambot.TelegramBot;
 import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,6 +35,9 @@ public class PetOwnerControllerTestMVC {
 
     @MockBean
     private PetOwnerRepository petOwnerRepository;
+
+    @MockBean
+    private TelegramBot telegramBot;
 
     @SpyBean
     private PetOwnerServiceImpl petOwnerService;

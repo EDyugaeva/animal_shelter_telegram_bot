@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import pro.sky.animal_shelter_telegram_bot.controller.VolunteerController;
 import pro.sky.animal_shelter_telegram_bot.model.Volunteer;
 import pro.sky.animal_shelter_telegram_bot.repository.VolunteerRepository;
+import pro.sky.animal_shelter_telegram_bot.service.impl.PetOwnerServiceImpl;
 import pro.sky.animal_shelter_telegram_bot.service.impl.VolunteerServiceImpl;
 
 import java.util.Optional;
@@ -34,6 +35,9 @@ public class VolunteerControllerTestMVC {
 
     @MockBean
     private VolunteerRepository volunteerRepository;
+
+    @MockBean
+    private PetOwnerServiceImpl petOwnerService;
 
     @SpyBean
     private VolunteerServiceImpl volunteerService;
