@@ -234,9 +234,14 @@ public class PetOwnerServiceImpl implements PetOwnerService {
         return "Испытательный срок усыновителя с id = " + id + " прошел не успешно!. Свяжитесь с ним по номеру : " + petOwner.getPhoneNumber();
     }
 
+    /**
+     * find petOwners in database
+     *
+     * @return Collection of PetOwners
+     */
     @Override
     public Collection<PetOwner> getAllPetOwners() {
-        logger.info("Was invoked method for get all pets");
+        logger.info("Was invoked method for getAllPetOwners");
         return petOwnerRepository.findAll();
     }
 

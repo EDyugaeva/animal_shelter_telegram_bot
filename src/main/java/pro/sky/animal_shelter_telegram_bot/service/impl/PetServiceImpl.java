@@ -63,9 +63,14 @@ public class PetServiceImpl implements PetService {
         return changingPet;
     }
 
+    /**
+     * find pets in database
+     *
+     * @return Collection of Pet
+     */
     @Override
     public Collection<Pet> getAllPets() {
-        logger.info("Was invoked method for get all pets");
+        logger.info("Was invoked method for getAllPets");
         return petRepository.findAll();
     }
 }

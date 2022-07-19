@@ -86,7 +86,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     @Scheduled(cron = "0 0/2 * * * *")
     public void volunteerCheckReportReminder() {
-        List<Volunteer> volunteerList = volunteerService.findAllVolunteer();
+        List<Volunteer> volunteerList = volunteerService.findAllVolunteers();
         if (!volunteerList.isEmpty()) {
             try {
                 Collection<Report> reportsList = new ArrayList<>(reportService.getUncheckedReports());
