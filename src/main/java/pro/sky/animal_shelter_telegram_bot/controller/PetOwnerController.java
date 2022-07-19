@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
+import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
 import pro.sky.animal_shelter_telegram_bot.service.PetOwnerService;
 
 import java.util.Collection;
@@ -269,5 +270,23 @@ public class PetOwnerController {
     public ResponseEntity<String> probationIsOverUnsuccessfully(@Parameter (description = "Pet owner id", example = "25")@RequestParam Long id) {
         String message = petOwnerService.sayThatProbationIsOverNotSuccessfully(id);
         return ResponseEntity.ok(message);
+    }
+
+    @Operation(
+            summary = "Find all pet owners in pet shelter",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Finding pet owners",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Collection.class))
+                    )
+            },
+            tags = "Pet owners"
+    )
+    @GetMapping("/all")
+    public ResponseEntity<Collection<PetOwner>> findAllPetOwners() {
+        return ResponseEntity.ok(petOwnerService.getAllPetOwners());
     }
 }

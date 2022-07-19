@@ -7,6 +7,8 @@ import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
 import pro.sky.animal_shelter_telegram_bot.repository.PetRepository;
 import pro.sky.animal_shelter_telegram_bot.service.PetService;
 
+import java.util.Collection;
+
 /**
  * Service for working with repository DogRepository
  */
@@ -59,5 +61,16 @@ public class PetServiceImpl implements PetService {
         Pet changingPet = petRepository.save(pet);
         logger.info("Pet with id {} is saved", pet);
         return changingPet;
+    }
+
+    /**
+     * find pets in database
+     *
+     * @return Collection of Pet
+     */
+    @Override
+    public Collection<Pet> getAllPets() {
+        logger.info("Was invoked method for getAllPets");
+        return petRepository.findAll();
     }
 }

@@ -106,11 +106,13 @@ public class VolunteerServiceImpl implements VolunteerService {
     }
 
     /**
+     * find volunteers in database
      *
      * @return list of volunteers
      */
     @Override
-    public List<Volunteer> findAllVolunteer() {
+    public List<Volunteer> findAllVolunteers() {
+        logger.info("Was invoked method for getAllVolunteers");
         List<Volunteer> volunteerList = volunteerRepository.findAll();
         if (volunteerList.isEmpty()) {
             logger.error("Volunteer list is empty");

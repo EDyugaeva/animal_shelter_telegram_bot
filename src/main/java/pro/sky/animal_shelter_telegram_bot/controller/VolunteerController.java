@@ -188,8 +188,8 @@ public class VolunteerController {
             tags = "Volunteers"
     )
     @GetMapping(path = "/all")
-    public ResponseEntity<String> findAll() {
-        return ResponseEntity.ok(volunteerService.findAllVolunteer().toString());
+    public ResponseEntity<Collection<Volunteer>> findAll() {
+        return ResponseEntity.ok(volunteerService.findAllVolunteers());
     }
 
     @Operation(

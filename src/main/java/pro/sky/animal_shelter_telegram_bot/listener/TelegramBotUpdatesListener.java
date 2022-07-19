@@ -27,7 +27,6 @@ import pro.sky.animal_shelter_telegram_bot.service.VolunteerService;
 
 import javax.annotation.PostConstruct;
 
-import java.io.IOError;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
@@ -225,7 +224,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
      * @param message - message from askVolunteer
      */
     private void sendMessageToVolunteer(String message) {
-        List<Volunteer> volunteers = volunteerService.findAllVolunteer();
+        List<Volunteer> volunteers = volunteerService.findAllVolunteers();
         for (Volunteer volunteer : volunteers) {
             Long chatId = volunteer.getChatId();
             SendMessage sendMessage = new SendMessage(chatId, message);

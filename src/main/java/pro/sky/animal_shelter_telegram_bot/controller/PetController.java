@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
 import pro.sky.animal_shelter_telegram_bot.service.PetService;
 
+import java.util.Collection;
+
 import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsOfControllers.HELLO_MESSAGE_OF_PET_CONTROLLER;
 
 @RestController
@@ -160,5 +162,23 @@ public class PetController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok(petService.deletePet(id));
+    }
+
+    @Operation(
+            summary = "Find all pets in pet shelter",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Finding pets",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Collection.class))
+                    )
+            },
+            tags = "Pets"
+    )
+    @GetMapping("/all")
+    public ResponseEntity<Collection<Pet>> findAllPets() {
+        return ResponseEntity.ok(petService.getAllPets());
     }
 }

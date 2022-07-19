@@ -3,7 +3,6 @@ package pro.sky.animal_shelter_telegram_bot.service.impl;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
-import liquibase.pro.packaged.P;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,6 @@ import pro.sky.animal_shelter_telegram_bot.service.PetOwnerService;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Service for working with repository PetOwnerRepository
@@ -234,6 +232,17 @@ public class PetOwnerServiceImpl implements PetOwnerService {
         petOwnerRepository.save(petOwner);
 
         return "Испытательный срок усыновителя с id = " + id + " прошел не успешно!. Свяжитесь с ним по номеру : " + petOwner.getPhoneNumber();
+    }
+
+    /**
+     * find petOwners in database
+     *
+     * @return Collection of PetOwners
+     */
+    @Override
+    public Collection<PetOwner> getAllPetOwners() {
+        logger.info("Was invoked method for getAllPetOwners");
+        return petOwnerRepository.findAll();
     }
 
 
