@@ -34,4 +34,5 @@ public interface PetOwnerService {
 
     String sayThatProbationIsOverNotSuccessfully(Long id);
 
+    Collection<PetOwner> getAllPetOwners();
 }

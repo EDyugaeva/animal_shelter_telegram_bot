@@ -65,7 +65,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public Collection<Pet> getAllPets() {
-        logger.info("Was invoked method for get all students");
+        logger.info("Was invoked method for get all pets");
         return petRepository.findAll();
     }
 }
