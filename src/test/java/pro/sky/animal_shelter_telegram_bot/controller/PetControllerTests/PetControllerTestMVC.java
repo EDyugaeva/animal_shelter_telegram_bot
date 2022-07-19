@@ -1,4 +1,4 @@
-package pro.sky.animal_shelter_telegram_bot.controller;
+package pro.sky.animal_shelter_telegram_bot.controller.PetControllerTests;
 
 import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import pro.sky.animal_shelter_telegram_bot.controller.PetController;
 import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
 import pro.sky.animal_shelter_telegram_bot.repository.PetRepository;
 import pro.sky.animal_shelter_telegram_bot.service.impl.PetServiceImpl;
@@ -41,10 +42,7 @@ public class PetControllerTestMVC {
     private PetController petController;
 
     private final Pet PET = new Pet();
-    private final long ID = 1L;
-    private final String NAME_OF_PET = "Barsik";
-    private final String HEALTH = "Health is nice";
-    private final String EXTRA_INFO_OF_PET = "This is a dog";
+
     private final JSONObject petOwnerObject = new JSONObject();
 
     @BeforeEach

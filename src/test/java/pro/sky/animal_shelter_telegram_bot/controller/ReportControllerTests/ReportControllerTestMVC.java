@@ -1,4 +1,4 @@
-package pro.sky.animal_shelter_telegram_bot.controller;
+package pro.sky.animal_shelter_telegram_bot.controller.ReportControllerTests;
 
 import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import pro.sky.animal_shelter_telegram_bot.controller.ReportController;
 import pro.sky.animal_shelter_telegram_bot.model.Report;
 import pro.sky.animal_shelter_telegram_bot.repository.PetOwnerRepository;
 import pro.sky.animal_shelter_telegram_bot.repository.ReportRepository;
@@ -44,11 +45,7 @@ public class ReportControllerTestMVC {
     private ReportController reportController;
 
     private final Report REPORT = new Report();
-    private final long ID = 1L;
-    private final String DATE_OF_REPORT = "12.12.2021";
-    private final String DIET = "Meat";
-    private final String  HEALTH = "Health is nice";
-    private final String RESULT = "Report is fine";
+
     private final JSONObject reportObject = new JSONObject();
 
     @BeforeEach

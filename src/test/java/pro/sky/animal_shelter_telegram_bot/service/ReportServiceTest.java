@@ -114,9 +114,9 @@ public class ReportServiceTest {
 
         String[] outMessage = out.setReportToDataBase(message,chatId, date) ;
 
-        Assertions.assertEquals(health, outMessage[0]);
-        Assertions.assertEquals(diet, outMessage[1]);
-        Assertions.assertEquals(behaviour, outMessage[2]);
+        Assertions.assertEquals(health, outMessage);
+        Assertions.assertEquals(diet, outMessage);
+        Assertions.assertEquals(behaviour, outMessage);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> out.setReportToDataBase("seufsf", chatId, date));
 

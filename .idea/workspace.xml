@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-
-    <list default="true" id="c372aedf-8a59-4bde-b1cc-193faa7e50ea" name="Changes" comment="Update VolunteerController, VolunteerService">
+    <list default="true" id="c372aedf-8a59-4bde-b1cc-193faa7e50ea" name="Changes" comment="Refactor package in ControllerTests">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/PhotoOfPetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/PhotoOfPetController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/service/ReportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/service/ReportService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/PetOwnerControllerTests/PetOwnerControllerTestMVC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/PetOwnerControllerTests/PetOwnerControllerTestMVC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/VolunteerControllerTests/VolunteerControllerTestMVC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/VolunteerControllerTests/VolunteerControllerTestMVC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/service/ReportServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/service/ReportServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,8 +20,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JUnit5 Test Class" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -31,8 +33,7 @@
     </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-
-        <entry key="$PROJECT_DIR$" value="schelter_to_cats" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -58,9 +59,9 @@
     </option>
     <option name="myId2Visible">
       <map>
-        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
+        <entry key="com.haulmont.jpb.jpaInspector" value="false" />
         <entry key="com.haulmont.jpb.jpaPalette" value="false" />
-        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="false" />
       </map>
     </option>
   </component>
@@ -125,7 +126,7 @@
       <module name="animal_shelter_telegram_bot" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="pro.sky.animal_shelter_telegram_bot.controller.*" />
+          <option name="PATTERN" value="pro.sky.animal_shelter_telegram_bot.controller.PetControllerTests.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -142,7 +143,7 @@
       <module name="animal_shelter_telegram_bot" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="pro.sky.animal_shelter_telegram_bot.controller.*" />
+          <option name="PATTERN" value="pro.sky.animal_shelter_telegram_bot.controller.PetControllerTests.*" />
           <option name="ENABLED" value="true" />
         </pattern>
         <pattern>
@@ -156,8 +157,8 @@
       </extension>
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-11" />
-      <option name="PACKAGE_NAME" value="pro.sky.animal_shelter_telegram_bot.controller" />
-      <option name="MAIN_CLASS_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.PetControllerTest" />
+      <option name="PACKAGE_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.PetControllerTests" />
+      <option name="MAIN_CLASS_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.PetControllerTests.PetControllerTest" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-Djasypt.encryptor.password=InJavaVeritas" />
@@ -168,16 +169,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PetOwnerControllerTest" type="JUnit" factoryName="JUnit">
+    <configuration name="PetControllerTestMVC" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="animal_shelter_telegram_bot" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="pro.sky.animal_shelter_telegram_bot.controller.*" />
+          <option name="PATTERN" value="pro.sky.animal_shelter_telegram_bot.controller.PetControllerTests.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="pro.sky.animal_shelter_telegram_bot.controller" />
-      <option name="MAIN_CLASS_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.PetOwnerControllerTest" />
+      <option name="PACKAGE_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.PetControllerTests" />
+      <option name="MAIN_CLASS_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.PetControllerTests.PetControllerTestMVC" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-Djasypt.encryptor.password=InJavaVeritas" />
@@ -185,16 +186,33 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PetOwnerTestMVC" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+    <configuration name="PetOwnerControllerTest" type="JUnit" factoryName="JUnit">
       <module name="animal_shelter_telegram_bot" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="pro.sky.animal_shelter_telegram_bot.controller.*" />
+          <option name="PATTERN" value="pro.sky.animal_shelter_telegram_bot.controller.PetControllerTests.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="pro.sky.animal_shelter_telegram_bot.controller" />
-      <option name="MAIN_CLASS_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.PetOwnerTestMVC" />
+      <option name="PACKAGE_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.PetOwnerControllerTests" />
+      <option name="MAIN_CLASS_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.PetOwnerControllerTests.PetOwnerControllerTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-Djasypt.encryptor.password=InJavaVeritas" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PetOwnerControllerTestMVC" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="animal_shelter_telegram_bot" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pro.sky.animal_shelter_telegram_bot.controller.PetOwnerControllerTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.PetOwnerControllerTests" />
+      <option name="MAIN_CLASS_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.PetOwnerControllerTests.PetOwnerControllerTestMVC" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-Djasypt.encryptor.password=InJavaVeritas" />
@@ -206,15 +224,31 @@
       <module name="animal_shelter_telegram_bot" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="pro.sky.animal_shelter_telegram_bot.controller.*" />
+          <option name="PATTERN" value="pro.sky.animal_shelter_telegram_bot.controller.PetControllerTests.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="pro.sky.animal_shelter_telegram_bot.controller" />
-      <option name="MAIN_CLASS_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.ReportControllerTest" />
+      <option name="PACKAGE_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.ReportControllerTests" />
+      <option name="MAIN_CLASS_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.ReportControllerTests.ReportControllerTest" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-Djasypt.encryptor.password=InJavaVeritas" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ReportControllerTestMVC" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="animal_shelter_telegram_bot" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pro.sky.animal_shelter_telegram_bot.controller.ReportControllerTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.ReportControllerTests" />
+      <option name="MAIN_CLASS_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.ReportControllerTests.ReportControllerTestMVC" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -223,12 +257,29 @@
       <module name="animal_shelter_telegram_bot" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="pro.sky.animal_shelter_telegram_bot.controller.*" />
+          <option name="PATTERN" value="pro.sky.animal_shelter_telegram_bot.controller.PetControllerTests.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="pro.sky.animal_shelter_telegram_bot.controller" />
-      <option name="MAIN_CLASS_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.VolunteerControllerTest" />
+      <option name="PACKAGE_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.VolunteerControllerTests" />
+      <option name="MAIN_CLASS_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.VolunteerControllerTests.VolunteerControllerTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-Djasypt.encryptor.password=InJavaVeritas" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VolunteerControllerTestMVC" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="animal_shelter_telegram_bot" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pro.sky.animal_shelter_telegram_bot.controller.VolunteerControllerTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.VolunteerControllerTests" />
+      <option name="MAIN_CLASS_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.VolunteerControllerTests.VolunteerControllerTestMVC" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-Djasypt.encryptor.password=InJavaVeritas" />
@@ -249,7 +300,6 @@
     </configuration>
     <configuration name="AnimalShelterTelegramBotApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <option name="ACTIVE_PROFILES" />
-      
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <module name="animal_shelter_telegram_bot" />
@@ -266,7 +316,10 @@
       <item itemvalue="JUnit.PetOwnerControllerTest" />
       <item itemvalue="JUnit.ReportControllerTest" />
       <item itemvalue="JUnit.VolunteerControllerTest" />
-      <item itemvalue="JUnit.PetOwnerTestMVC" />
+      <item itemvalue="JUnit.VolunteerControllerTestMVC" />
+      <item itemvalue="JUnit.PetControllerTestMVC" />
+      <item itemvalue="JUnit.PetOwnerControllerTestMVC" />
+      <item itemvalue="JUnit.ReportControllerTestMVC" />
       <item itemvalue="Spring Boot.AnimalShelterTelegramBotApplication" />
     </list>
     <recent_temporary>
@@ -300,7 +353,6 @@
       <workItem from="1657956598028" duration="670000" />
       <workItem from="1657957518544" duration="600000" />
       <workItem from="1657959142078" duration="9357000" />
-
     </task>
     <task id="LOCAL-00001" summary="Модели классов. Создал модели классов, пришлось создать дополнительный класс которго не было в плане PhotoOfPet. Создал абстрактный класс Pet и от него два класса Dog и Cat, но пока у них один и тот же функционал видимо.">
       <created>1655931677499</created>
@@ -498,7 +550,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657655935933</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Refactor package in ControllerTests">
+      <created>1658217189786</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1658217189786</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -515,7 +574,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/SergeBranch" />
+                        <option value="origin/setMarkOnReport" />
                       </list>
                     </value>
                   </entry>
@@ -550,7 +609,8 @@
     <MESSAGE value="Update PetOwnerController, PetOwnerService" />
     <MESSAGE value="Update ReportController, ReportService" />
     <MESSAGE value="Update VolunteerController, VolunteerService" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update VolunteerController, VolunteerService" />
+    <MESSAGE value="Refactor package in ControllerTests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor package in ControllerTests" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
