@@ -30,11 +30,6 @@ public class ConstantsForControllerTests {
     public final static String DIET = "Meat";
     public final static String RESULT = "Report is fine";
 
-    public final static String HELLO_MESSAGE_PET_CONTROLLER = "You can do it by information of pet:\n" +
-            "1. add pet information\n" +
-            "2. get pet information\n" +
-            "2. update pet information\n" +
-            "4. remove pet information";
     public final static String HELLO_MESSAGE_PET_OWNER = "You can do it by information of pet owner:\n" +
             "1. add information about the owner of the pet\n" +
             "2. get information about the owner of the pet\n" +

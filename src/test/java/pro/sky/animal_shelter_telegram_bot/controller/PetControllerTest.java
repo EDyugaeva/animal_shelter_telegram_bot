@@ -22,6 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsForControllerTests.*;
+import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsOfControllers.HELLO_MESSAGE_OF_PET_CONTROLLER;
 
 @WebMvcTest(controllers = PetController.class)
 public class PetControllerTest {
@@ -66,7 +67,7 @@ public class PetControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get(LOCAL_URL)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().isOk())
-                .andExpect(content().string(HELLO_MESSAGE_PET_CONTROLLER));
+                .andExpect(content().string(HELLO_MESSAGE_OF_PET_CONTROLLER));
     }
 
     @Test
