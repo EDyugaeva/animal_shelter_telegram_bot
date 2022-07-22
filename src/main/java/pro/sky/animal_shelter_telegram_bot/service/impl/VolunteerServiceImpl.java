@@ -79,7 +79,7 @@ public class VolunteerServiceImpl implements VolunteerService {
      * @param volunteer   - volunteer
        */
     @Override
-    public Volunteer setVolunteersPhoneNumber(Volunteer volunteer, String phoneNumber) {
+    public Volunteer setPhoneNumberOfVolunteer(Volunteer volunteer, String phoneNumber) {
         if (phoneNumber.isEmpty()) {
             logger.info("Phone number is empty");
             throw new NullPointerException("Phone number is empty");
@@ -90,7 +90,6 @@ public class VolunteerServiceImpl implements VolunteerService {
         } catch (NullPointerException e) {
             logger.info("Error");
         }
-
         logger.info("Volunteer {} is changed. Phone number {} is added.", volunteer, phoneNumber);
         return volunteerRepository.save(volunteer);
     }

@@ -25,7 +25,7 @@ public class ConstantsForControllerTests {
     public final static int DAY_OF_PROBATION = 25;
     public final static String NAME_OF_PET = "Barsik";
     public final static String HEALTH = "Health is nice";
-    public final static String EXTRA_INFO_OF_PET = "This is a dog";
+    public final static String EXTRA_INFO = "Extra info about..";
     public final static String DATE_OF_REPORT = "12.12.2021";
     public final static String DIET = "Meat";
     public final static String RESULT = "Report is fine";
@@ -40,9 +40,4 @@ public class ConstantsForControllerTests {
             "2. find report\n" +
             "2. update report\n" +
             "4. remove report\n";
-    public final static String HELLO_MESSAGE_VOLUNTEER_CONTROLLER = "You can do it by information of volunteer:\n" +
-            "1. add information about the volunteer\n" +
-            "2. get information about the volunteer\n" +
-            "2. update information about the volunteer\n" +
-            "4. remove information about rhe volunteer\n";
 }

@@ -175,14 +175,6 @@ public class VolunteerController {
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = Collection.class)
                             )
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "If volunteer not found",
-                            content = @Content(
-                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
-                                    schema = @Schema(implementation = ResponseEntity.class)
-                            )
                     )
             },
             tags = "Volunteers"
@@ -197,21 +189,31 @@ public class VolunteerController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Volunteer"
+                            description = "Volunteer",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Volunteer.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "If volunteer not found, will be received bad request",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Volunteers"
     )
     @PutMapping(path = "/phone-number")
-    public ResponseEntity<Volunteer> editVolunteer(@Parameter (description = "Volunteer id", example = "1")@RequestParam Long id,
+    public ResponseEntity<Volunteer> editPhoneNumberOfVolunteer(@Parameter (description = "Volunteer id", example = "1")@RequestParam Long id,
                                                    @Parameter (description = "Phone number", example = "+79554478895")@RequestParam String phoneNumber) {
         Volunteer editVolunteer = volunteerService.findVolunteer(id);
         if (editVolunteer == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        volunteerService.setVolunteersPhoneNumber(editVolunteer, phoneNumber);
-        volunteerService.changeVolunteer(editVolunteer);
-        return ResponseEntity.ok(editVolunteer);
+        volunteerService.setPhoneNumberOfVolunteer(editVolunteer, phoneNumber);
+        return ResponseEntity.ok(volunteerService.changeVolunteer(editVolunteer));
     }
 
 }

@@ -48,12 +48,12 @@ public class PetControllerTest {
         petOwnerObject.put("id", ID);
         petOwnerObject.put("nameOfPet", NAME_OF_PET);
         petOwnerObject.put("health", HEALTH);
-        petOwnerObject.put("extraInfoOfPet", EXTRA_INFO_OF_PET);
+        petOwnerObject.put("extraInfoOfPet", EXTRA_INFO);
         petOwnerObject.put("ownerOfPet", PET_OWNER);
         PET.setId(ID);
         PET.setNameOfPet(NAME_OF_PET);
         PET.setHealth(HEALTH);
-        PET.setExtraInfoOfPet(EXTRA_INFO_OF_PET);
+        PET.setExtraInfoOfPet(EXTRA_INFO);
         PET.setOwnerOfPet(PET_OWNER);
     }
 
@@ -80,7 +80,7 @@ public class PetControllerTest {
                 .andExpect(jsonPath("$.id").value(ID))
                 .andExpect(jsonPath("$.nameOfPet").value(NAME_OF_PET))
                 .andExpect(jsonPath("$.health").value(HEALTH))
-                .andExpect(jsonPath("$.extraInfoOfPet").value(EXTRA_INFO_OF_PET))
+                .andExpect(jsonPath("$.extraInfoOfPet").value(EXTRA_INFO))
                 .andExpect(jsonPath("$.ownerOfPet").value(PET_OWNER));
     }
 
@@ -105,7 +105,7 @@ public class PetControllerTest {
                 .andExpect(jsonPath("$.id").value(ID))
                 .andExpect(jsonPath("$.nameOfPet").value(NAME_OF_PET))
                 .andExpect(jsonPath("$.health").value(HEALTH))
-                .andExpect(jsonPath("$.extraInfoOfPet").value(EXTRA_INFO_OF_PET))
+                .andExpect(jsonPath("$.extraInfoOfPet").value(EXTRA_INFO))
                 .andExpect(jsonPath("$.ownerOfPet").value(PET_OWNER));
     }
 
@@ -123,7 +123,7 @@ public class PetControllerTest {
                 .andExpect(jsonPath("$.id").value(ID))
                 .andExpect(jsonPath("$.nameOfPet").value(NAME_OF_PET))
                 .andExpect(jsonPath("$.health").value(HEALTH))
-                .andExpect(jsonPath("$.extraInfoOfPet").value(EXTRA_INFO_OF_PET))
+                .andExpect(jsonPath("$.extraInfoOfPet").value(EXTRA_INFO))
                 .andExpect(jsonPath("$.ownerOfPet").value(PET_OWNER));
     }
 
@@ -149,7 +149,7 @@ public class PetControllerTest {
                 .andExpect(jsonPath("$.id").value(ID))
                 .andExpect(jsonPath("$.nameOfPet").value(NAME_OF_PET))
                 .andExpect(jsonPath("$.health").value(HEALTH))
-                .andExpect(jsonPath("$.extraInfoOfPet").value(EXTRA_INFO_OF_PET))
+                .andExpect(jsonPath("$.extraInfoOfPet").value(EXTRA_INFO))
                 .andExpect(jsonPath("$.ownerOfPet").value(PET_OWNER));
     }
 
