@@ -1,4 +1,4 @@
-package pro.sky.animal_shelter_telegram_bot.controller.ReportControllerTests;
+package pro.sky.animal_shelter_telegram_bot.controller;
 
 import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +11,6 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import pro.sky.animal_shelter_telegram_bot.controller.ReportController;
 import pro.sky.animal_shelter_telegram_bot.model.Report;
 import pro.sky.animal_shelter_telegram_bot.repository.PetOwnerRepository;
 import pro.sky.animal_shelter_telegram_bot.repository.ReportRepository;
@@ -19,14 +18,15 @@ import pro.sky.animal_shelter_telegram_bot.service.impl.ReportServiceImpl;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsForControllerTests.*;
+import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsOfControllers.HELLO_MESSAGE_OF_REPORT_CONTROLLER;
 
 @WebMvcTest(controllers = ReportController.class)
-public class ReportControllerTestMVC {
+public class ReportControllerTest {
     private final String LOCAL_URL = URL + PORT + "/" + REPORT_URL + "/";
 
     @Autowired
@@ -60,6 +60,19 @@ public class ReportControllerTestMVC {
         REPORT.setDiet(DIET);
         REPORT.setHealth(HEALTH);
         REPORT.setResult(RESULT);
+    }
+
+    @Test
+    public void contextLoads(){
+        assertThat(reportController).isNotNull();
+    }
+
+    @Test
+    public void testHelloMessage() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get(LOCAL_URL)
+                        .accept(MediaType.TEXT_PLAIN_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content().string(HELLO_MESSAGE_OF_REPORT_CONTROLLER));
     }
 
     @Test
