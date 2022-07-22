@@ -1,5 +1,12 @@
 package pro.sky.animal_shelter_telegram_bot.controller;
 
+import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
+import pro.sky.animal_shelter_telegram_bot.model.Report;
+import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class ConstantsForControllerTests {
 
     public final static String URL = "http://localhost:";
@@ -8,6 +15,12 @@ public class ConstantsForControllerTests {
     public final static String PET_OWNER_URL = "pet-owner";
     public final static String REPORT_URL = "report";
     public final static String VOLUNTEER_URL = "volunteer";
+    public final static String ALL_URL = "all";
+
+
+    public final static Pet PET = new Pet();
+    public final static PetOwner PET_OWNER = new PetOwner();
+    public final static Collection<Report> REPORTS = new ArrayList<>();
 
     public final static long ID = 1L;
     public final static String FIRST_NAME = "Ivan";

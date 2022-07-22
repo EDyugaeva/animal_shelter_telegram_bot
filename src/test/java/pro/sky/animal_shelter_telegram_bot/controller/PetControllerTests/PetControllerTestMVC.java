@@ -16,7 +16,7 @@ import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
 import pro.sky.animal_shelter_telegram_bot.repository.PetRepository;
 import pro.sky.animal_shelter_telegram_bot.service.impl.PetServiceImpl;
 
-import java.util.Optional;
+import java.util.*;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -41,8 +41,6 @@ public class PetControllerTestMVC {
     @InjectMocks
     private PetController petController;
 
-    private final Pet PET = new Pet();
-
     private final JSONObject petOwnerObject = new JSONObject();
 
     @BeforeEach
@@ -51,10 +49,12 @@ public class PetControllerTestMVC {
         petOwnerObject.put("nameOfPet", NAME_OF_PET);
         petOwnerObject.put("health", HEALTH);
         petOwnerObject.put("extraInfoOfPet", EXTRA_INFO_OF_PET);
+        petOwnerObject.put("ownerOfPet", PET_OWNER);
         PET.setId(ID);
         PET.setNameOfPet(NAME_OF_PET);
         PET.setHealth(HEALTH);
         PET.setExtraInfoOfPet(EXTRA_INFO_OF_PET);
+        PET.setOwnerOfPet(PET_OWNER);
     }
 
     @Test
@@ -67,7 +67,8 @@ public class PetControllerTestMVC {
                 .andExpect(jsonPath("$.id").value(ID))
                 .andExpect(jsonPath("$.nameOfPet").value(NAME_OF_PET))
                 .andExpect(jsonPath("$.health").value(HEALTH))
-                .andExpect(jsonPath("$.extraInfoOfPet").value(EXTRA_INFO_OF_PET));
+                .andExpect(jsonPath("$.extraInfoOfPet").value(EXTRA_INFO_OF_PET))
+                .andExpect(jsonPath("$.ownerOfPet").value(PET_OWNER));
     }
 
     @Test
@@ -91,7 +92,8 @@ public class PetControllerTestMVC {
                 .andExpect(jsonPath("$.id").value(ID))
                 .andExpect(jsonPath("$.nameOfPet").value(NAME_OF_PET))
                 .andExpect(jsonPath("$.health").value(HEALTH))
-                .andExpect(jsonPath("$.extraInfoOfPet").value(EXTRA_INFO_OF_PET));
+                .andExpect(jsonPath("$.extraInfoOfPet").value(EXTRA_INFO_OF_PET))
+                .andExpect(jsonPath("$.ownerOfPet").value(PET_OWNER));
     }
 
     @Test
@@ -108,7 +110,8 @@ public class PetControllerTestMVC {
                 .andExpect(jsonPath("$.id").value(ID))
                 .andExpect(jsonPath("$.nameOfPet").value(NAME_OF_PET))
                 .andExpect(jsonPath("$.health").value(HEALTH))
-                .andExpect(jsonPath("$.extraInfoOfPet").value(EXTRA_INFO_OF_PET));
+                .andExpect(jsonPath("$.extraInfoOfPet").value(EXTRA_INFO_OF_PET))
+                .andExpect(jsonPath("$.ownerOfPet").value(PET_OWNER));
     }
 
     @Test
@@ -133,7 +136,8 @@ public class PetControllerTestMVC {
                 .andExpect(jsonPath("$.id").value(ID))
                 .andExpect(jsonPath("$.nameOfPet").value(NAME_OF_PET))
                 .andExpect(jsonPath("$.health").value(HEALTH))
-                .andExpect(jsonPath("$.extraInfoOfPet").value(EXTRA_INFO_OF_PET));
+                .andExpect(jsonPath("$.extraInfoOfPet").value(EXTRA_INFO_OF_PET))
+                .andExpect(jsonPath("$.ownerOfPet").value(PET_OWNER));
     }
 
     @Test
@@ -142,5 +146,14 @@ public class PetControllerTestMVC {
         mockMvc.perform(MockMvcRequestBuilders.delete(LOCAL_URL + ID)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testFindAllPets() throws Exception{
+        when(petRepository.findAll()).thenReturn(new ArrayList<>(List.of(PET)));
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL + ALL_URL)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }
