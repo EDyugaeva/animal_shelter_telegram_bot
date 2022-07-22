@@ -1,4 +1,4 @@
-package pro.sky.animal_shelter_telegram_bot.controller.PetOwnerControllerTests;
+package pro.sky.animal_shelter_telegram_bot.controller;
 
 import com.pengrad.telegrambot.TelegramBot;
 import net.minidev.json.JSONObject;
@@ -12,21 +12,20 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import pro.sky.animal_shelter_telegram_bot.controller.PetOwnerController;
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 import pro.sky.animal_shelter_telegram_bot.repository.PetOwnerRepository;
 import pro.sky.animal_shelter_telegram_bot.service.impl.PetOwnerServiceImpl;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsForControllerTests.*;
 
 @WebMvcTest(controllers = PetOwnerController.class)
-public class PetOwnerControllerTestMVC {
+public class PetOwnerControllerTest {
 
     private final String LOCAL_URL = URL + PORT + "/" + PET_OWNER_URL + "/";
 
@@ -62,6 +61,19 @@ public class PetOwnerControllerTestMVC {
         PET_OWNER.setChatId(CHAT_ID);
         PET_OWNER.setPhoneNumber(PHONE_NUMBER);
         PET_OWNER.setDayOfProbation(DAY_OF_PROBATION);
+    }
+
+    @Test
+    public void contextLoads(){
+        assertThat(petOwnerController).isNotNull();
+    }
+
+    @Test
+    public void testHelloMessage() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get(LOCAL_URL)
+                        .accept(MediaType.TEXT_PLAIN_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content().string(HELLO_MESSAGE_PET_OWNER));
     }
 
     @Test

@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c372aedf-8a59-4bde-b1cc-193faa7e50ea" name="Changes" comment="Creat new tests, refactor tests and check tests for PetController">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/PetControllerTests/PetControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/PetControllerTests/PetControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/PetControllerTests/PetControllerTestMVC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/PetControllerTests/PetControllerTestMVC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/PetOwnerControllerTests/PetOwnerControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/PetOwnerControllerTests/PetOwnerControllerTest.java" afterDir="false" />
+    <list default="true" id="c372aedf-8a59-4bde-b1cc-193faa7e50ea" name="Changes" comment="Refactor PetControllerTest">
+      <change beforePath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/PetOwnerControllerTests/PetOwnerControllerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/PetOwnerControllerTests/PetOwnerControllerTestMVC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/PetOwnerControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,11 +100,14 @@
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="pro.sky.animal_shelter_telegram_bot.controller" />
+    </key>
     <key name="CreateTestDialog.RecentsKey">
       <recent name="pro.sky.animal_shelter_telegram_bot.controller" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.PetControllerTestMVC">
+  <component name="RunManager" selected="JUnit.PetOwnerControllerTest">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -168,23 +169,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PetControllerTest" type="JUnit" factoryName="JUnit">
-      <module name="animal_shelter_telegram_bot" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="pro.sky.animal_shelter_telegram_bot.controller.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.PetControllerTests" />
-      <option name="MAIN_CLASS_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.PetControllerTests.PetControllerTest" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-Djasypt.encryptor.password=InJavaVeritas" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="PetControllerTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="animal_shelter_telegram_bot" />
       <extension name="coverage">
@@ -210,8 +194,8 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.PetOwnerControllerTests" />
-      <option name="MAIN_CLASS_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.PetOwnerControllerTests.PetOwnerControllerTest" />
+      <option name="PACKAGE_NAME" value="pro.sky.animal_shelter_telegram_bot.controller" />
+      <option name="MAIN_CLASS_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.PetOwnerControllerTest" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-Djasypt.encryptor.password=InJavaVeritas" />
@@ -282,7 +266,6 @@
       <item itemvalue="JUnit.ReportControllerTest" />
       <item itemvalue="JUnit.VolunteerControllerTest" />
       <item itemvalue="JUnit.PetControllerTestMVC" />
-      <item itemvalue="JUnit.PetControllerTest" />
       <item itemvalue="Spring Boot.AnimalShelterTelegramBotApplication" />
     </list>
     <recent_temporary>
@@ -317,7 +300,7 @@
       <workItem from="1657957518544" duration="600000" />
       <workItem from="1657959142078" duration="9357000" />
       <workItem from="1658226719433" duration="1217000" />
-      <workItem from="1658467750833" duration="6695000" />
+      <workItem from="1658467750833" duration="7290000" />
     </task>
     <task id="LOCAL-00001" summary="Модели классов. Создал модели классов, пришлось создать дополнительный класс которго не было в плане PhotoOfPet. Создал абстрактный класс Pet и от него два класса Dog и Cat, но пока у них один и тот же функционал видимо.">
       <created>1655931677499</created>
@@ -529,7 +512,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658471694454</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Refactor PetControllerTest">
+      <created>1658474888573</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1658474888573</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -583,7 +573,8 @@
     <MESSAGE value="Update VolunteerController, VolunteerService" />
     <MESSAGE value="Add method FindAllPets" />
     <MESSAGE value="Creat new tests, refactor tests and check tests for PetController" />
-    <option name="LAST_COMMIT_MESSAGE" value="Creat new tests, refactor tests and check tests for PetController" />
+    <MESSAGE value="Refactor PetControllerTest" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor PetControllerTest" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

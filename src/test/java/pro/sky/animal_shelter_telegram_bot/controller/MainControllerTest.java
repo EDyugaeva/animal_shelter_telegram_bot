@@ -7,8 +7,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsForControllerTests.HELLO_MESSAGE_MAIN_CONTROLLER;
 import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsForControllerTests.URL;
+import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsOfControllers.HELLO_MESSAGE_IN_MAIN_CONTROLLER;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class MainControllerTest {
@@ -34,6 +34,6 @@ class MainControllerTest {
         assertThat(this.restTemplate.getForObject(URL + port + "/", String.class))
                 .isNotNull();
         assertThat(this.restTemplate.getForObject(URL + port + "/", String.class))
-                .isEqualTo(HELLO_MESSAGE_MAIN_CONTROLLER);
+                .isEqualTo(HELLO_MESSAGE_IN_MAIN_CONTROLLER);
     }
 }
