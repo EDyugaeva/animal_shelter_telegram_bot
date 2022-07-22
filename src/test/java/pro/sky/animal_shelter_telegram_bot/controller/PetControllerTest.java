@@ -1,4 +1,4 @@
-package pro.sky.animal_shelter_telegram_bot.controller.PetControllerTests;
+package pro.sky.animal_shelter_telegram_bot.controller;
 
 import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,21 +11,20 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import pro.sky.animal_shelter_telegram_bot.controller.PetController;
 import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
 import pro.sky.animal_shelter_telegram_bot.repository.PetRepository;
 import pro.sky.animal_shelter_telegram_bot.service.impl.PetServiceImpl;
 
 import java.util.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsForControllerTests.*;
 
 @WebMvcTest(controllers = PetController.class)
-public class PetControllerTestMVC {
+public class PetControllerTest {
 
     private final String LOCAL_URL = URL + PORT + "/" + PET_URL + "/";
 
@@ -55,6 +54,19 @@ public class PetControllerTestMVC {
         PET.setHealth(HEALTH);
         PET.setExtraInfoOfPet(EXTRA_INFO_OF_PET);
         PET.setOwnerOfPet(PET_OWNER);
+    }
+
+    @Test
+    public void contextLoads(){
+        assertThat(petController).isNotNull();
+    }
+
+    @Test
+    public void testHelloMessage() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get(LOCAL_URL)
+                        .accept(MediaType.TEXT_PLAIN_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content().string(HELLO_MESSAGE_PET_CONTROLLER));
     }
 
     @Test
