@@ -16,6 +16,8 @@ import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 import pro.sky.animal_shelter_telegram_bot.repository.PetOwnerRepository;
 import pro.sky.animal_shelter_telegram_bot.service.impl.PetOwnerServiceImpl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -170,5 +172,14 @@ public class PetOwnerControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.delete(LOCAL_URL + ID)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testFindPetOwners() throws Exception{
+        when(petOwnerRepository.findAll()).thenReturn(new ArrayList<>(List.of(PET_OWNER)));
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL + ALL_URL)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }
