@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
-import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
 import pro.sky.animal_shelter_telegram_bot.service.PetOwnerService;
 
 import java.util.Collection;

@@ -85,18 +85,13 @@ public class VolunteerServiceImpl implements VolunteerService {
             throw new NullPointerException("Phone number is empty");
         }
         volunteer.setPhoneNumber(phoneNumber);
-        volunteerRepository.save(volunteer);
-        logger.info("Volunteer {} is changed. But only phone number {} was added.", volunteer, phoneNumber);
         try {
             volunteer.setChatId(petOwnerService.getPetOwnerChatIdByPhoneNumber(phoneNumber));
-            volunteerRepository.save(volunteer);
-            logger.info("Volunteer {} is changed. Phone number {} and chat id {} were added.", volunteer, phoneNumber, volunteer.getChatId());
-
         } catch (NullPointerException e) {
             logger.info("Error");
         }
-        return volunteer;
-
+        logger.info("Volunteer {} is changed. Phone number {} is added.", volunteer, phoneNumber);
+        return volunteerRepository.save(volunteer);
     }
 
     /**
