@@ -7,7 +7,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import org.springframework.test.context.TestPropertySource;
 import org.webjars.NotFoundException;
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 import pro.sky.animal_shelter_telegram_bot.repository.PetOwnerRepository;
@@ -15,11 +14,11 @@ import pro.sky.animal_shelter_telegram_bot.service.impl.PetOwnerServiceImpl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static pro.sky.animal_shelter_telegram_bot.service.ConstantsForServicesTest.*;
 
 @ExtendWith(MockitoExtension.class)
 public class PetOwnerServiceTest {
@@ -37,149 +36,115 @@ public class PetOwnerServiceTest {
 
     @Test
     public void testSetPetOwnersPhoneNumber() {
-        String testPhoneNumber = "+79992214290";
+        when(petOwnerRepository.findPetOwnerByChatId(any(Long.class))).thenReturn(Optional.of(PET_OWNER_1));
 
-        Long id = 456789L;
-
-        PetOwner petOwner = new PetOwner();
-
-        when(petOwnerRepository.findPetOwnerByChatId(any(Long.class))).thenReturn(Optional.of(petOwner));
-
-
-        Assertions.assertEquals(out.setPetOwnersPhoneNumber(testPhoneNumber, id), testPhoneNumber);
-
-        Assertions.assertThrows(NullPointerException.class, () -> out.setPetOwnersPhoneNumber("", id));
-
+        Assertions.assertEquals(out.setPetOwnersPhoneNumber(PHONE_NUMBER, ID), PHONE_NUMBER);
+        Assertions.assertThrows(NullPointerException.class, () -> out.setPetOwnersPhoneNumber("", ID));
 
     }
 
     @Test
     public void testGetPetOwnerByDayOfProbation() {
-
-        Collection<PetOwner> collectionPetOwner = new ArrayList<>();
-        when(petOwnerRepository.getPetOwnerByDayOfProbation()).thenReturn(collectionPetOwner);
+        when(petOwnerRepository.getPetOwnerByDayOfProbation()).thenReturn(new ArrayList<>());
 
         Assertions.assertThrows(NotFoundException.class, () -> out.getPetOwnerByDayOfProbation());
-        PetOwner petOwner1 = new PetOwner();
-        PetOwner petOwner2 = new PetOwner();
 
-        petOwner1.setDayOfProbation(5);
-        petOwner1.setDayOfProbation(2);
+        PET_OWNER_1.setDayOfProbation(5);
+        PET_OWNER_2.setDayOfProbation(2);
 
-        collectionPetOwner.add(petOwner1);
-        collectionPetOwner.add(petOwner2);
+        COLLECTION_PET_OWNERS_NOT_ZERO.add(PET_OWNER_1);
+        COLLECTION_PET_OWNERS_NOT_ZERO.add(PET_OWNER_2);
 
         Collection<PetOwner> expectedCollectionPetOwner = new ArrayList<>();
-        expectedCollectionPetOwner.add(petOwner1);
-        expectedCollectionPetOwner.add(petOwner2);
+        expectedCollectionPetOwner.add(PET_OWNER_1);
+        expectedCollectionPetOwner.add(PET_OWNER_1);
+        when(petOwnerRepository.getPetOwnerByDayOfProbation()).thenReturn(COLLECTION_PET_OWNERS_NOT_ZERO);
 
         Assertions.assertEquals(expectedCollectionPetOwner, out.getPetOwnerByDayOfProbation());
-
     }
 
     @Test
     public void testGetPetOwnerByZeroDayOfProbation() {
+        when(petOwnerRepository.getPetOwnerWithZeroDayOfProbation()).thenReturn(new ArrayList<>());
 
-        Collection<PetOwner> collectionPetOwner = new ArrayList<>();
-        when(petOwnerRepository.getPetOwnerByDayOfProbation()).thenReturn(collectionPetOwner);
+        Assertions.assertThrows(NotFoundException.class, () -> out.getPetOwnerWithZeroDayOfProbation());
 
-        Assertions.assertThrows(NotFoundException.class, () -> out.getPetOwnerByDayOfProbation());
-        PetOwner petOwner1 = new PetOwner();
-        PetOwner petOwner2 = new PetOwner();
+        PET_OWNER_1.setDayOfProbation(0);
+        PET_OWNER_2.setDayOfProbation(0);
 
-        petOwner1.setDayOfProbation(0);
-        petOwner1.setDayOfProbation(0);
 
-        collectionPetOwner.add(petOwner1);
-        collectionPetOwner.add(petOwner2);
+        COLLECTION_PET_OWNERS_ZERO.add(PET_OWNER_1);
+        COLLECTION_PET_OWNERS_ZERO.add(PET_OWNER_2);
 
         Collection<PetOwner> expectedCollectionPetOwner = new ArrayList<>();
-        expectedCollectionPetOwner.add(petOwner1);
-        expectedCollectionPetOwner.add(petOwner2);
+        expectedCollectionPetOwner.add(PET_OWNER_1);
+        expectedCollectionPetOwner.add(PET_OWNER_2);
+        when(petOwnerRepository.getPetOwnerWithZeroDayOfProbation()).thenReturn(COLLECTION_PET_OWNERS_ZERO);
 
-        Assertions.assertEquals(expectedCollectionPetOwner, out.getPetOwnerByDayOfProbation());
-
+        Assertions.assertEquals(expectedCollectionPetOwner, out.getPetOwnerWithZeroDayOfProbation());
     }
 
     @Test
     public void testSetOwnersName() {
-        Long chatId = 1L;
-        PetOwner petOwner = new PetOwner();
-        petOwner.setId(chatId);
-        String name = "name";
 
-        when(petOwnerRepository.findPetOwnerByChatId(chatId)).thenReturn(Optional.of(petOwner));
+        when(petOwnerRepository.findPetOwnerByChatId(CHAT_ID)).thenReturn(Optional.of(PET_OWNER_1));
 
-        Assertions.assertThrows(NullPointerException.class, () -> out.setPetOwnersName("", chatId));
+        Assertions.assertThrows(NullPointerException.class, () -> out.setPetOwnersName("", CHAT_ID));
 
-        PetOwner expectedPetOwner = petOwner;
-        expectedPetOwner.setFirstName(name);
+        PetOwner expectedPetOwner = PET_OWNER_1;
+        expectedPetOwner.setFirstName(NAME);
 
-        Assertions.assertEquals(expectedPetOwner, out.setPetOwnersName(name, chatId));
+        Assertions.assertEquals(expectedPetOwner, out.setPetOwnersName(NAME, CHAT_ID));
 
     }
 
     @Test
     public void testGetPetOwnerChatIdByPhoneNumber() {
-        String phoneNumber = "+798989898";
-        Long chatId = 1L;
-        PetOwner petOwner = new PetOwner();
-        petOwner.setPhoneNumber(phoneNumber);
+        PET_OWNER_1.setPhoneNumber(PHONE_NUMBER);
+        PET_OWNER_1.setChatId(CHAT_ID);
 
-        when(petOwnerRepository.findPetOwnerByPhoneNumber(phoneNumber)).thenReturn(Optional.of(petOwner));
+        when(petOwnerRepository.findPetOwnerByPhoneNumber(PHONE_NUMBER)).thenReturn(Optional.of(PET_OWNER_1));
 
-        Assertions.assertThrows(NullPointerException.class, () -> out.getPetOwnerChatIdByPhoneNumber(phoneNumber));
-        petOwner.setChatId(1L);
-
-        Assertions.assertEquals(chatId, out.getPetOwnerChatIdByPhoneNumber(phoneNumber));
+        Assertions.assertEquals(CHAT_ID, out.getPetOwnerChatIdByPhoneNumber(PHONE_NUMBER));
     }
 
     @Test
     public void testSetExtraDayOfProbation() {
-        Long id = 1L;
-        PetOwner petOwner = new PetOwner();
-        petOwner.setDayOfProbation(25);
+        PET_OWNER_1.setDayOfProbation(25);
 
-        when(petOwnerRepository.findById(id)).thenReturn(Optional.of(petOwner));
+        when(petOwnerRepository.findById(ID)).thenReturn(Optional.of(PET_OWNER_1));
 
-        Assertions.assertThrows(NotFoundException.class, () -> out.setExtraDayOfProbation(id, 5));
+        Assertions.assertThrows(NotFoundException.class, () -> out.setExtraDayOfProbation(ID, 5));
 
-        petOwner.setId(id);
-        PetOwner expectedPetOwner = petOwner;
-        expectedPetOwner.setDayOfProbation(25+5);
+        PET_OWNER_1.setId(ID);
+        PetOwner expectedPetOwner = PET_OWNER_1;
+        expectedPetOwner.setDayOfProbation(25 + 5);
 
-        Assertions.assertEquals(expectedPetOwner, out.setExtraDayOfProbation(id,5));
+        Assertions.assertEquals(expectedPetOwner, out.setExtraDayOfProbation(ID, 5));
 
-        expectedPetOwner.setDayOfProbation(25+0);
+        expectedPetOwner.setDayOfProbation(25 + 0);
 
-        Assertions.assertEquals(expectedPetOwner, out.setExtraDayOfProbation(id,0));
+        Assertions.assertEquals(expectedPetOwner, out.setExtraDayOfProbation(ID, 0));
 
-        expectedPetOwner.setDayOfProbation(25-8);
+        expectedPetOwner.setDayOfProbation(25 - 8);
 
-        Assertions.assertEquals(expectedPetOwner, out.setExtraDayOfProbation(id,-8));
+        Assertions.assertEquals(expectedPetOwner, out.setExtraDayOfProbation(ID, -8));
     }
 
     @Test
     public void testSayThatProbationIsOverSuccessfully() {
-        Long id = 1L;
+        when(petOwnerRepository.findById(ID)).thenReturn(Optional.of(new PetOwner()));
 
-        when(petOwnerRepository.findById(id)).thenReturn(Optional.of(new PetOwner()));
-
-        Assertions.assertThrows(NotFoundException.class, () -> out.sayThatProbationIsOverSuccessfully(id));
+        Assertions.assertThrows(NotFoundException.class, () -> out.sayThatProbationIsOverSuccessfully(ID));
 
     }
 
     @Test
     public void testSayThatProbationIsOverNotSuccessfully() {
-        Long id = 1L;
+        when(petOwnerRepository.findById(ID)).thenReturn(Optional.of(new PetOwner()));
 
-        when(petOwnerRepository.findById(id)).thenReturn(Optional.of(new PetOwner()));
-
-        Assertions.assertThrows(NotFoundException.class, () -> out.sayThatProbationIsOverNotSuccessfully(id));
-
+        Assertions.assertThrows(NotFoundException.class, () -> out.sayThatProbationIsOverNotSuccessfully(ID));
     }
-
-
 
 
 }

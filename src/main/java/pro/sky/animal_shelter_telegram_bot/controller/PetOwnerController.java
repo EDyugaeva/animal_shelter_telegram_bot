@@ -239,7 +239,7 @@ public class PetOwnerController {
     },
             tags = "Pet owners"
     )
-    @PutMapping("/probation")
+    @PutMapping("/probation-successfully")
     public ResponseEntity<String> probationIsOver(@Parameter (description = "Pet owner id", example = "25")@RequestParam Long id) {
         String message = petOwnerService.sayThatProbationIsOverSuccessfully(id);
         return ResponseEntity.ok(message);

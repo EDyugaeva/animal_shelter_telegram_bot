@@ -49,7 +49,6 @@ public class PhotoOfPet {
     }
 
 
-
     public byte[] getData() {
         return data;
     }

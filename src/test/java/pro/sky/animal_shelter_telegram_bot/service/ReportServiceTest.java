@@ -8,14 +8,19 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 import pro.sky.animal_shelter_telegram_bot.model.Report;
+import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
 import pro.sky.animal_shelter_telegram_bot.repository.PetOwnerRepository;
+import pro.sky.animal_shelter_telegram_bot.repository.PetRepository;
 import pro.sky.animal_shelter_telegram_bot.repository.ReportRepository;
 import pro.sky.animal_shelter_telegram_bot.service.impl.ReportServiceImpl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
+import static pro.sky.animal_shelter_telegram_bot.service.ConstantsForServicesTest.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ReportServiceTest {
@@ -24,6 +29,8 @@ public class ReportServiceTest {
     private ReportRepository reportRepositoryMock;
     @Mock
     private PetOwnerRepository petOwnerRepositoryMock;
+    @Mock
+    private PetRepository petRepositoryMock;
 
     @InjectMocks
     private ReportServiceImpl out;
@@ -34,91 +41,77 @@ public class ReportServiceTest {
 
     @Test
     public void testSetReportMark() {
-        String result = "Хороший";
-        Report report = new Report();
-        report.setPetOwner(new PetOwner());
-        report.setId(1L);
+        REPORT_1.setPetOwner(PET_OWNER_2);
+        REPORT_1.setId(ID);
 
         Report expectedReport = new Report();
-        expectedReport.setId(1L);
-        expectedReport.setResult(result);
+        expectedReport.setId(ID);
+        expectedReport.setResult(RESULT);
         expectedReport.setReportChecked(true);
         expectedReport.setPetOwner(new PetOwner());
 
-        when(reportRepositoryMock.findById(1L)).thenReturn(Optional.of(report));
+        when(reportRepositoryMock.findById(ID)).thenReturn(Optional.of(REPORT_1));
 
-        Assertions.assertThrows(NullPointerException.class,() -> out.setMarkOnReport(1L, ""));
-        Assertions.assertEquals(expectedReport,out.setMarkOnReport(1L, result));
+        Assertions.assertThrows(NullPointerException.class, () -> out.setMarkOnReport(ID, ""));
+        Assertions.assertEquals(expectedReport, out.setMarkOnReport(ID, RESULT));
     }
-
 
     @Test
     public void testGetUncheckedReport() {
-        Report report1 = new Report();
-        Report report2 = new Report();
+        REPORT_1.setId(ID);
+        REPORT_2.setId(ID_2);
 
-        report1.setId(1L);
-        report2.setId(2L);
-
-        List<Report> reportList = List.of(report1, report2);
+        List<Report> reportList = List.of(REPORT_1, REPORT_2);
 
         Assertions.assertThrows(NullPointerException.class, () -> out.getUncheckedReports());
 
         when(reportRepositoryMock.getUncheckedReports()).thenReturn(reportList);
 
         Assertions.assertEquals(reportList, out.getUncheckedReports());
-
-
     }
 
     @Test
     public void testFindReportByChatIdAndDate() {
-        Long chatId = 456789L;
-        String date = "17.07.22";
-        PetOwner petOwner = new PetOwner();
-        petOwner.setChatId(chatId);
+        REPORT_1.setDateOfReport(DATE);
 
-        Report report = new Report();
-        report.setdateOfReport(date);
+        when(reportRepositoryMock.findReportByDateOfReportAndPetOwner_ChatId(DATE, CHAT_ID)).thenReturn(Optional.of(REPORT_1));
+        when(petOwnerRepositoryMock.findPetOwnerByChatId(CHAT_ID)).thenReturn(Optional.of(PET_OWNER_2));
 
-        when(reportRepositoryMock.findReportByDateOfReportAndPetOwner_ChatId(date,chatId)).thenReturn(Optional.of(report));
-        when(petOwnerRepositoryMock.findPetOwnerByChatId(chatId)).thenReturn(Optional.of(petOwner));
+        Report expectedReport = REPORT_1;
+        expectedReport.setDateOfReport(DATE);
+        expectedReport.setPetOwner(PET_OWNER_2);
 
-        Report expectedReport = report;
-        expectedReport.setdateOfReport(date);
-        expectedReport.setPetOwner(petOwner);
-
-        Assertions.assertEquals(expectedReport, out.findReportByChatIdAndDate(chatId, date));
+        Assertions.assertEquals(expectedReport, out.findReportByChatIdAndDate(CHAT_ID, DATE));
 
     }
 
 
     @Test
     public void testSetReportDoDataBase() {
-        Long chatId = 456789L;
-        String date = "17.07.22";
+        Pet pet = new Pet();
+        Collection<Pet> petCollection = new ArrayList<>();
+        petCollection.add(pet);
 
-        PetOwner petOwner = new PetOwner();
-        petOwner.setChatId(chatId);
+        PET_OWNER_1.setChatId(CHAT_ID);
 
-        Report report = new Report();
-        report.setdateOfReport(date);
+        REPORT_1.setDateOfReport(DATE);
 
-        when(reportRepositoryMock.findReportByDateOfReportAndPetOwner_ChatId(date,chatId)).thenReturn(Optional.of(report));
-        when(petOwnerRepositoryMock.findPetOwnerByChatId(chatId)).thenReturn(Optional.of(petOwner));
+        when(reportRepositoryMock.findReportByDateOfReportAndPetOwner_ChatId(DATE, CHAT_ID)).thenReturn(Optional.of(REPORT_1));
+        when(petOwnerRepositoryMock.findPetOwnerByChatId(CHAT_ID)).thenReturn(Optional.of(PET_OWNER_1));
+        when(petRepositoryMock.findPetByOwnerOfPet_Id(ID)).thenReturn(petCollection);
 
         String health = "Здоровье";
-        String  diet = "Диета";
-        String  behaviour = "Изменение в поведении";
+        String diet = "Диета";
+        String behaviour = "Изменение в поведении";
         String message = "Здоровье-Диета-Изменение в поведении";
 
-        String[] outMessage = out.setReportToDataBase(message,chatId, date) ;
+        String[] outMessage = out.setReportToDataBase(message, CHAT_ID, DATE);
 
         Assertions.assertEquals(health, outMessage[0]);
         Assertions.assertEquals(diet, outMessage[1]);
         Assertions.assertEquals(behaviour, outMessage[2]);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> out.setReportToDataBase("seufsf", chatId, date));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> out.setReportToDataBase("seufsf", CHAT_ID, DATE));
 
     }
 }

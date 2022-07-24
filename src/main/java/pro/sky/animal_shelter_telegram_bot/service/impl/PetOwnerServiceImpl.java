@@ -100,7 +100,7 @@ public class PetOwnerServiceImpl implements PetOwnerService {
     public Collection<PetOwner> getPetOwnerByDayOfProbation() {
         List<PetOwner> petOwnersList = new ArrayList<>(petOwnerRepository.getPetOwnerByDayOfProbation());
         if (petOwnersList.isEmpty()) {
-            logger.error("Pet owner list with day of probation > 0 is empty");
+            logger.info("Pet owner list with day of probation > 0 is empty");
             throw new NotFoundException("All pet owner do not have probation");
         }
         logger.info("Get list of pet owners with days of probation more then zero");
@@ -114,7 +114,7 @@ public class PetOwnerServiceImpl implements PetOwnerService {
     public Collection<PetOwner> getPetOwnerWithZeroDayOfProbation() {
         List<PetOwner> petOwnersList = new ArrayList<>(petOwnerRepository.getPetOwnerWithZeroDayOfProbation());
         if (petOwnersList.isEmpty()) {
-            logger.error("Pet owner list with day of probation = 0 is empty");
+            logger.info("Pet owner list with day of probation = 0 is empty");
             throw new NotFoundException("All pet owner have a long probation period");
         }
         logger.info("Get list of pet owners with days of probation equal zero");

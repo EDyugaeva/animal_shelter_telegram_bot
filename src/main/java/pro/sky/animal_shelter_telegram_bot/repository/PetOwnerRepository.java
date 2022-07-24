@@ -22,4 +22,5 @@ public interface PetOwnerRepository extends JpaRepository<PetOwner, Long> {
     Collection<PetOwner> getPetOwnerWithZeroDayOfProbation();
 
     Optional<PetOwner> findPetOwnerByPhoneNumber(String phoneNumber);
+
 }

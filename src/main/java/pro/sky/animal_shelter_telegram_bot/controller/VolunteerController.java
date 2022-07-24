@@ -185,7 +185,7 @@ public class VolunteerController {
     }
 
     @Operation(
-            summary = "Set phone number to find chat id in data base",
+            summary = "Set phone number (if it was changed)",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -212,7 +212,7 @@ public class VolunteerController {
         if (editVolunteer == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        volunteerService.setPhoneNumberOfVolunteer(editVolunteer, phoneNumber);
+        volunteerService.setVolunteersPhoneNumber(editVolunteer, phoneNumber);
         return ResponseEntity.ok(volunteerService.changeVolunteer(editVolunteer));
     }
 

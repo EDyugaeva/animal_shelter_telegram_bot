@@ -56,7 +56,7 @@ public class ReportControllerTest {
         reportObject.put("health", HEALTH);
         reportObject.put("result", RESULT);
         REPORT.setId(ID);
-        REPORT.setdateOfReport(DATE_OF_REPORT);
+        REPORT.setDateOfReport(DATE_OF_REPORT);
         REPORT.setDiet(DIET);
         REPORT.setHealth(HEALTH);
         REPORT.setResult(RESULT);

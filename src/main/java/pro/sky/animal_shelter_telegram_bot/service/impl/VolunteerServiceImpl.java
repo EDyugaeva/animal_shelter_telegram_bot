@@ -30,7 +30,8 @@ public class VolunteerServiceImpl implements VolunteerService {
 
     @Override
     public Volunteer addVolunteer(Volunteer volunteer) {
-        Volunteer addingVolunteer = volunteerRepository.save(volunteer);
+        Volunteer addingVolunteer = setVolunteersPhoneNumber(volunteer, volunteer.getPhoneNumber());
+        volunteerRepository.save(addingVolunteer);
         logger.info("Volunteer {} is saved", addingVolunteer);
         return addingVolunteer;
     }
@@ -71,13 +72,12 @@ public class VolunteerServiceImpl implements VolunteerService {
     }
 
 
-
     /**
      * add phone number to database. If this phone number was in pet-owner table, chat id will be saved to this table
      *
      * @param phoneNumber - phone number from swagger
      * @param volunteer   - volunteer
-       */
+     */
     @Override
     public Volunteer setVolunteersPhoneNumber(Volunteer volunteer, String phoneNumber) {
         if (phoneNumber.isEmpty()) {
@@ -96,6 +96,7 @@ public class VolunteerServiceImpl implements VolunteerService {
 
     /**
      * find volunteer in database
+     *
      * @param phoneNumber - phone number in format +7....
      * @return volunteer - volunteer from database
      */

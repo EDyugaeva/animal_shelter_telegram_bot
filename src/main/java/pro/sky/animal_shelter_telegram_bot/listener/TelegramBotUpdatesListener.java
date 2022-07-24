@@ -158,7 +158,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 break;
             case BUTTON1_3:
                 logger.info("update for message: " + BUTTON1_3);
-                sendMessage(update, "Отправьте отчет в виде: состояние здоровья питомца-диета-изменение в поведении ");
+                sendMessage(update, "Отправьте отчет в виде:состояние здоровья питомца-диета-изменение в поведении");
                 savingReport = true;
                 logger.info("saving reports = true");
                 break;
@@ -282,7 +282,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 sendMessage(update, "У вас нет питомца. Обратитесь в приют");
                 sendMenu(update);
             }
-            sendMessage(update, "А теперь отправьте фотографию своего питомца", KEYBOARD_BACK);
         }
     }
 
@@ -418,7 +417,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         Long chatId = update.message().chat().id();
         sendMessage(update, SCHEDULE);
         sendMessage(update, ADDRESS);
-        SendResponse response = telegramBot.execute(new SendPhoto(chatId, "https://www.imgonline.com.ua/examples/bee-on-daisy.jpg"));
+        SendResponse response = telegramBot.execute(new SendPhoto(chatId, "https://expertali.ru/articles/instrukcii/adres_dostavki/adres_dostavki_aliexpress.jpg"));
         if (response.isOk()) {
             logger.info("photo is sent ");
         } else {
