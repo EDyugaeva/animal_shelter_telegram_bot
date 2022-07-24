@@ -6,10 +6,13 @@ import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 import pro.sky.animal_shelter_telegram_bot.model.Report;
+import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
 import pro.sky.animal_shelter_telegram_bot.repository.PetOwnerRepository;
+import pro.sky.animal_shelter_telegram_bot.repository.PetRepository;
 import pro.sky.animal_shelter_telegram_bot.repository.ReportRepository;
 import pro.sky.animal_shelter_telegram_bot.service.ReportService;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -27,9 +30,13 @@ public class ReportServiceImpl implements ReportService {
 
     private final PetOwnerRepository petOwnerRepository;
 
-    public ReportServiceImpl(ReportRepository reportRepository, PetOwnerRepository petOwnerRepository) {
+    private final PetRepository petRepository;
+
+
+    public ReportServiceImpl(ReportRepository reportRepository, PetOwnerRepository petOwnerRepository, PetRepository petRepository) {
         this.reportRepository = reportRepository;
         this.petOwnerRepository = petOwnerRepository;
+        this.petRepository = petRepository;
     }
 
     @Override
@@ -41,7 +48,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public Report deleteReport(Long id) {
-        if (reportRepository.findById(id).isEmpty()){
+        if (reportRepository.findById(id).isEmpty()) {
             logger.info("Report with id {} is not found", id);
             return null;
         }
@@ -101,8 +108,8 @@ public class ReportServiceImpl implements ReportService {
 
         reportRepository.save(report);
         logger.info("Отчет {} сохранен", report.getId());
-
         return parsingText;
+
     }
 
     /**
@@ -110,17 +117,24 @@ public class ReportServiceImpl implements ReportService {
      * @param date   - local date (now)
      * @return report
      */
+    @Transactional
     public Report findReportByChatIdAndDate(Long chatId, String date) {
         logger.info("Start finding report by chat id and date");
         PetOwner petOwner = petOwnerRepository.findPetOwnerByChatId(chatId).orElse(new PetOwner());
         Report report = reportRepository.findReportByDateOfReportAndPetOwner_ChatId(date, chatId).orElse(new Report());
-        if (report.getdateOfReport() == null || report.getPetOwner() == null) {
+        if (report.getDateOfReport() == null || report.getPetOwner() == null) {
             logger.info("report is null");
-            report.setdateOfReport(date);
+            report.setDateOfReport(date);
             report.setPetOwner(petOwner);
+            if (!petRepository.findPetByOwnerOfPet_Id(petOwner.getId()).isEmpty()) {
+                List<Pet> petCollection = (List<Pet>) petRepository.findPetByOwnerOfPet_Id(petOwner.getId());
+                report.setPet(petCollection.get(0));
+                logger.info("Pet with ID {} was added to Pet owner ", petCollection.get(0).getId(), petOwner.getId());
+            } else {
+                logger.info("Pet owner {} does not have pets", petOwner.getId());
+            }
         }
         return report;
-
     }
 
     @Override
@@ -135,7 +149,8 @@ public class ReportServiceImpl implements ReportService {
 
     /**
      * Set mark to report (will be saved in database)
-     * @param id - report id (will get from telegram chat)
+     *
+     * @param id     - report id (will get from telegram chat)
      * @param result - mark
      * @return saved report
      */
@@ -156,7 +171,6 @@ public class ReportServiceImpl implements ReportService {
         reportRepository.save(report);
         return report;
     }
-
 
 
 }

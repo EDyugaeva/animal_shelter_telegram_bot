@@ -77,7 +77,6 @@ public class PetOwner {
         this.dayOfProbation = dayOfProbation;
     }
 
-
     public Collection<Pet> getListOfAdoptedPets() {
         return listOfAdoptedPets;
     }

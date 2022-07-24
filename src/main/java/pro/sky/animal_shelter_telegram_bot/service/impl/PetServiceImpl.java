@@ -73,4 +73,5 @@ public class PetServiceImpl implements PetService {
         logger.info("Was invoked method for getAllPets");
         return petRepository.findAll();
     }
+
 }

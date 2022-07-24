@@ -68,7 +68,7 @@ public class SchedulerServiceImpl implements SchedulerService {
                 }
             }
         } else {
-            logger.error("Volunteer list is empty");
+            logger.warn("Volunteer list is empty");
         }
     }
 
@@ -120,7 +120,7 @@ public class SchedulerServiceImpl implements SchedulerService {
                 logger.info("All reports are checked");
             }
         } else {
-            logger.error("We do not have volunteers");
+            logger.warn("We do not have volunteers");
         }
     }
 
