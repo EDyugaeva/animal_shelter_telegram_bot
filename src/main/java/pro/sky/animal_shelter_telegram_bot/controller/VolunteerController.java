@@ -1,4 +1,3 @@
-
 package pro.sky.animal_shelter_telegram_bot.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -7,6 +6,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,8 @@ import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsOfControll
 public class VolunteerController {
 
     private final VolunteerService volunteerService;
+
+    Logger logger = LoggerFactory.getLogger(VolunteerController.class);
 
     public VolunteerController(VolunteerService volunteerService) {
         this.volunteerService = volunteerService;
@@ -42,6 +45,7 @@ public class VolunteerController {
     )
     @GetMapping
     public String helloMessage() {
+        logger.info("Call helloMessage in VolunteerController");
         return HELLO_MESSAGE_VOLUNTEER_CONTROLLER;
     }
 
@@ -68,6 +72,7 @@ public class VolunteerController {
     )
     @GetMapping("{id}")
     public ResponseEntity<Volunteer> findVolunteer(@Parameter(description = "Volunteer id", example = "1") @PathVariable Long id) {
+        logger.info("Call findVolunteer in VolunteerController");
         Volunteer volunteer = volunteerService.findVolunteer(id);
         if (volunteer == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -96,6 +101,7 @@ public class VolunteerController {
     )
     @PostMapping
     public Volunteer addVolunteer(@RequestBody Volunteer volunteer) {
+        logger.info("Call addVolunteer in VolunteerController");
         return volunteerService.addVolunteer(volunteer);
     }
 
@@ -128,6 +134,7 @@ public class VolunteerController {
     )
     @PutMapping
     public ResponseEntity<Volunteer> editVolunteer(@RequestBody Volunteer volunteer) {
+        logger.info("Call editVolunteer in VolunteerController");
         Volunteer editVolunteer = volunteerService.changeVolunteer(volunteer);
         if (editVolunteer == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -159,6 +166,7 @@ public class VolunteerController {
     )
     @DeleteMapping("{id}")
     public ResponseEntity<Volunteer> deleteVolunteer(@PathVariable Long id) {
+        logger.info("Call deleteVolunteer in VolunteerController");
         if (volunteerService.deleteVolunteer(id) == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -180,7 +188,8 @@ public class VolunteerController {
             tags = "Volunteers"
     )
     @GetMapping(path = "/all")
-    public ResponseEntity<Collection<Volunteer>> findAll() {
+    public ResponseEntity<Collection<Volunteer>> findAllVolunteers() {
+        logger.info("Call findAllVolunteers in VolunteerController");
         return ResponseEntity.ok(volunteerService.findAllVolunteers());
     }
 
@@ -206,12 +215,14 @@ public class VolunteerController {
             tags = "Volunteers"
     )
     @PutMapping(path = "/phone-number")
-    public ResponseEntity<Volunteer> editPhoneNumberOfVolunteer(@Parameter (description = "Volunteer id", example = "1")@RequestParam Long id,
-                                                   @Parameter (description = "Phone number", example = "+79554478895")@RequestParam String phoneNumber) {
-        Volunteer editVolunteer = volunteerService.findVolunteer(id);
-        if (editVolunteer == null) {
+    public ResponseEntity<Volunteer> editPhoneNumberOfVolunteer(
+            @Parameter(description = "Volunteer id", example = "1") @RequestParam Long id,
+            @Parameter(description = "Phone number", example = "+79554478895") @RequestParam String phoneNumber) {
+        logger.info("Call editPhoneNumberOfVolunteer in VolunteerController");
+        if (id == null || phoneNumber == null || volunteerService.findVolunteer(id) == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+        Volunteer editVolunteer = volunteerService.findVolunteer(id);
         volunteerService.setPhoneNumberOfVolunteer(editVolunteer, phoneNumber);
         return ResponseEntity.ok(volunteerService.changeVolunteer(editVolunteer));
     }

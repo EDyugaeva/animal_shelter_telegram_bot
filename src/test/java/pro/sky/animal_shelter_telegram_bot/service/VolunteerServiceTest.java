@@ -34,7 +34,7 @@ public class VolunteerServiceTest {
     @Test
     public void testSetVolunteerPhoneNumber() {
         Volunteer volunteer = new Volunteer();
-        Assertions.assertThrows(NullPointerException.class, () -> out.setVolunteersPhoneNumber(volunteer, ""));
+        Assertions.assertThrows(NullPointerException.class, () -> out.setPhoneNumberOfVolunteer(volunteer, ""));
 
         String phoneNumber = "+7999";
         Long chatId = 123456L;
@@ -45,8 +45,8 @@ public class VolunteerServiceTest {
 
         when(petOwnerService.getPetOwnerChatIdByPhoneNumber(phoneNumber)).thenReturn(chatId);
         when(volunteerRepository.save(volunteer)).thenReturn(volunteer);
-        Assertions.assertEquals(chatId, out.setVolunteersPhoneNumber(volunteer, phoneNumber).getChatId());
-        Assertions.assertEquals(phoneNumber, out.setVolunteersPhoneNumber(volunteer, phoneNumber).getPhoneNumber());
+        Assertions.assertEquals(chatId, out.setPhoneNumberOfVolunteer(volunteer, phoneNumber).getChatId());
+        Assertions.assertEquals(phoneNumber, out.setPhoneNumberOfVolunteer(volunteer, phoneNumber).getPhoneNumber());
 
 
     }

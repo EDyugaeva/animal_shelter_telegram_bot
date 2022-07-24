@@ -22,7 +22,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsForControllerTests.*;
@@ -189,9 +189,10 @@ public class VolunteerControllerTest {
     @Test
     public void testEditPhoneNumberOfVolunteer() throws Exception {
         when(volunteerRepository.findById(any(Long.class))).thenReturn(Optional.of(VOLUNTEER));
-        when(volunteerService.setPhoneNumberOfVolunteer(any(Volunteer.class), eq("82345678901"))).thenReturn(VOLUNTEER);
-        when(petOwnerService.getPetOwnerChatIdByPhoneNumber(any(String.class))).thenReturn(any(Long.class));
-        when(volunteerRepository.save(any(Volunteer.class))).thenReturn(VOLUNTEER);
+
+//        when(volunteerService.setPhoneNumberOfVolunteer(eq(VOLUNTEER), eq("82345678901"))).thenReturn(VOLUNTEER);
+//        when(petOwnerService.getPetOwnerChatIdByPhoneNumber(any())).thenReturn(any(Long.class));
+//        when(volunteerRepository.save(any(Volunteer.class))).thenReturn(VOLUNTEER);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .put(LOCAL_URL + PHONE_NUMBER_URL)
