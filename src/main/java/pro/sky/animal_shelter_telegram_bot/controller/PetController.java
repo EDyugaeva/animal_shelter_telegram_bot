@@ -1,4 +1,3 @@
-
 package pro.sky.animal_shelter_telegram_bot.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -7,6 +6,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,8 @@ import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsOfControll
 public class PetController {
 
     private final PetService petService;
+
+    Logger logger = LoggerFactory.getLogger(PetController.class);
 
     public PetController(PetService petService) {
         this.petService = petService;
@@ -42,6 +45,7 @@ public class PetController {
     )
     @GetMapping
     public String helloMessage(){
+        logger.info("Call helloMessage in PetController");
         return HELLO_MESSAGE_OF_PET_CONTROLLER;
     }
 
@@ -68,6 +72,7 @@ public class PetController {
     )
     @GetMapping("{id}")
     public ResponseEntity<Pet> findPet(@Parameter(description = "Pet id", example = "1") @PathVariable Long id) {
+        logger.info("Call findPet in PetController");
         Pet pet = petService.findPet(id);
         if (pet == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -96,6 +101,7 @@ public class PetController {
     )
     @PostMapping
     public Pet addPet(@RequestBody Pet pet) {
+        logger.info("Call addPet in PetController");
         return petService.addPet(pet);
     }
 
@@ -128,6 +134,7 @@ public class PetController {
     )
     @PutMapping
     public ResponseEntity<Pet> editPet(@RequestBody Pet pet) {
+        logger.info("Call editPet in PetController");
         Pet editPet = petService.changePet(pet);
         if (editPet == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -158,6 +165,7 @@ public class PetController {
     )
     @DeleteMapping("{id}")
     public ResponseEntity<Pet> deletePet(@PathVariable Long id) {
+        logger.info("Call deletePet in PetController");
         if (petService.deletePet(id) == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -179,6 +187,7 @@ public class PetController {
     )
     @GetMapping("/all")
     public ResponseEntity<Collection<Pet>> findAllPets() {
+        logger.info("Call findAllPets in PetController");
         return ResponseEntity.ok(petService.getAllPets());
     }
 }
