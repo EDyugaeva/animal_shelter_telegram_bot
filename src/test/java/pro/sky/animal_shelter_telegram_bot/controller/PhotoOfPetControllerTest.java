@@ -9,21 +9,15 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.multipart.MultipartFile;
-import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
 import pro.sky.animal_shelter_telegram_bot.repository.PhotoOfPetRepository;
 import pro.sky.animal_shelter_telegram_bot.service.ReportService;
 import pro.sky.animal_shelter_telegram_bot.service.impl.PhotoOfPetServiceImpl;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsForControllerTests.*;
 import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsForControllerTests.REPORT_URL;
