@@ -29,7 +29,7 @@ public class VolunteerServiceImpl implements VolunteerService {
 
     @Override
     public Volunteer addVolunteer(Volunteer volunteer) {
-        Volunteer addingVolunteer = setVolunteersPhoneNumber(volunteer, volunteer.getPhoneNumber());
+        Volunteer addingVolunteer = setPhoneNumberOfVolunteer(volunteer, volunteer.getPhoneNumber());
         volunteerRepository.save(addingVolunteer);
         logger.info("Volunteer {} is saved", addingVolunteer);
         return addingVolunteer;

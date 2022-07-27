@@ -224,7 +224,7 @@ public class VolunteerController {
         }
 
         Volunteer editVolunteer = volunteerService.findVolunteer(id);
-        volunteerService.setVolunteersPhoneNumber(editVolunteer, phoneNumber);
+        volunteerService.setPhoneNumberOfVolunteer(editVolunteer, phoneNumber);
         return ResponseEntity.ok(volunteerService.changeVolunteer(editVolunteer));
     }
 
