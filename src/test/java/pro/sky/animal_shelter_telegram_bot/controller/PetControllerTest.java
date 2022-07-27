@@ -64,7 +64,8 @@ public class PetControllerTest {
 
     @Test
     public void testHelloMessage() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(LOCAL_URL)
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().string(HELLO_MESSAGE_OF_PET_CONTROLLER));
@@ -86,13 +87,14 @@ public class PetControllerTest {
 
     @Test
     public void testFindPetIfNotFound() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(LOCAL_URL + ID)
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL + ID)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    public void testAddPetOwner() throws Exception {
+    public void testAddPet() throws Exception {
         when(petRepository.save(any(Pet.class))).thenReturn(PET);
         when(petRepository.findById(any(Long.class))).thenReturn(Optional.of(PET));
 
@@ -130,7 +132,8 @@ public class PetControllerTest {
     @Test
     public void testEditPetIfBadRequest() throws Exception {
         when(petRepository.findById(any(Long.class))).thenReturn(null);
-        mockMvc.perform(MockMvcRequestBuilders.put(LOCAL_URL + ID)
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(LOCAL_URL + ID)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().is(405));
     }
@@ -156,7 +159,8 @@ public class PetControllerTest {
     @Test
     public void testDeletePetIfNotFound() throws Exception {
         when(petRepository.findById(any(Long.class))).thenReturn(Optional.empty());
-        mockMvc.perform(MockMvcRequestBuilders.delete(LOCAL_URL + ID)
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete(LOCAL_URL + ID)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().isNotFound());
     }

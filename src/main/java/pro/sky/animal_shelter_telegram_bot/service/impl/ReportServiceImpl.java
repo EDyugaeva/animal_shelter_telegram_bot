@@ -129,7 +129,7 @@ public class ReportServiceImpl implements ReportService {
             if (!petRepository.findPetByOwnerOfPet_Id(petOwner.getId()).isEmpty()) {
                 List<Pet> petCollection = (List<Pet>) petRepository.findPetByOwnerOfPet_Id(petOwner.getId());
                 report.setPet(petCollection.get(0));
-                logger.info("Pet with ID {} was added to Pet owner ", petCollection.get(0).getId(), petOwner.getId());
+                logger.info("Pet with ID {} was added to Pet owner with ID {}", petCollection.get(0).getId(), petOwner.getId());
             } else {
                 logger.info("Pet owner {} does not have pets", petOwner.getId());
             }
@@ -171,6 +171,4 @@ public class ReportServiceImpl implements ReportService {
         reportRepository.save(report);
         return report;
     }
-
-
 }

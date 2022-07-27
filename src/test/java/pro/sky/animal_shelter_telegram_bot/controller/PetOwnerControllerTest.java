@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsForControllerTests.*;
@@ -73,7 +73,8 @@ public class PetOwnerControllerTest {
 
     @Test
     public void testHelloMessage() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(LOCAL_URL)
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().string(HELLO_MESSAGE_OF_PET_OWNER_CONTROLLER));
@@ -96,7 +97,8 @@ public class PetOwnerControllerTest {
 
     @Test
     public void testFindPetOwnerIfNotFound() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(LOCAL_URL + ID)
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL + ID)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().isNotFound());
     }
@@ -142,7 +144,8 @@ public class PetOwnerControllerTest {
     @Test
     public void testEditPetOwnerIfBadRequest() throws Exception {
         when(petOwnerRepository.findById(any(Long.class))).thenReturn(null);
-        mockMvc.perform(MockMvcRequestBuilders.put(LOCAL_URL + ID)
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(LOCAL_URL + ID)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().is(405));
     }
@@ -169,17 +172,74 @@ public class PetOwnerControllerTest {
     @Test
     public void testDeletePetOwnerIfNotFound() throws Exception {
         when(petOwnerRepository.findById(any(Long.class))).thenReturn(Optional.empty());
-        mockMvc.perform(MockMvcRequestBuilders.delete(LOCAL_URL + ID)
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete(LOCAL_URL + ID)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    public void testFindPetOwners() throws Exception{
+    public void testFindAllPetOwners() throws Exception{
         when(petOwnerRepository.findAll()).thenReturn(new ArrayList<>(List.of(PET_OWNER)));
         mockMvc.perform(MockMvcRequestBuilders
                         .get(LOCAL_URL + ALL_URL)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testFindPetOwnerZeroProbation() throws Exception{
+        when(petOwnerRepository.getPetOwnerWithZeroDayOfProbation()).thenReturn(new ArrayList<>(List.of(PET_OWNER)));
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL + "/" + ZERO_PROBATION_URL)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testFindPetOwnerZeroProbationIfNotFound() throws Exception{
+        when(petOwnerRepository.getPetOwnerWithZeroDayOfProbation()).thenReturn(null);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL + "/" + ZERO_PROBATION_URL)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testChangeDayOfProbationInPetOwner() throws Exception{
+        when(petOwnerRepository.findById(ID)).thenReturn(Optional.of(PET_OWNER));
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(LOCAL_URL + ID + "/" + PROBATION_DAYS_URL)
+                        .param("amount", String.valueOf(AMOUNT_OF_DAY))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testChangeDayOfProbationInPetOwnerIfNotFound() throws Exception{
+        when(petOwnerRepository.findById(ID)).thenReturn(null);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(LOCAL_URL + ID + "/" + PROBATION_DAYS_URL)
+                        .param("amount", String.valueOf(AMOUNT_OF_DAY))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testProbationIsOverIfNotFoundPetOwner() throws Exception{
+        when(petOwnerRepository.findById(ID)).thenReturn(null);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(LOCAL_URL + ID + "/" + PROBATION_SUCCESSFULLY)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testProbationIsOverUnsuccessfullyIfNotFoundPetOwner() throws Exception{
+        when(petOwnerRepository.findById(ID)).thenReturn(null);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(LOCAL_URL + ID + "/" + PROBATION_UNSUCCESSFULLY)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 }

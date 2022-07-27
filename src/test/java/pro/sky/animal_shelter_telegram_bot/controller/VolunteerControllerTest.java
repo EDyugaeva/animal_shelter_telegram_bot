@@ -73,7 +73,8 @@ public class VolunteerControllerTest {
 
     @Test
     public void testHelloMessage() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(LOCAL_URL)
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().string(HELLO_MESSAGE_VOLUNTEER_CONTROLLER));
@@ -95,7 +96,8 @@ public class VolunteerControllerTest {
 
     @Test
     public void testFindVolunteerIfNotFound() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(LOCAL_URL + ID)
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL + ID)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().isNotFound());
     }
@@ -139,7 +141,8 @@ public class VolunteerControllerTest {
     @Test
     public void testEditVolunteerIfBadRequest() throws Exception {
         when(volunteerRepository.findById(any(Long.class))).thenReturn(null);
-        mockMvc.perform(MockMvcRequestBuilders.put(LOCAL_URL + ID)
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(LOCAL_URL + ID)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().is(405));
     }
@@ -165,7 +168,8 @@ public class VolunteerControllerTest {
     @Test
     public void testDeleteVolunteerIfNotFound() throws Exception {
         when(volunteerRepository.findById(any(Long.class))).thenReturn(Optional.empty());
-        mockMvc.perform(MockMvcRequestBuilders.delete(LOCAL_URL + ID)
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete(LOCAL_URL + ID)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().isNotFound());
     }
@@ -182,17 +186,13 @@ public class VolunteerControllerTest {
     @Test
     public void testEditPhoneNumberOfVolunteer() throws Exception {
         when(volunteerRepository.findById(any(Long.class))).thenReturn(Optional.of(VOLUNTEER));
-
-
-//        when(volunteerService.setPhoneNumberOfVolunteer(eq(VOLUNTEER), eq("82345678901"))).thenReturn(VOLUNTEER);
-//        when(petOwnerService.getPetOwnerChatIdByPhoneNumber(any())).thenReturn(any(Long.class));
-//        when(volunteerRepository.save(any(Volunteer.class))).thenReturn(VOLUNTEER);
-
+        when(volunteerService.setPhoneNumberOfVolunteer(VOLUNTEER, PHONE_NUMBER)).thenReturn(VOLUNTEER);
+        when(petOwnerService.getPetOwnerChatIdByPhoneNumber(any())).thenReturn(any(Long.class));
+        when(volunteerRepository.save(VOLUNTEER)).thenReturn(VOLUNTEER);
         mockMvc.perform(MockMvcRequestBuilders
-                        .put(LOCAL_URL + PHONE_NUMBER_URL)
-                        .content(volunteerObject.toString())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                        .put(LOCAL_URL + ID + "/" + PHONE_NUMBER_URL)
+                        .param("phone", PHONE_NUMBER)
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(ID))
                 .andExpect(jsonPath("$.firstName").value(FIRST_NAME))
@@ -204,7 +204,8 @@ public class VolunteerControllerTest {
     @Test
     public void testEditPhoneNumberOfVolunteerIfBadRequest() throws Exception {
         when(volunteerRepository.findById(any(Long.class))).thenReturn(null);
-        mockMvc.perform(MockMvcRequestBuilders.put(LOCAL_URL + PHONE_NUMBER_URL)
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(LOCAL_URL + ID + "/" + PHONE_NUMBER_URL)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().isBadRequest());
     }

@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import pro.sky.animal_shelter_telegram_bot.model.Report;
 import pro.sky.animal_shelter_telegram_bot.repository.PetOwnerRepository;
+import pro.sky.animal_shelter_telegram_bot.repository.PetRepository;
 import pro.sky.animal_shelter_telegram_bot.repository.ReportRepository;
 import pro.sky.animal_shelter_telegram_bot.service.impl.ReportServiceImpl;
 
@@ -38,6 +39,9 @@ public class ReportControllerTest {
     @MockBean
     private PetOwnerRepository petOwnerRepository;
 
+    @MockBean
+    private PetRepository petRepository;
+
     @SpyBean
     private ReportServiceImpl reportService;
 
@@ -54,11 +58,13 @@ public class ReportControllerTest {
         reportObject.put("dateOfReport", DATE_OF_REPORT);
         reportObject.put("diet", DIET);
         reportObject.put("health", HEALTH);
+        reportObject.put("changeInBehavior", CHANGE_IN_BEHAVIOR);
         reportObject.put("result", RESULT);
         REPORT.setId(ID);
         REPORT.setDateOfReport(DATE_OF_REPORT);
         REPORT.setDiet(DIET);
         REPORT.setHealth(HEALTH);
+        REPORT.setChangeInBehavior(CHANGE_IN_BEHAVIOR);
         REPORT.setResult(RESULT);
     }
 
@@ -69,7 +75,8 @@ public class ReportControllerTest {
 
     @Test
     public void testHelloMessage() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(LOCAL_URL)
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().string(HELLO_MESSAGE_OF_REPORT_CONTROLLER));
@@ -86,18 +93,20 @@ public class ReportControllerTest {
                 .andExpect(jsonPath("$.dateOfReport").value(DATE_OF_REPORT))
                 .andExpect(jsonPath("$.diet").value(DIET))
                 .andExpect(jsonPath("$.health").value(HEALTH))
+                .andExpect(jsonPath("$.changeInBehavior").value(CHANGE_IN_BEHAVIOR))
                 .andExpect(jsonPath("$.result").value(RESULT));
     }
 
     @Test
     public void testFindReportIfNotFound() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(LOCAL_URL + ID)
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL + ID)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    public void testAddPetOwner() throws Exception {
+    public void testAddReport() throws Exception {
         when(reportRepository.save(any(Report.class))).thenReturn(REPORT);
         when(reportRepository.findById(any(Long.class))).thenReturn(Optional.of(REPORT));
 
@@ -110,6 +119,7 @@ public class ReportControllerTest {
                 .andExpect(jsonPath("$.dateOfReport").value(DATE_OF_REPORT))
                 .andExpect(jsonPath("$.diet").value(DIET))
                 .andExpect(jsonPath("$.health").value(HEALTH))
+                .andExpect(jsonPath("$.changeInBehavior").value(CHANGE_IN_BEHAVIOR))
                 .andExpect(jsonPath("$.result").value(RESULT));
     }
 
@@ -128,13 +138,15 @@ public class ReportControllerTest {
                 .andExpect(jsonPath("$.dateOfReport").value(DATE_OF_REPORT))
                 .andExpect(jsonPath("$.diet").value(DIET))
                 .andExpect(jsonPath("$.health").value(HEALTH))
+                .andExpect(jsonPath("$.changeInBehavior").value(CHANGE_IN_BEHAVIOR))
                 .andExpect(jsonPath("$.result").value(RESULT));
     }
 
     @Test
     public void testEditReportIfBadRequest() throws Exception {
         when(reportRepository.findById(any(Long.class))).thenReturn(null);
-        mockMvc.perform(MockMvcRequestBuilders.put(LOCAL_URL + ID)
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(LOCAL_URL + ID)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().is(405));
     }
@@ -154,14 +166,41 @@ public class ReportControllerTest {
                 .andExpect(jsonPath("$.dateOfReport").value(DATE_OF_REPORT))
                 .andExpect(jsonPath("$.diet").value(DIET))
                 .andExpect(jsonPath("$.health").value(HEALTH))
+                .andExpect(jsonPath("$.changeInBehavior").value(CHANGE_IN_BEHAVIOR))
                 .andExpect(jsonPath("$.result").value(RESULT));
     }
 
     @Test
     public void testDeleteReportIfNotFound() throws Exception {
         when(reportRepository.findById(any(Long.class))).thenReturn(Optional.empty());
-        mockMvc.perform(MockMvcRequestBuilders.delete(LOCAL_URL + ID)
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete(LOCAL_URL + ID)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testSetMarkOnReport() throws Exception {
+        when(reportRepository.findById(any(Long.class))).thenReturn(Optional.of(REPORT));
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(LOCAL_URL + ID + "/" + MARK_REPORT_URL)
+                        .param("result", RESULT)
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(ID))
+                .andExpect(jsonPath("$.dateOfReport").value(DATE_OF_REPORT))
+                .andExpect(jsonPath("$.diet").value(DIET))
+                .andExpect(jsonPath("$.health").value(HEALTH))
+                .andExpect(jsonPath("$.changeInBehavior").value(CHANGE_IN_BEHAVIOR))
+                .andExpect(jsonPath("$.result").value(RESULT));
+    }
+
+    @Test
+    public void testSetMarkOnReportIfReportNotFound() throws Exception {
+        when(reportRepository.findById(any(Long.class))).thenReturn(null);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(LOCAL_URL + ID + "/" + MARK_REPORT_URL)
+                        .accept(MediaType.TEXT_PLAIN_VALUE))
+                .andExpect(status().isBadRequest());
     }
 }

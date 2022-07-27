@@ -214,10 +214,10 @@ public class VolunteerController {
             },
             tags = "Volunteers"
     )
-    @PutMapping(path = "/phone-number")
+    @PutMapping(path = "{id}/phone-number")
     public ResponseEntity<Volunteer> editPhoneNumberOfVolunteer(
-            @Parameter(description = "Volunteer id", example = "1") @RequestParam Long id,
-            @Parameter(description = "Phone number", example = "+79554478895") @RequestParam String phoneNumber) {
+            @PathVariable Long id,
+            @Parameter(description = "Phone number", example = "+79554478895") @RequestParam("phone") String phoneNumber) {
         logger.info("Call editPhoneNumberOfVolunteer in VolunteerController");
         if (id == null || phoneNumber == null || volunteerService.findVolunteer(id) == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -227,5 +227,4 @@ public class VolunteerController {
         volunteerService.setPhoneNumberOfVolunteer(editVolunteer, phoneNumber);
         return ResponseEntity.ok(volunteerService.changeVolunteer(editVolunteer));
     }
-
 }
