@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c372aedf-8a59-4bde-b1cc-193faa7e50ea" name="Changes" comment="Update VolunteerControllerTest. Delete test value chatId, because in model Volunteer add @JsoneIgnore in chatId">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/VolunteerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/VolunteerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/VolunteerControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/VolunteerControllerTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="c372aedf-8a59-4bde-b1cc-193faa7e50ea" name="Changes" comment="Refactor VolunteerController and finish write tests VolunteerControllerTest" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -108,7 +104,7 @@
       <recent name="pro.sky.animal_shelter_telegram_bot.controller" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.VolunteerControllerTest">
+  <component name="RunManager" selected="JUnit.PetControllerTest">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -555,7 +551,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658905410129</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Refactor VolunteerController and finish write tests VolunteerControllerTest">
+      <created>1658909192291</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1658909192291</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -585,7 +588,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Update service from Branch_Kate" />
     <MESSAGE value="Update service PhotoOfPetService.java from Branch_Kate" />
     <MESSAGE value="Update PetServiceOwner from Branch_Kate" />
     <MESSAGE value="CherryPick ReportService, VolunteerService,PhotoOfReportRepository" />
@@ -610,7 +612,8 @@
     <MESSAGE value="Refactor VolunteerControllerTest, VolunteerService" />
     <MESSAGE value="Refactor ReportControllerTest, PetOwnerControllerTest" />
     <MESSAGE value="Update VolunteerControllerTest. Delete test value chatId, because in model Volunteer add @JsoneIgnore in chatId" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update VolunteerControllerTest. Delete test value chatId, because in model Volunteer add @JsoneIgnore in chatId" />
+    <MESSAGE value="Refactor VolunteerController and finish write tests VolunteerControllerTest" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor VolunteerController and finish write tests VolunteerControllerTest" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

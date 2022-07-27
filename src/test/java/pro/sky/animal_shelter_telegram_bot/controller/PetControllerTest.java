@@ -92,7 +92,7 @@ public class PetControllerTest {
     }
 
     @Test
-    public void testAddPetOwner() throws Exception {
+    public void testAddPet() throws Exception {
         when(petRepository.save(any(Pet.class))).thenReturn(PET);
         when(petRepository.findById(any(Long.class))).thenReturn(Optional.of(PET));
 
