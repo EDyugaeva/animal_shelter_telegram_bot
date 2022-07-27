@@ -64,6 +64,8 @@ public class PetOwnerControllerTest {
         PET_OWNER.setChatId(CHAT_ID);
         PET_OWNER.setPhoneNumber(PHONE_NUMBER);
         PET_OWNER.setDayOfProbation(DAY_OF_PROBATION);
+
+
     }
 
     @Test
