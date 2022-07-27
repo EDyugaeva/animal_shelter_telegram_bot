@@ -13,6 +13,9 @@ public class ConstantsForControllerTests {
     public final static String MARK_REPORT_URL = "mark-report";
     public final static String VOLUNTEER_URL = "volunteer";
     public final static String ALL_URL = "all";
+    public final static String ZERO_PROBATION_URL = "zero-probation";
+    public final static String PROBATION_DAYS_URL = "probation-days";
+    public final static String PROBATION_SUCCESSFULLY = "probation-successfully";
 
     public final static Pet PET = new Pet();
     public final static PetOwner PET_OWNER = new PetOwner();
@@ -30,4 +33,5 @@ public class ConstantsForControllerTests {
     public final static String DIET = "Meat";
     public final static String RESULT = "Report is fine";
     public final static String CHANGE_IN_BEHAVIOR = "Change in behavior of pet";
+    public final static int AMOUNT_OF_DAY = -2;
 }

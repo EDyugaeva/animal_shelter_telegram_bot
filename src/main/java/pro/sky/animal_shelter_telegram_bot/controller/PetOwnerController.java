@@ -220,10 +220,10 @@ public class PetOwnerController {
             },
             tags = "Pet owners"
     )
-    @PutMapping("/probation-days")
+    @PutMapping("{id}/probation-days")
     public ResponseEntity<PetOwner> changeDayOfProbationInPetOwner(
-            @Parameter(description = "Pet owner id", example = "15") @RequestParam Long id,
-            @Parameter(description = "amount of extra day (could be negative)", example = "-2") @RequestParam Integer amountOfDays) {
+            @PathVariable Long id,
+            @Parameter(description = "Amount of extra day (could be negative)", example = "-2") @RequestParam("amount") Integer amountOfDays) {
         logger.info("Call changeDayOfProbationInPetOwner in PetOwnerController");
         PetOwner petOwner = petOwnerService.setExtraDayOfProbation(id, amountOfDays);
         return ResponseEntity.ok(petOwner);
@@ -245,9 +245,8 @@ public class PetOwnerController {
             },
             tags = "Pet owners"
     )
-
-    @PutMapping("/probation-successfully")
-    public ResponseEntity<String> probationIsOver(@Parameter (description = "Pet owner id", example = "25") @RequestParam Long id) {
+    @PutMapping("{id}/probation-successfully")
+    public ResponseEntity<String> probationIsOver(@PathVariable Long id) {
         logger.info("Call probationIsOver in PetOwnerController");
         String message = petOwnerService.sayThatProbationIsOverSuccessfully(id);
         return ResponseEntity.ok(message);
@@ -273,8 +272,8 @@ public class PetOwnerController {
             },
             tags = "Pet owners"
     )
-    @PutMapping("/probation-unsuccessfully")
-    public ResponseEntity<String> probationIsOverUnsuccessfully(@Parameter (description = "Pet owner id", example = "25") @RequestParam Long id) {
+    @PutMapping("{id}/probation-unsuccessfully")
+    public ResponseEntity<String> probationIsOverUnsuccessfully(@PathVariable Long id) {
         logger.info("Call probationIsOverUnsuccessfully in PetOwnerController");
         String message = petOwnerService.sayThatProbationIsOverNotSuccessfully(id);
         return ResponseEntity.ok(message);

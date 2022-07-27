@@ -175,11 +175,67 @@ public class PetOwnerControllerTest {
     }
 
     @Test
-    public void testFindPetOwners() throws Exception{
+    public void testFindAllPetOwners() throws Exception{
         when(petOwnerRepository.findAll()).thenReturn(new ArrayList<>(List.of(PET_OWNER)));
         mockMvc.perform(MockMvcRequestBuilders
                         .get(LOCAL_URL + ALL_URL)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testFindPetOwnerZeroProbation() throws Exception{
+        when(petOwnerRepository.getPetOwnerWithZeroDayOfProbation()).thenReturn(new ArrayList<>(List.of(PET_OWNER)));
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL + "/" + ZERO_PROBATION_URL)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testFindPetOwnerZeroProbationIfNotFound() throws Exception{
+        when(petOwnerRepository.getPetOwnerWithZeroDayOfProbation()).thenReturn(null);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL + "/" + ZERO_PROBATION_URL)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testChangeDayOfProbationInPetOwner() throws Exception{
+        when(petOwnerRepository.findById(ID)).thenReturn(Optional.of(PET_OWNER));
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(LOCAL_URL + ID + "/" + PROBATION_DAYS_URL)
+                        .param("amount", String.valueOf(AMOUNT_OF_DAY))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testChangeDayOfProbationInPetOwnerIfNotFound() throws Exception{
+        when(petOwnerRepository.findById(ID)).thenReturn(null);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(LOCAL_URL + ID + "/" + PROBATION_DAYS_URL)
+                        .param("amount", String.valueOf(AMOUNT_OF_DAY))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testProbationIsOverUnsuccessfully() throws Exception{
+        when(petOwnerRepository.findById(ID)).thenReturn(Optional.of(PET_OWNER));
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL + "/" + PROBATION_SUCCESSFULLY)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testProbationIsOverUnsuccessfullyIfNotFoundPetOwner() throws Exception{
+        when(petOwnerRepository.findById(ID)).thenReturn(null);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL + "/" + ZERO_PROBATION_URL)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 }
