@@ -55,14 +55,4 @@ class PhotoOfPetControllerTest {
                         .accept(MediaType.IMAGE_JPEG))
                 .andExpect(status().isNotFound());
     }
-
-    @Test
-    public void testUpLoadPhotoOfPetIfNonFoundReport() throws Exception {
-        when(reportService.findReport(any())).thenReturn(null);
-        mockMvc.perform(MockMvcRequestBuilders
-                        .post(LOCAL_URL)
-                        .contentType(MediaType.IMAGE_JPEG)
-                        .accept(MediaType.IMAGE_JPEG))
-                .andExpect(status().isNotFound());
-    }
 }
