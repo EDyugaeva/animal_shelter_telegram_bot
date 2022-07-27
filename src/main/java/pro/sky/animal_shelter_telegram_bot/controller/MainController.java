@@ -4,14 +4,18 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsOfControllers.HELLO_MESSAGE_IN_MAIN_CONTROLLER;
+
 @RestController
 public class MainController {
 
-    private final String HELLO_MESSAGE = "Welcome to our pet shelter!";
+    Logger logger = LoggerFactory.getLogger(MainController.class);
 
     @Operation(
             summary = "Welcome message in our pet shelter",
@@ -27,6 +31,7 @@ public class MainController {
     )
     @GetMapping
     public String helloMessage() {
-        return HELLO_MESSAGE;
+        logger.info("Call helloMessage in MainController");
+        return HELLO_MESSAGE_IN_MAIN_CONTROLLER;
     }
 }

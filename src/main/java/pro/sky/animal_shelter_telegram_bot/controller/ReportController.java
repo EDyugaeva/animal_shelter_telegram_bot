@@ -8,37 +8,25 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import pro.sky.animal_shelter_telegram_bot.model.Report;
-import pro.sky.animal_shelter_telegram_bot.model.pets.PhotoOfPet;
-import pro.sky.animal_shelter_telegram_bot.service.PhotoOfPetService;
 import pro.sky.animal_shelter_telegram_bot.service.ReportService;
 
-import java.io.*;
+import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsOfControllers.HELLO_MESSAGE_OF_REPORT_CONTROLLER;
 
 @RestController
 @RequestMapping("/report")
 public class ReportController {
 
     private final ReportService reportService;
-    private final PhotoOfPetService photoOfPetService;
 
-    Logger logger = LoggerFactory.getLogger(PhotoOfPetService.class);
+    Logger logger = LoggerFactory.getLogger(ReportController.class);
 
-    private final String HELLO_MESSAGE = "You can do it by reports\n" +
-            "1. add new report\n" +
-            "2. find report\n" +
-            "2. update report\n" +
-            "4. remove report\n";
-
-    public ReportController(ReportService reportService, PhotoOfPetService photoOfPetService) {
+    public ReportController(ReportService reportService) {
         this.reportService = reportService;
-        this.photoOfPetService = photoOfPetService;
     }
 
     @Operation(
@@ -54,8 +42,9 @@ public class ReportController {
             tags = "Reports"
     )
     @GetMapping
-    public String helloMessage(){
-        return HELLO_MESSAGE;
+    public String helloMessage() {
+        logger.info("Call helloMessage in Report Controller");
+        return HELLO_MESSAGE_OF_REPORT_CONTROLLER;
     }
 
     @Operation(
@@ -70,42 +59,23 @@ public class ReportController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "If report not found"
+                            description = "If report not found",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Reports"
     )
     @GetMapping("{id}")
     public ResponseEntity<Report> findReport(@Parameter(description = "Report id", example = "1") @PathVariable Long id) {
+        logger.info("Call findReport in Report Controller");
         Report report = reportService.findReport(id);
         if (report == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok(report);
-    }
-
-    @Operation(
-            summary = "Find photo by reportId",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Found photo:",
-                            content = @Content(mediaType = MediaType.IMAGE_JPEG_VALUE)
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "If photo not found"
-                    )
-            },
-            tags = "Reports"
-    )
-    @GetMapping(value = "/{id}/photo")
-    public ResponseEntity<byte[]> findPhotoByReportId(@PathVariable Long id) {
-        PhotoOfPet photoOfPet = photoOfPetService.findPhotoByReportId(id);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType(photoOfPet.getMediaType()));
-        headers.setContentLength(photoOfPet.getData().length);
-        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(photoOfPet.getData());
     }
 
     @Operation(
@@ -129,38 +99,8 @@ public class ReportController {
     )
     @PostMapping
     public Report addReport(@RequestBody Report report) {
+        logger.info("Call addReport in Report Controller");
         return reportService.addReport(report);
-    }
-
-    @Operation(
-            summary = "Add photo of pet to report",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Add photo to report",
-                    content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)
-            ),
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Add photo",
-                            content = @Content(
-                                    mediaType = MediaType.IMAGE_JPEG_VALUE
-                            )
-                    ),
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Add photo is to big"
-                    )
-            },
-            tags = "Reports"
-    )
-    @PostMapping(value = "/{id}/photo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> upLoadPhotoOfPet(@PathVariable Long id, @RequestParam MultipartFile photo) throws IOException {
-        if (photo.getSize() > 1024 * 300) {
-            logger.warn("Warning: photo is to big");
-            return ResponseEntity.badRequest().body("File is to big");
-        }
-        photoOfPetService.uploadPhotoOfPet(id, photo);
-        return ResponseEntity.ok().build();
     }
 
     @Operation(
@@ -177,17 +117,23 @@ public class ReportController {
                             description = "Update report",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = Report.class))
+                                    schema = @Schema(implementation = Report.class)
+                            )
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "If report not found"
+                            description = "If report not found, will be received bad request",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Reports"
     )
     @PutMapping
     public ResponseEntity<Report> editReport(@RequestBody Report report) {
+        logger.info("Call editReport in Report Controller");
         Report editReport = reportService.changeReport(report);
         if (editReport == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -200,18 +146,60 @@ public class ReportController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Report is delete from Database"
+                            description = "Report is delete from Database",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Report.class)
+                            )
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "If report not found"
+                            description = "If report not found",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Reports"
     )
     @DeleteMapping("{id}")
     public ResponseEntity<Report> deleteReport(@PathVariable Long id) {
-        reportService.deleteReport(id);
-        return ResponseEntity.ok().build();
+        logger.info("Call deleteReport in Report Controller");
+        if (reportService.deleteReport(id) == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(reportService.deleteReport(id));
+    }
+
+    @Operation(
+            summary = "Set mark on report",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Mark was sent correctly",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Report.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "If report not found, will be received bad request",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
+                    )
+            },
+            tags = "Reports"
+    )
+    @PutMapping("{id}/mark-report")
+    public ResponseEntity<Report> setMarkOnReport(@PathVariable Long id,
+                                                  @Parameter(description = "Result", example = "report is nice") @RequestParam("result") String result) {
+        logger.info("Call setMarkOnReport in ReportController");
+        if (reportService.findReport(id) == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(reportService.setMarkOnReport(id, result));
     }
 }

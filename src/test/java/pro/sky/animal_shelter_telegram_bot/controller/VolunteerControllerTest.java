@@ -1,33 +1,70 @@
 package pro.sky.animal_shelter_telegram_bot.controller;
 
+import net.minidev.json.JSONObject;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import pro.sky.animal_shelter_telegram_bot.model.Volunteer;
+import pro.sky.animal_shelter_telegram_bot.repository.VolunteerRepository;
+import pro.sky.animal_shelter_telegram_bot.service.impl.PetOwnerServiceImpl;
+import pro.sky.animal_shelter_telegram_bot.service.impl.VolunteerServiceImpl;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsForControllerTests.URL;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsForControllerTests.*;
+import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsOfControllers.HELLO_MESSAGE_VOLUNTEER_CONTROLLER;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class VolunteerControllerTest {
+@WebMvcTest(controllers = VolunteerController.class)
+public class VolunteerControllerTest {
 
-    @LocalServerPort
-    private int port;
-
-    private final String VOLUNTEER_URL = "volunteer";
+    private final String LOCAL_URL = URL + PORT + "/" + VOLUNTEER_URL + "/";
+    private final String PHONE_NUMBER_URL = "phone-number";
 
     @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private VolunteerRepository volunteerRepository;
+
+    @MockBean
+    private PetOwnerServiceImpl petOwnerService;
+
+    @SpyBean
+    private VolunteerServiceImpl volunteerService;
+
+    @InjectMocks
     private VolunteerController volunteerController;
 
-    @Autowired
-    private TestRestTemplate restTemplate;
+    private final Volunteer VOLUNTEER = new Volunteer();
 
-    private final String HELLO_MESSAGE = "You can do it by information of volunteer:\n" +
-            "1. add information about the volunteer\n" +
-            "2. get information about the volunteer\n" +
-            "2. update information about the volunteer\n" +
-            "4. remove information about rhe volunteer\n";
+    private final JSONObject volunteerObject = new JSONObject();
+
+    @BeforeEach
+    private void StartData() {
+        volunteerObject.put("id", ID);
+        volunteerObject.put("firstName", FIRST_NAME);
+        volunteerObject.put("lastName", LAST_NAME);
+        volunteerObject.put("extraInfo", EXTRA_INFO);
+        volunteerObject.put("phoneNumber", PHONE_NUMBER);
+        VOLUNTEER.setId(ID);
+        VOLUNTEER.setFirstName(FIRST_NAME);
+        VOLUNTEER.setLastName(LAST_NAME);
+        VOLUNTEER.setExtraInfo(EXTRA_INFO);
+        VOLUNTEER.setPhoneNumber(PHONE_NUMBER);
+    }
 
     @Test
     public void contextLoads(){
@@ -35,12 +72,141 @@ class VolunteerControllerTest {
     }
 
     @Test
-    public void testHelloMessage(){
-        assertThat(this.restTemplate.getForObject(URL + port + "/" + VOLUNTEER_URL + "/", String.class))
-                .isNotEmpty();
-        assertThat(this.restTemplate.getForObject(URL + port + "/" + VOLUNTEER_URL + "/", String.class))
-                .isNotNull();
-        assertThat(this.restTemplate.getForObject(URL + port + "/" + VOLUNTEER_URL + "/", String.class))
-                .isEqualTo(HELLO_MESSAGE);
+    public void testHelloMessage() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL)
+                        .accept(MediaType.TEXT_PLAIN_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content().string(HELLO_MESSAGE_VOLUNTEER_CONTROLLER));
+    }
+
+    @Test
+    public void testFindVolunteer() throws Exception{
+        when(volunteerRepository.findById(any(Long.class))).thenReturn(Optional.of(VOLUNTEER));
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL + ID)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(ID))
+                .andExpect(jsonPath("$.firstName").value(FIRST_NAME))
+                .andExpect(jsonPath("$.lastName").value(LAST_NAME))
+                .andExpect(jsonPath("$.extraInfo").value(EXTRA_INFO))
+                .andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER));
+    }
+
+    @Test
+    public void testFindVolunteerIfNotFound() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL + ID)
+                        .accept(MediaType.TEXT_PLAIN_VALUE))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testAddVolunteer() throws Exception {
+        when(volunteerRepository.save(any(Volunteer.class))).thenReturn(VOLUNTEER);
+        when(volunteerRepository.findById(any(Long.class))).thenReturn(Optional.of(VOLUNTEER));
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post(LOCAL_URL)
+                        .content(volunteerObject.toString())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(ID))
+                .andExpect(jsonPath("$.firstName").value(FIRST_NAME))
+                .andExpect(jsonPath("$.lastName").value(LAST_NAME))
+                .andExpect(jsonPath("$.extraInfo").value(EXTRA_INFO))
+                .andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER));
+    }
+
+    @Test
+    public void testEditVolunteer() throws Exception {
+        when(volunteerRepository.save(any(Volunteer.class))).thenReturn(VOLUNTEER);
+        when(volunteerRepository.findById(any(Long.class))).thenReturn(Optional.of(VOLUNTEER));
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(LOCAL_URL)
+                        .content(volunteerObject.toString())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(ID))
+                .andExpect(jsonPath("$.firstName").value(FIRST_NAME))
+                .andExpect(jsonPath("$.lastName").value(LAST_NAME))
+                .andExpect(jsonPath("$.extraInfo").value(EXTRA_INFO))
+                .andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER));
+    }
+
+    @Test
+    public void testEditVolunteerIfBadRequest() throws Exception {
+        when(volunteerRepository.findById(any(Long.class))).thenReturn(null);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(LOCAL_URL + ID)
+                        .accept(MediaType.TEXT_PLAIN_VALUE))
+                .andExpect(status().is(405));
+    }
+
+    @Test
+    public void testDeleteVolunteer() throws Exception {
+        when(volunteerRepository.save(any(Volunteer.class))).thenReturn(VOLUNTEER);
+        when(volunteerRepository.findById(any(Long.class))).thenReturn(Optional.of(VOLUNTEER));
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete(LOCAL_URL + ID)
+                        .content(volunteerObject.toString())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(ID))
+                .andExpect(jsonPath("$.firstName").value(FIRST_NAME))
+                .andExpect(jsonPath("$.lastName").value(LAST_NAME))
+                .andExpect(jsonPath("$.extraInfo").value(EXTRA_INFO))
+                .andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER));
+    }
+
+    @Test
+    public void testDeleteVolunteerIfNotFound() throws Exception {
+        when(volunteerRepository.findById(any(Long.class))).thenReturn(Optional.empty());
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete(LOCAL_URL + ID)
+                        .accept(MediaType.TEXT_PLAIN_VALUE))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testFindAllVolunteers() throws Exception{
+        when(volunteerRepository.findAll()).thenReturn(new ArrayList<>(List.of(VOLUNTEER)));
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL + ALL_URL)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testEditPhoneNumberOfVolunteer() throws Exception {
+        when(volunteerRepository.findById(any(Long.class))).thenReturn(Optional.of(VOLUNTEER));
+        when(volunteerService.setPhoneNumberOfVolunteer(VOLUNTEER, PHONE_NUMBER)).thenReturn(VOLUNTEER);
+        when(petOwnerService.getPetOwnerChatIdByPhoneNumber(any())).thenReturn(any(Long.class));
+        when(volunteerRepository.save(VOLUNTEER)).thenReturn(VOLUNTEER);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(LOCAL_URL + ID + "/" + PHONE_NUMBER_URL)
+                        .param("phone", PHONE_NUMBER)
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(ID))
+                .andExpect(jsonPath("$.firstName").value(FIRST_NAME))
+                .andExpect(jsonPath("$.lastName").value(LAST_NAME))
+                .andExpect(jsonPath("$.extraInfo").value(EXTRA_INFO))
+                .andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER));
+    }
+
+    @Test
+    public void testEditPhoneNumberOfVolunteerIfBadRequest() throws Exception {
+        when(volunteerRepository.findById(any(Long.class))).thenReturn(null);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(LOCAL_URL + ID + "/" + PHONE_NUMBER_URL)
+                        .accept(MediaType.TEXT_PLAIN_VALUE))
+                .andExpect(status().isBadRequest());
     }
 }

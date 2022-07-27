@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,16 +15,17 @@ import org.springframework.web.bind.annotation.*;
 import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
 import pro.sky.animal_shelter_telegram_bot.service.PetService;
 
+import java.util.Collection;
+
+import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsOfControllers.HELLO_MESSAGE_OF_PET_CONTROLLER;
+
 @RestController
 @RequestMapping("/pet")
 public class PetController {
 
     private final PetService petService;
-    private final String HELLO_MESSAGE = "You can do it by information of pet:\n" +
-            "1. add pet information\n" +
-            "2. get pet information\n" +
-            "2. update pet information\n" +
-            "4. remove pet information";
+
+    Logger logger = LoggerFactory.getLogger(PetController.class);
 
     public PetController(PetService petService) {
         this.petService = petService;
@@ -42,7 +45,8 @@ public class PetController {
     )
     @GetMapping
     public String helloMessage(){
-        return HELLO_MESSAGE;
+        logger.info("Call helloMessage in PetController");
+        return HELLO_MESSAGE_OF_PET_CONTROLLER;
     }
 
     @Operation(
@@ -57,13 +61,18 @@ public class PetController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "If pets not found"
+                            description = "If pets not found",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Pets"
     )
     @GetMapping("{id}")
     public ResponseEntity<Pet> findPet(@Parameter(description = "Pet id", example = "1") @PathVariable Long id) {
+        logger.info("Call findPet in PetController");
         Pet pet = petService.findPet(id);
         if (pet == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -92,6 +101,7 @@ public class PetController {
     )
     @PostMapping
     public Pet addPet(@RequestBody Pet pet) {
+        logger.info("Call addPet in PetController");
         return petService.addPet(pet);
     }
 
@@ -106,20 +116,25 @@ public class PetController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Update information",
+                            description = "Update information about pet",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = Pet.class))
                     ),
                     @ApiResponse(
-                            responseCode = "404",
-                            description = "If pets not found"
+                            responseCode = "400",
+                            description = "If pets not found in Database, will be received bad request",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Pets"
     )
     @PutMapping
     public ResponseEntity<Pet> editPet(@RequestBody Pet pet) {
+        logger.info("Call editPet in PetController");
         Pet editPet = petService.changePet(pet);
         if (editPet == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -132,18 +147,47 @@ public class PetController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Pet is delete from Database"
+                            description = "Pet is delete from Database",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Pet.class))
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "If pets not found"
+                            description = "if Pet don't delete, because pet not found in Database",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Pets"
     )
     @DeleteMapping("{id}")
     public ResponseEntity<Pet> deletePet(@PathVariable Long id) {
-        petService.deletePet(id);
-        return ResponseEntity.ok().build();
+        logger.info("Call deletePet in PetController");
+        if (petService.deletePet(id) == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(petService.deletePet(id));
+    }
+
+    @Operation(
+            summary = "Find all pets in pet shelter",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Finding pets",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = Collection.class))
+                    )
+            },
+            tags = "Pets"
+    )
+    @GetMapping("/all")
+    public ResponseEntity<Collection<Pet>> findAllPets() {
+        logger.info("Call findAllPets in PetController");
+        return ResponseEntity.ok(petService.getAllPets());
     }
 }

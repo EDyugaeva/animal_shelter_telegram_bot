@@ -7,6 +7,8 @@ import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
 import pro.sky.animal_shelter_telegram_bot.repository.PetRepository;
 import pro.sky.animal_shelter_telegram_bot.service.PetService;
 
+import java.util.Collection;
+
 /**
  * Service for working with repository DogRepository
  */
@@ -24,23 +26,27 @@ public class PetServiceImpl implements PetService {
     @Override
     public Pet addPet(Pet pet) {
         Pet addingPet = petRepository.save(pet);
-        logger.info("Pet {} is saved", addingPet);
+        logger.info("Pet with id {} is saved", addingPet.getId());
         return addingPet;
     }
 
-    @Override
-    public void deletePet(Pet pet) {
-        petRepository.deleteById(pet.getId());
-        logger.info("Pet {} is deleted", pet);
-    }
-
-    public void deletePet(Long id) {
+    public Pet deletePet(Long id) {
+        if (petRepository.findById(id).isEmpty()){
+            logger.info("Pet with id {} is not found", id);
+            return null;
+        }
+        Pet deletePet = petRepository.findById(id).get();
         petRepository.deleteById(id);
         logger.info("Pet with id {} is deleted", id);
+        return deletePet;
     }
 
     @Override
     public Pet findPet(Long id) {
+        if (petRepository.findById(id).isEmpty()){
+            logger.info("Pet with id {} is not found", id);
+            return null;
+        }
         Pet findingPet = petRepository.findById(id).get();
         logger.info("Pet with id {} is found", id);
         return findingPet;
@@ -48,8 +54,24 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public Pet changePet(Pet pet) {
+        if (petRepository.findById(pet.getId()).isEmpty()){
+            logger.info("Pet with id {} is not found", pet.getId());
+            return null;
+        }
         Pet changingPet = petRepository.save(pet);
-        logger.info("Pet {} is saved", pet);
+        logger.info("Pet with id {} is saved", pet);
         return changingPet;
     }
+
+    /**
+     * find pets in database
+     *
+     * @return Collection of Pet
+     */
+    @Override
+    public Collection<Pet> getAllPets() {
+        logger.info("Was invoked method for getAllPets");
+        return petRepository.findAll();
+    }
+
 }
