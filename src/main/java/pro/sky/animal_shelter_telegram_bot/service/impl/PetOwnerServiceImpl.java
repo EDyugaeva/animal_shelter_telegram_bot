@@ -230,7 +230,6 @@ public class PetOwnerServiceImpl implements PetOwnerService {
         sendMessage(chatId, message);
         petOwner.setDayOfProbation(-100);
         petOwnerRepository.save(petOwner);
-        petOwnerRepository.save(petOwner);
         return "Испытательный срок усыновителя с id = " + id + " прошел не успешно!. Свяжитесь с ним по номеру : " + petOwner.getPhoneNumber();
     }
 

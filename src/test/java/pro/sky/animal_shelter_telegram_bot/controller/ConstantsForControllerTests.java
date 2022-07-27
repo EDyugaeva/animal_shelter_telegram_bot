@@ -16,6 +16,7 @@ public class ConstantsForControllerTests {
     public final static String ZERO_PROBATION_URL = "zero-probation";
     public final static String PROBATION_DAYS_URL = "probation-days";
     public final static String PROBATION_SUCCESSFULLY = "probation-successfully";
+    public final static String PROBATION_UNSUCCESSFULLY = "probation-unsuccessfully";
 
     public final static Pet PET = new Pet();
     public final static PetOwner PET_OWNER = new PetOwner();

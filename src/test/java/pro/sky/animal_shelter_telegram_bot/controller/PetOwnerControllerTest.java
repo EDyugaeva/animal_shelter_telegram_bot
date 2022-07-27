@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsForControllerTests.*;
@@ -222,19 +222,19 @@ public class PetOwnerControllerTest {
     }
 
     @Test
-    public void testProbationIsOverUnsuccessfully() throws Exception{
-        when(petOwnerRepository.findById(ID)).thenReturn(Optional.of(PET_OWNER));
+    public void testProbationIsOverIfNotFoundPetOwner() throws Exception{
+        when(petOwnerRepository.findById(ID)).thenReturn(null);
         mockMvc.perform(MockMvcRequestBuilders
-                        .get(LOCAL_URL + "/" + PROBATION_SUCCESSFULLY)
+                        .put(LOCAL_URL + ID + "/" + PROBATION_SUCCESSFULLY)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isNotFound());
     }
 
     @Test
     public void testProbationIsOverUnsuccessfullyIfNotFoundPetOwner() throws Exception{
         when(petOwnerRepository.findById(ID)).thenReturn(null);
         mockMvc.perform(MockMvcRequestBuilders
-                        .get(LOCAL_URL + "/" + ZERO_PROBATION_URL)
+                        .put(LOCAL_URL + ID + "/" + PROBATION_UNSUCCESSFULLY)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }

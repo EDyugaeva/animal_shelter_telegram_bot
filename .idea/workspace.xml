@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c372aedf-8a59-4bde-b1cc-193faa7e50ea" name="Changes" comment="Refactor ReportController, finish write tests ReportControllerTest">
+    <list default="true" id="c372aedf-8a59-4bde-b1cc-193faa7e50ea" name="Changes" comment="Refactor PetOwnerController, update test PetOwnerControllerTest">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/PetOwnerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/PetOwnerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/service/impl/PetOwnerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/service/impl/PetOwnerServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/ConstantsForControllerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/ConstantsForControllerTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/PetOwnerControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/PetOwnerControllerTest.java" afterDir="false" />
     </list>
@@ -95,6 +95,7 @@
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
     "last_opened_file_path": "C:/Users/Serge/IdeaProjects/HWSchoolHogwards1",
+    "nodejs_package_manager_path": "npm",
     "spring.configuration.checksum": "20064124ef03306e8aff9b2fbdc08871"
   }
 }]]></component>
@@ -109,7 +110,7 @@
       <recent name="pro.sky.animal_shelter_telegram_bot.controller" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.AnimalShelterTelegramBotApplication">
+  <component name="RunManager" selected="JUnit.PetOwnerControllerTest">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -577,7 +578,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658911806302</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Refactor PetOwnerController, update test PetOwnerControllerTest">
+      <created>1658915498009</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1658915498009</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -607,7 +615,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Update PetServiceOwner from Branch_Kate" />
     <MESSAGE value="CherryPick ReportService, VolunteerService,PhotoOfReportRepository" />
     <MESSAGE value="Update PhotoOfPetRepository from Branch_Kate" />
     <MESSAGE value="Update MainController.java" />
@@ -632,14 +639,15 @@
     <MESSAGE value="Refactor VolunteerController and finish write tests VolunteerControllerTest" />
     <MESSAGE value="Refactor PetControllerTest" />
     <MESSAGE value="Refactor ReportController, finish write tests ReportControllerTest" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor ReportController, finish write tests ReportControllerTest" />
+    <MESSAGE value="Refactor PetOwnerController, update test PetOwnerControllerTest" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor PetOwnerController, update test PetOwnerControllerTest" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <default-breakpoints>
-        <breakpoint enabled="true" type="java-exception" />
-      </default-breakpoints>
-    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="org.mockito.internal.creation.bytebuddy.MockMethodInterceptor" memberName="serializationSupport" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/animal_shelter_telegram_bot$AnimalShelterTelegramBotApplication.ic" NAME="AnimalShelterTelegramBotApplication Coverage Results" MODIFIED="1655586759365" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
