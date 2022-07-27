@@ -116,6 +116,7 @@ ALTER TABLE photo_of_pet add COLUMN url text;
 
 ALTER TABLE volunteer ALTER COLUMN extra_info DROP NOT NULL;
 
+
 --changeSet edygaeva:7
 
 ALTER TABLE photo_of_pet drop COLUMN media_type;
@@ -124,4 +125,28 @@ ALTER TABLE photo_of_pet drop COLUMN media_type;
 --changeSet edygaeva:8
 
 ALTER TABLE photo_of_pet drop COLUMN url;
+
+--changeSet edygaeva:9
+
+ALTER TABLE pet ADD COLUMN kind_of_pet text;
+
+
+--changeSet edygaeva:10
+
+CREATE INDEX pet_owner_by_chat_id ON pet_owner (chat_id);
+
+
+--changeSet edygaeva:11
+
+CREATE INDEX pet_owner_by_phone_number ON pet_owner (phone_number);
+
+--changeSet edygaeva:12
+
+CREATE INDEX pets_by_pet_owner ON pet (pet_owner_id);
+
+
+
+
+
+
 

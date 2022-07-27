@@ -1,7 +1,6 @@
 package pro.sky.animal_shelter_telegram_bot.model;
 
 import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
-import pro.sky.animal_shelter_telegram_bot.model.pets.PhotoOfPet;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -12,24 +11,21 @@ public class Report {
     @Id
     @GeneratedValue
     private Long id;
-
-    @ManyToOne()
-    @JoinColumn(name = "pet_owner_id")
-    private PetOwner petOwner;
-
-    @ManyToOne()
-    @JoinColumn(name = "pet_id")
-    private Pet pet;
-
-    @OneToOne(mappedBy = "report")
-    private PhotoOfPet photoOfPet;
-
     private String dateOfReport;
     private String diet;
     private String health;
     private String changeInBehavior;
     private boolean isReportChecked;
     private String result;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pet_owner_id")
+    private PetOwner petOwner;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "pet_id")
+    private Pet pet;
+
 
     public Long getId() {
         return id;
@@ -55,20 +51,11 @@ public class Report {
         this.pet = pet;
     }
 
-
-    public PhotoOfPet getPhotoOfPet() {
-        return photoOfPet;
-    }
-
-    public void setPhotoOfPet(PhotoOfPet photoOfPet) {
-        this.photoOfPet = photoOfPet;
-    }
-
-    public String getdateOfReport() {
+    public String getDateOfReport() {
         return dateOfReport;
     }
 
-    public void setdateOfReport(String dateOfReport) {
+    public void setDateOfReport(String dateOfReport) {
         this.dateOfReport = dateOfReport;
     }
 
@@ -129,8 +116,8 @@ public class Report {
     public String toString() {
         return "Report{" +
                 "id=" + id +
-                ", petOwner=" + petOwner +
-                ", pet=" + pet +
+                ", petOwner=" +
+                ", pet=" +
                 ", dateOfReport='" + dateOfReport + '\'' +
                 ", diet='" + diet + '\'' +
                 ", health='" + health + '\'' +

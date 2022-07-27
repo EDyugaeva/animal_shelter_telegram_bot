@@ -1,10 +1,12 @@
 package pro.sky.animal_shelter_telegram_bot.service.impl;
 
-import liquibase.pro.packaged.L;
-import liquibase.repackaged.org.apache.commons.lang3.StringUtils;
+import com.pengrad.telegrambot.TelegramBot;
+import com.pengrad.telegrambot.request.SendMessage;
+import com.pengrad.telegrambot.response.SendResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
 import pro.sky.animal_shelter_telegram_bot.repository.PetOwnerRepository;
 import pro.sky.animal_shelter_telegram_bot.service.PetOwnerService;
@@ -12,7 +14,6 @@ import pro.sky.animal_shelter_telegram_bot.service.PetOwnerService;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Service for working with repository PetOwnerRepository
@@ -22,9 +23,12 @@ public class PetOwnerServiceImpl implements PetOwnerService {
 
     Logger logger = LoggerFactory.getLogger(PetOwnerServiceImpl.class);
 
+    private final TelegramBot telegramBot;
+
     private final PetOwnerRepository petOwnerRepository;
 
-    public PetOwnerServiceImpl(PetOwnerRepository petOwnerRepository) {
+    public PetOwnerServiceImpl(TelegramBot telegramBot, PetOwnerRepository petOwnerRepository) {
+        this.telegramBot = telegramBot;
         this.petOwnerRepository = petOwnerRepository;
     }
 
@@ -95,27 +99,38 @@ public class PetOwnerServiceImpl implements PetOwnerService {
     @Override
     public Collection<PetOwner> getPetOwnerByDayOfProbation() {
         List<PetOwner> petOwnersList = new ArrayList<>(petOwnerRepository.getPetOwnerByDayOfProbation());
+        if (petOwnersList.isEmpty()) {
+            logger.info("Pet owner list with day of probation > 0 is empty");
+            throw new NotFoundException("All pet owner do not have probation");
+        }
         logger.info("Get list of pet owners with days of probation more then zero");
         return petOwnersList;
     }
 
+    /**
+     * @return list of volunteers with ending of probation
+     */
     @Override
     public Collection<PetOwner> getPetOwnerWithZeroDayOfProbation() {
         List<PetOwner> petOwnersList = new ArrayList<>(petOwnerRepository.getPetOwnerWithZeroDayOfProbation());
+        if (petOwnersList.isEmpty()) {
+            logger.info("Pet owner list with day of probation = 0 is empty");
+            throw new NotFoundException("All pet owner have a long probation period");
+        }
         logger.info("Get list of pet owners with days of probation equal zero");
         return petOwnersList;
     }
 
 
     /**
-     * Add name to database from bot
+     * Add name to database ONLY from bot (setting day of probation = -1)
      *
      * @param name - String from update (message) from telegram
-     * @param id   - chat id fron update (telegram)
+     * @param id   - chat id from update (telegram)
      * @return string message with name
      */
-        @Override
-    public String setPetOwnersName(String name, Long id) {
+    @Override
+    public PetOwner setPetOwnersName(String name, Long id) {
         if (name.isEmpty()) {
             logger.info("Name is empty");
             throw new NullPointerException("Name is empty");
@@ -123,10 +138,12 @@ public class PetOwnerServiceImpl implements PetOwnerService {
         PetOwner petOwner = petOwnerRepository.findPetOwnerByChatId(id).orElse(new PetOwner());
         petOwner.setChatId(id);
         petOwner.setFirstName(name);
-        logger.info("Name {} is saved", name);
+        petOwner.setDayOfProbation(-1);
         petOwnerRepository.save(petOwner);
 
-        return name;
+        logger.info("Name {} is saved", name);
+
+        return petOwner;
     }
 
     /**
@@ -151,12 +168,89 @@ public class PetOwnerServiceImpl implements PetOwnerService {
         return findingPetOwner;
     }
 
+    /**
+     * find pet owner with phone number
+     *
+     * @param phoneNumber - texted phone number (+7...)
+     * @return chat id or NullPointerException
+     */
     @Override
     public Long getPetOwnerChatIdByPhoneNumber(String phoneNumber) {
         PetOwner petOwner = petOwnerRepository.findPetOwnerByPhoneNumber(phoneNumber).get();
-        if (petOwner != null && petOwner.getChatId() != null) {
+        if (petOwner.getChatId() != null) {
             return petOwner.getChatId();
         }
         throw new NullPointerException("Pet Owner does not exist");
+    }
+
+    /**
+     * add or reduce probation
+     *
+     * @param id        - petOwner id
+     * @param extraDays - amount of day, which could be added (or reduced)
+     * @return pet owner
+     */
+    @Override
+    public PetOwner setExtraDayOfProbation(Long id, Integer extraDays) {
+        PetOwner petOwner = petOwnerRepository.findById(id).orElse(new PetOwner());
+        if (petOwner.getId() == null) {
+            logger.warn("Pet owner with id {} was not found", id);
+            throw new NotFoundException("Pet owner was not found");
+        }
+        petOwner.setDayOfProbation(petOwner.getDayOfProbation() + extraDays);
+        petOwnerRepository.save(petOwner);
+
+        return petOwner;
+    }
+
+    @Override
+    public String sayThatProbationIsOverSuccessfully(Long id) {
+        PetOwner petOwner = petOwnerRepository.findById(id).orElse(new PetOwner());
+        if (petOwner.getId() == null) {
+            logger.warn("Pet owner with id {} was not found", id);
+            throw new NotFoundException("Pet owner was not found");
+        }
+        Long chatId = petOwner.getChatId();
+        String message = "Поздравляем! Ваш испытательный срок прошел успешно!";
+        sendMessage(chatId, message);
+        petOwner.setDayOfProbation(-1);
+        petOwnerRepository.save(petOwner);
+        return "Испытательный срок усыновителя с id = " + id + " прошел успешно!";
+    }
+
+    @Override
+    public String sayThatProbationIsOverNotSuccessfully(Long id) {
+        PetOwner petOwner = petOwnerRepository.findById(id).orElse(new PetOwner());
+        if (petOwner.getId() == null) {
+            logger.warn("Pet owner with id {} was not found", id);
+            throw new NotFoundException("Pet owner was not found");
+        }
+        Long chatId = petOwner.getChatId();
+        String message = "Вы не прошли испытательный срок. С вами свяжется волонтер и объяснит, как действовать дальше";
+        sendMessage(chatId, message);
+        petOwner.setDayOfProbation(-100);
+        petOwnerRepository.save(petOwner);
+        return "Испытательный срок усыновителя с id = " + id + " прошел не успешно!. Свяжитесь с ним по номеру : " + petOwner.getPhoneNumber();
+    }
+
+    /**
+     * find petOwners in database
+     *
+     * @return Collection of PetOwners
+     */
+    @Override
+    public Collection<PetOwner> getAllPetOwners() {
+        logger.info("Was invoked method for getAllPetOwners");
+        return petOwnerRepository.findAll();
+    }
+
+
+    private void sendMessage(Long chatId, String message) {
+        SendResponse response = telegramBot.execute(new SendMessage(chatId, message));
+        if (response.isOk()) {
+            logger.info("message: {} is sent ", message);
+        } else {
+            logger.warn("Message was not sent.  " + response.description());
+        }
     }
 }

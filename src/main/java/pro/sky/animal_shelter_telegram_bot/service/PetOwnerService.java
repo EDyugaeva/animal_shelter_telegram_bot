@@ -20,11 +20,19 @@ public interface PetOwnerService {
 
     Collection<PetOwner> getPetOwnerWithZeroDayOfProbation();
 
-    String setPetOwnersName(String firstName, Long id);
+    PetOwner setPetOwnersName(String firstName, Long id);
 
     boolean petOwnerHasPhoneNumber(Long chatId);
 
     Long getPetOwnerChatIdByPhoneNumber(String phoneNumber);
 
     PetOwner findPetOwnerByChatId(Long chatId);
+
+    PetOwner setExtraDayOfProbation(Long id, Integer extraDays);
+
+    String sayThatProbationIsOverSuccessfully(Long id);
+
+    String sayThatProbationIsOverNotSuccessfully(Long id);
+
+    Collection<PetOwner> getAllPetOwners();
 }

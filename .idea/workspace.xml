@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-
-    <list default="true" id="c372aedf-8a59-4bde-b1cc-193faa7e50ea" name="Changes" comment="Update VolunteerController, VolunteerService">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/PhotoOfPetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/PhotoOfPetController.java" afterDir="false" />
+    <list default="true" id="c372aedf-8a59-4bde-b1cc-193faa7e50ea" name="Changes" comment="Update PhotoOfPetControllerTest">
+      <change beforePath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/PhotoOfPetControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/PhotoOfPetControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,9 +15,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JUnit5 Test Class" />
         <option value="Class" />
         <option value="Interface" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -31,8 +29,7 @@
     </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-
-        <entry key="$PROJECT_DIR$" value="schelter_to_cats" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -58,7 +55,7 @@
     </option>
     <option name="myId2Visible">
       <map>
-        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
+        <entry key="com.haulmont.jpb.jpaInspector" value="false" />
         <entry key="com.haulmont.jpb.jpaPalette" value="false" />
         <entry key="com.haulmont.jpb.jpaStructure" value="true" />
       </map>
@@ -82,31 +79,35 @@
     <option name="showMembers" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Serge/IdeaProjects/HWSchoolHogwards1&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;20064124ef03306e8aff9b2fbdc08871&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "last_opened_file_path": "C:/Users/Serge/IdeaProjects/HWSchoolHogwards1",
+    "nodejs_package_manager_path": "npm",
+    "spring.configuration.checksum": "20064124ef03306e8aff9b2fbdc08871"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="pro.sky.animal_shelter_telegram_bot.controller" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
       <recent name="pro.sky.animal_shelter_telegram_bot.controller" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.AnimalShelterTelegramBotApplication">
+  <component name="RunManager" selected="JUnit.PhotoOfPetControllerTest">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -168,6 +169,23 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="PetControllerTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="animal_shelter_telegram_bot" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pro.sky.animal_shelter_telegram_bot.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="pro.sky.animal_shelter_telegram_bot.controller" />
+      <option name="MAIN_CLASS_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.PetControllerTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-Djasypt.encryptor.password=InJavaVeritas" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="PetOwnerControllerTest" type="JUnit" factoryName="JUnit">
       <module name="animal_shelter_telegram_bot" />
       <extension name="coverage">
@@ -185,7 +203,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PetOwnerTestMVC" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+    <configuration name="PhotoOfPetControllerTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="animal_shelter_telegram_bot" />
       <extension name="coverage">
         <pattern>
@@ -194,7 +212,7 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="pro.sky.animal_shelter_telegram_bot.controller" />
-      <option name="MAIN_CLASS_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.PetOwnerTestMVC" />
+      <option name="MAIN_CLASS_NAME" value="pro.sky.animal_shelter_telegram_bot.controller.PhotoOfPetControllerTest" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-Djasypt.encryptor.password=InJavaVeritas" />
@@ -249,7 +267,6 @@
     </configuration>
     <configuration name="AnimalShelterTelegramBotApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <option name="ACTIVE_PROFILES" />
-      
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <module name="animal_shelter_telegram_bot" />
@@ -261,12 +278,12 @@
     </configuration>
     <list>
       <item itemvalue="Database Script.migrations.sql" />
-      <item itemvalue="JUnit.MainControllerTest" />
       <item itemvalue="JUnit.PetControllerTest" />
+      <item itemvalue="JUnit.MainControllerTest" />
       <item itemvalue="JUnit.PetOwnerControllerTest" />
       <item itemvalue="JUnit.ReportControllerTest" />
       <item itemvalue="JUnit.VolunteerControllerTest" />
-      <item itemvalue="JUnit.PetOwnerTestMVC" />
+      <item itemvalue="JUnit.PhotoOfPetControllerTest" />
       <item itemvalue="Spring Boot.AnimalShelterTelegramBotApplication" />
     </list>
     <recent_temporary>
@@ -300,7 +317,8 @@
       <workItem from="1657956598028" duration="670000" />
       <workItem from="1657957518544" duration="600000" />
       <workItem from="1657959142078" duration="9357000" />
-
+      <workItem from="1658226719433" duration="1217000" />
+      <workItem from="1658467750833" duration="13731000" />
     </task>
     <task id="LOCAL-00001" summary="Модели классов. Создал модели классов, пришлось создать дополнительный класс которго не было в плане PhotoOfPet. Создал абстрактный класс Pet и от него два класса Dog и Cat, но пока у них один и тот же функционал видимо.">
       <created>1655931677499</created>
@@ -498,7 +516,119 @@
       <option name="project" value="LOCAL" />
       <updated>1657655935933</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Add method FindAllPets">
+      <created>1658227546623</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1658227546623</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Creat new tests, refactor tests and check tests for PetController">
+      <created>1658471694454</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1658471694454</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Refactor PetControllerTest">
+      <created>1658474888573</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1658474888573</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Refactor MainControllerTest">
+      <created>1658475666365</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1658475666365</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Refactor PetControllerTest">
+      <created>1658475883735</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1658475883735</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Refactor VolunteerControllerTest, VolunteerService">
+      <created>1658480726051</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1658480726051</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Refactor ReportControllerTest, PetOwnerControllerTest">
+      <created>1658481154462</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1658481154462</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Update VolunteerControllerTest. Delete test value chatId, because in model Volunteer add @JsoneIgnore in chatId">
+      <created>1658905410129</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1658905410129</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Refactor VolunteerController and finish write tests VolunteerControllerTest">
+      <created>1658909192291</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1658909192291</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Refactor PetControllerTest">
+      <created>1658909457888</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1658909457888</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Refactor ReportController, finish write tests ReportControllerTest">
+      <created>1658911806302</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1658911806302</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Refactor PetOwnerController, update test PetOwnerControllerTest">
+      <created>1658915498009</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1658915498009</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Refactor PetOwnerController, finish write test PetOwnerControllerTest">
+      <created>1658926399959</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1658926399959</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Refactor Tests for controllers and Create PhotoOfPetControllerTest">
+      <created>1658930279955</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1658930279955</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Update PhotoOfPetControllerTest">
+      <created>1658930372416</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1658930372417</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Update PhotoOfPetControllerTest">
+      <created>1658930396222</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1658930396222</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -528,16 +658,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Модели классов. Создал модели классов, пришлось создать дополнительный класс которго не было в плане PhotoOfPet. Создал абстрактный класс Pet и от него два класса Dog и Cat, но пока у них один и тот же функционал видимо." />
-    <MESSAGE value="Подключил Swagger и создал контроллеры:&#10;MainController&#10;PetController&#10;PetOwnerController&#10;ReportController&#10;VolunteerController" />
-    <MESSAGE value="Оставил пока только класс Pet. (При желаниии сделаем его абстрактным и от него сделаем других питомцев собак/кошек)" />
-    <MESSAGE value="Update PetController" />
-    <MESSAGE value="Update service from Branch_Kate" />
-    <MESSAGE value="Update service PhotoOfPetService.java from Branch_Kate" />
-    <MESSAGE value="Update PetServiceOwner from Branch_Kate" />
-    <MESSAGE value="CherryPick ReportService, VolunteerService,PhotoOfReportRepository" />
-    <MESSAGE value="Update PhotoOfPetRepository from Branch_Kate" />
-    <MESSAGE value="Update MainController.java" />
     <MESSAGE value="Update PetController.java" />
     <MESSAGE value="Update PetOwnerController and PetController" />
     <MESSAGE value="Update ReportController.java" />
@@ -550,14 +670,27 @@
     <MESSAGE value="Update PetOwnerController, PetOwnerService" />
     <MESSAGE value="Update ReportController, ReportService" />
     <MESSAGE value="Update VolunteerController, VolunteerService" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update VolunteerController, VolunteerService" />
+    <MESSAGE value="Add method FindAllPets" />
+    <MESSAGE value="Creat new tests, refactor tests and check tests for PetController" />
+    <MESSAGE value="Refactor MainControllerTest" />
+    <MESSAGE value="Refactor VolunteerControllerTest, VolunteerService" />
+    <MESSAGE value="Refactor ReportControllerTest, PetOwnerControllerTest" />
+    <MESSAGE value="Update VolunteerControllerTest. Delete test value chatId, because in model Volunteer add @JsoneIgnore in chatId" />
+    <MESSAGE value="Refactor VolunteerController and finish write tests VolunteerControllerTest" />
+    <MESSAGE value="Refactor PetControllerTest" />
+    <MESSAGE value="Refactor ReportController, finish write tests ReportControllerTest" />
+    <MESSAGE value="Refactor PetOwnerController, update test PetOwnerControllerTest" />
+    <MESSAGE value="Refactor PetOwnerController, finish write test PetOwnerControllerTest" />
+    <MESSAGE value="Refactor Tests for controllers and Create PhotoOfPetControllerTest" />
+    <MESSAGE value="Update PhotoOfPetControllerTest" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update PhotoOfPetControllerTest" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <default-breakpoints>
-        <breakpoint enabled="true" type="java-exception" />
-      </default-breakpoints>
-    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="org.mockito.internal.creation.bytebuddy.MockMethodInterceptor" memberName="serializationSupport" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/animal_shelter_telegram_bot$AnimalShelterTelegramBotApplication.ic" NAME="AnimalShelterTelegramBotApplication Coverage Results" MODIFIED="1655586759365" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

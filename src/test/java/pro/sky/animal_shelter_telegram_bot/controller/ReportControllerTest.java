@@ -1,33 +1,72 @@
 package pro.sky.animal_shelter_telegram_bot.controller;
 
+import net.minidev.json.JSONObject;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import pro.sky.animal_shelter_telegram_bot.model.Report;
+import pro.sky.animal_shelter_telegram_bot.repository.PetOwnerRepository;
+import pro.sky.animal_shelter_telegram_bot.repository.PetRepository;
+import pro.sky.animal_shelter_telegram_bot.repository.ReportRepository;
+import pro.sky.animal_shelter_telegram_bot.service.impl.ReportServiceImpl;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsForControllerTests.URL;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsForControllerTests.*;
+import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsOfControllers.HELLO_MESSAGE_OF_REPORT_CONTROLLER;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ReportControllerTest {
-
-    @LocalServerPort
-    private int port;
-
-    private final String REPORT_URL = "report";
+@WebMvcTest(controllers = ReportController.class)
+public class ReportControllerTest {
+    private final String LOCAL_URL = URL + PORT + "/" + REPORT_URL + "/";
 
     @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private ReportRepository reportRepository;
+
+    @MockBean
+    private PetOwnerRepository petOwnerRepository;
+
+    @MockBean
+    private PetRepository petRepository;
+
+    @SpyBean
+    private ReportServiceImpl reportService;
+
+    @InjectMocks
     private ReportController reportController;
 
-    @Autowired
-    private TestRestTemplate restTemplate;
+    private final Report REPORT = new Report();
 
-    private final String HELLO_MESSAGE = "You can do it by reports\n" +
-            "1. add new report\n" +
-            "2. find report\n" +
-            "2. update report\n" +
-            "4. remove report\n";
+    private final JSONObject reportObject = new JSONObject();
+
+    @BeforeEach
+    private void StartData() {
+        reportObject.put("id", ID);
+        reportObject.put("dateOfReport", DATE_OF_REPORT);
+        reportObject.put("diet", DIET);
+        reportObject.put("health", HEALTH);
+        reportObject.put("changeInBehavior", CHANGE_IN_BEHAVIOR);
+        reportObject.put("result", RESULT);
+        REPORT.setId(ID);
+        REPORT.setDateOfReport(DATE_OF_REPORT);
+        REPORT.setDiet(DIET);
+        REPORT.setHealth(HEALTH);
+        REPORT.setChangeInBehavior(CHANGE_IN_BEHAVIOR);
+        REPORT.setResult(RESULT);
+    }
 
     @Test
     public void contextLoads(){
@@ -35,12 +74,133 @@ class ReportControllerTest {
     }
 
     @Test
-    public void testHelloMessage(){
-        assertThat(this.restTemplate.getForObject(URL + port + "/" + REPORT_URL + "/", String.class))
-                .isNotEmpty();
-        assertThat(this.restTemplate.getForObject(URL + port + "/" + REPORT_URL + "/", String.class))
-                .isNotNull();
-        assertThat(this.restTemplate.getForObject(URL + port + "/" + REPORT_URL + "/", String.class))
-                .isEqualTo(HELLO_MESSAGE);
+    public void testHelloMessage() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL)
+                        .accept(MediaType.TEXT_PLAIN_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content().string(HELLO_MESSAGE_OF_REPORT_CONTROLLER));
+    }
+
+    @Test
+    public void testFindReport() throws Exception{
+        when(reportRepository.findById(any(Long.class))).thenReturn(Optional.of(REPORT));
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL + ID)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(ID))
+                .andExpect(jsonPath("$.dateOfReport").value(DATE_OF_REPORT))
+                .andExpect(jsonPath("$.diet").value(DIET))
+                .andExpect(jsonPath("$.health").value(HEALTH))
+                .andExpect(jsonPath("$.changeInBehavior").value(CHANGE_IN_BEHAVIOR))
+                .andExpect(jsonPath("$.result").value(RESULT));
+    }
+
+    @Test
+    public void testFindReportIfNotFound() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL + ID)
+                        .accept(MediaType.TEXT_PLAIN_VALUE))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testAddReport() throws Exception {
+        when(reportRepository.save(any(Report.class))).thenReturn(REPORT);
+        when(reportRepository.findById(any(Long.class))).thenReturn(Optional.of(REPORT));
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post(LOCAL_URL)
+                        .content(reportObject.toString())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id").value(ID))
+                .andExpect(jsonPath("$.dateOfReport").value(DATE_OF_REPORT))
+                .andExpect(jsonPath("$.diet").value(DIET))
+                .andExpect(jsonPath("$.health").value(HEALTH))
+                .andExpect(jsonPath("$.changeInBehavior").value(CHANGE_IN_BEHAVIOR))
+                .andExpect(jsonPath("$.result").value(RESULT));
+    }
+
+    @Test
+    public void testEditReport() throws Exception {
+        when(reportRepository.save(any(Report.class))).thenReturn(REPORT);
+        when(reportRepository.findById(any(Long.class))).thenReturn(Optional.of(REPORT));
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(LOCAL_URL)
+                        .content(reportObject.toString())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(ID))
+                .andExpect(jsonPath("$.dateOfReport").value(DATE_OF_REPORT))
+                .andExpect(jsonPath("$.diet").value(DIET))
+                .andExpect(jsonPath("$.health").value(HEALTH))
+                .andExpect(jsonPath("$.changeInBehavior").value(CHANGE_IN_BEHAVIOR))
+                .andExpect(jsonPath("$.result").value(RESULT));
+    }
+
+    @Test
+    public void testEditReportIfBadRequest() throws Exception {
+        when(reportRepository.findById(any(Long.class))).thenReturn(null);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(LOCAL_URL + ID)
+                        .accept(MediaType.TEXT_PLAIN_VALUE))
+                .andExpect(status().is(405));
+    }
+
+    @Test
+    public void testDeleteReport() throws Exception {
+        when(reportRepository.save(any(Report.class))).thenReturn(REPORT);
+        when(reportRepository.findById(any(Long.class))).thenReturn(Optional.of(REPORT));
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete(LOCAL_URL + ID)
+                        .content(reportObject.toString())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(ID))
+                .andExpect(jsonPath("$.dateOfReport").value(DATE_OF_REPORT))
+                .andExpect(jsonPath("$.diet").value(DIET))
+                .andExpect(jsonPath("$.health").value(HEALTH))
+                .andExpect(jsonPath("$.changeInBehavior").value(CHANGE_IN_BEHAVIOR))
+                .andExpect(jsonPath("$.result").value(RESULT));
+    }
+
+    @Test
+    public void testDeleteReportIfNotFound() throws Exception {
+        when(reportRepository.findById(any(Long.class))).thenReturn(Optional.empty());
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete(LOCAL_URL + ID)
+                        .accept(MediaType.TEXT_PLAIN_VALUE))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testSetMarkOnReport() throws Exception {
+        when(reportRepository.findById(any(Long.class))).thenReturn(Optional.of(REPORT));
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(LOCAL_URL + ID + "/" + MARK_REPORT_URL)
+                        .param("result", RESULT)
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(ID))
+                .andExpect(jsonPath("$.dateOfReport").value(DATE_OF_REPORT))
+                .andExpect(jsonPath("$.diet").value(DIET))
+                .andExpect(jsonPath("$.health").value(HEALTH))
+                .andExpect(jsonPath("$.changeInBehavior").value(CHANGE_IN_BEHAVIOR))
+                .andExpect(jsonPath("$.result").value(RESULT));
+    }
+
+    @Test
+    public void testSetMarkOnReportIfReportNotFound() throws Exception {
+        when(reportRepository.findById(any(Long.class))).thenReturn(null);
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(LOCAL_URL + ID + "/" + MARK_REPORT_URL)
+                        .accept(MediaType.TEXT_PLAIN_VALUE))
+                .andExpect(status().isBadRequest());
     }
 }

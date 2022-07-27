@@ -19,14 +19,18 @@ public class Pet {
     private String nameOfPet;
     private String health;
     private String extraInfoOfPet;
+    private String kindOfPet;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "pet_owner_id")
     private PetOwner ownerOfPet;
 
     @OneToMany(mappedBy = "pet")
     @JsonIgnore
     private Collection<Report> reports;
+
+    public Pet() {
+    }
 
     public Long getId() {
         return id;
@@ -50,6 +54,10 @@ public class Pet {
 
     public void setHealth(String health) {
         this.health = health;
+    }
+
+    public String getKindOfPet() {
+        return kindOfPet;
     }
 
     public String getExtraInfoOfPet() {
@@ -96,7 +104,8 @@ public class Pet {
                 ", nameOfPet='" + nameOfPet + '\'' +
                 ", health='" + health + '\'' +
                 ", extraInfoOfPet='" + extraInfoOfPet + '\'' +
-                ", ownerOfPet=" + ownerOfPet +
+                ", ownerOfPet=" + ownerOfPet.getFirstName() + '\'' +
+                ", kind of pet=" + kindOfPet +
                 '}';
     }
 }

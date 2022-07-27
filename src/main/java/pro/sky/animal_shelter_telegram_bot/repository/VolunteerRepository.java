@@ -9,7 +9,6 @@ import java.util.List;
 @Repository
 public interface VolunteerRepository extends JpaRepository<Volunteer, Long> {
 
-
     void deleteById(Long id);
 
     Volunteer findVolunteerByPhoneNumber(String phoneNumber);
