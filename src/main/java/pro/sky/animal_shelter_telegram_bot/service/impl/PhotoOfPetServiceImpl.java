@@ -13,10 +13,7 @@ import pro.sky.animal_shelter_telegram_bot.repository.PhotoOfPetRepository;
 import pro.sky.animal_shelter_telegram_bot.service.PhotoOfPetService;
 import pro.sky.animal_shelter_telegram_bot.service.ReportService;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -99,31 +96,6 @@ public class PhotoOfPetServiceImpl implements PhotoOfPetService {
     }
 
     @Override
-    public void downloadPhotoOfPet(Long reportId, HttpServletResponse response) throws IOException {
-        int filesize = 1024;
-
-        logger.debug("Downloading photoOfPet for report {}", reportId);
-        PhotoOfPet photoOfPet = findPhotoByReportId(reportId);
-        if (photoOfPet.getData() == null) {
-            throw new NullPointerException("Photo from report with this ID {} does not exist: " + reportId);
-        }
-        Path path = Path.of(photoOfPet.getFilePath());
-        try (
-                InputStream is = Files.newInputStream(path);
-                OutputStream os = response.getOutputStream();
-                BufferedInputStream bis = new BufferedInputStream(is, filesize);
-                BufferedOutputStream bos = new BufferedOutputStream(os, filesize)
-        ) {
-            response.setStatus(200);
-            response.setContentLength((int) photoOfPet.getFileSize());
-            bis.transferTo(bos);
-        } catch (IOException e) {
-            throw new IOException("Upload error");
-        }
-        logger.debug("Photo for report {} is downloaded", reportId);
-    }
-
-    @Override
     public PhotoOfPet findPhotoByReportId(Long reportId) {
         return photoOfPetRepository.findPhotoOfPetByReportId(reportId).orElse(new PhotoOfPet());
     }
@@ -154,7 +126,5 @@ public class PhotoOfPetServiceImpl implements PhotoOfPetService {
         photoOfPet.setData(data);
 
         photoOfPetRepository.save(photoOfPet);
-
-
     }
 }

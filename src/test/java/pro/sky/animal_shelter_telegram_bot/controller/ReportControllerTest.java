@@ -75,7 +75,8 @@ public class ReportControllerTest {
 
     @Test
     public void testHelloMessage() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(LOCAL_URL)
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().string(HELLO_MESSAGE_OF_REPORT_CONTROLLER));
@@ -98,7 +99,8 @@ public class ReportControllerTest {
 
     @Test
     public void testFindReportIfNotFound() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(LOCAL_URL + ID)
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(LOCAL_URL + ID)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().isNotFound());
     }
@@ -143,7 +145,8 @@ public class ReportControllerTest {
     @Test
     public void testEditReportIfBadRequest() throws Exception {
         when(reportRepository.findById(any(Long.class))).thenReturn(null);
-        mockMvc.perform(MockMvcRequestBuilders.put(LOCAL_URL + ID)
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(LOCAL_URL + ID)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().is(405));
     }
@@ -170,7 +173,8 @@ public class ReportControllerTest {
     @Test
     public void testDeleteReportIfNotFound() throws Exception {
         when(reportRepository.findById(any(Long.class))).thenReturn(Optional.empty());
-        mockMvc.perform(MockMvcRequestBuilders.delete(LOCAL_URL + ID)
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete(LOCAL_URL + ID)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().isNotFound());
     }
@@ -194,7 +198,8 @@ public class ReportControllerTest {
     @Test
     public void testSetMarkOnReportIfReportNotFound() throws Exception {
         when(reportRepository.findById(any(Long.class))).thenReturn(null);
-        mockMvc.perform(MockMvcRequestBuilders.put(LOCAL_URL + ID + "/" + MARK_REPORT_URL)
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(LOCAL_URL + ID + "/" + MARK_REPORT_URL)
                         .accept(MediaType.TEXT_PLAIN_VALUE))
                 .andExpect(status().isBadRequest());
     }

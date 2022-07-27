@@ -1,7 +1,9 @@
 package pro.sky.animal_shelter_telegram_bot.controller;
 
 import pro.sky.animal_shelter_telegram_bot.model.PetOwner;
+import pro.sky.animal_shelter_telegram_bot.model.Report;
 import pro.sky.animal_shelter_telegram_bot.model.pets.Pet;
+import pro.sky.animal_shelter_telegram_bot.model.pets.PhotoOfPet;
 
 public class ConstantsForControllerTests {
 
@@ -17,9 +19,13 @@ public class ConstantsForControllerTests {
     public final static String PROBATION_DAYS_URL = "probation-days";
     public final static String PROBATION_SUCCESSFULLY = "probation-successfully";
     public final static String PROBATION_UNSUCCESSFULLY = "probation-unsuccessfully";
+    public final static String PHOTO_URL = "photo";
+
 
     public final static Pet PET = new Pet();
     public final static PetOwner PET_OWNER = new PetOwner();
+    public final static Report REPORT = new Report();
+    public final static PhotoOfPet PHOTO_OF_PET = new PhotoOfPet();
 
     public final static long ID = 1L;
     public final static String FIRST_NAME = "Ivan";

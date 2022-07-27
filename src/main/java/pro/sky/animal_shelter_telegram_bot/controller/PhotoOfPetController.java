@@ -49,6 +49,7 @@ public class PhotoOfPetController {
     )
     @GetMapping(value = "/{id}/photo")
     public ResponseEntity<byte[]> findPhotoByReportId(@PathVariable Long id) {
+        logger.info("Call findPhotoByReportId in PhotoOfPetController");
         PhotoOfPet photoOfPet = photoOfPetService.findPhotoByReportId(id);
         if (photoOfPet.getFileSize() == 0) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -79,12 +80,22 @@ public class PhotoOfPetController {
                                     mediaType = MediaType.TEXT_PLAIN_VALUE,
                                     schema = @Schema(implementation = ResponseEntity.class)
                             )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "If not found report",
+                            content = @Content(
+                                    mediaType = MediaType.TEXT_PLAIN_VALUE,
+                                    schema = @Schema(implementation = ResponseEntity.class)
+                            )
                     )
             },
             tags = "Reports"
     )
     @PostMapping(value = "/{id}/photo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> upLoadPhotoOfPet(@PathVariable Long id, @RequestParam MultipartFile photo) throws IOException {
+    public ResponseEntity<String> upLoadPhotoOfPet(@PathVariable Long id,
+                                                   @RequestParam("photo") MultipartFile photo) throws IOException {
+        logger.info("Call upLoadPhotoOfPet in PhotoOfPetController");
         if (photo.getSize() > 1024 * 300) {
             logger.warn("Warning: photo is to big");
             return ResponseEntity.badRequest().body("File is to big");
