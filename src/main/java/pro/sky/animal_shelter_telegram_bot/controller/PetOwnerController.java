@@ -232,20 +232,17 @@ public class PetOwnerController {
     @Operation (
             summary = "Say, that probation is over",
             responses = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Update information",
-                    content = @Content(
-                            mediaType = MediaType.TEXT_PLAIN_VALUE)
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "If pet owner not found",
-                    content = @Content(
-                            mediaType = MediaType.TEXT_PLAIN_VALUE
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Update information",
+                            content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE)
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "If pet owner not found",
+                            content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE)
                     )
-            )
-    },
+            },
             tags = "Pet owners"
     )
 
