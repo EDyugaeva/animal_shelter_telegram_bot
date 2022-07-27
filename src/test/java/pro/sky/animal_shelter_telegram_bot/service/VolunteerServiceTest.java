@@ -41,8 +41,8 @@ public class VolunteerServiceTest {
 
         when(petOwnerService.getPetOwnerChatIdByPhoneNumber(PHONE_NUMBER)).thenReturn(CHAT_ID);
         when(volunteerRepository.save(volunteer)).thenReturn(volunteer);
-        Assertions.assertEquals(CHAT_ID, out.setVolunteersPhoneNumber(volunteer, PHONE_NUMBER).getChatId());
-        Assertions.assertEquals(PHONE_NUMBER, out.setVolunteersPhoneNumber(volunteer, PHONE_NUMBER).getPhoneNumber());
+        Assertions.assertEquals(CHAT_ID, out.setPhoneNumberOfVolunteer(volunteer, PHONE_NUMBER).getChatId());
+        Assertions.assertEquals(PHONE_NUMBER, out.setPhoneNumberOfVolunteer(volunteer, PHONE_NUMBER).getPhoneNumber());
 
 
 
