@@ -22,7 +22,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static pro.sky.animal_shelter_telegram_bot.controller.ConstantsForControllerTests.*;
@@ -59,13 +58,11 @@ public class VolunteerControllerTest {
         volunteerObject.put("firstName", FIRST_NAME);
         volunteerObject.put("lastName", LAST_NAME);
         volunteerObject.put("extraInfo", EXTRA_INFO);
-        volunteerObject.put("chatId", CHAT_ID);
         volunteerObject.put("phoneNumber", PHONE_NUMBER);
         VOLUNTEER.setId(ID);
         VOLUNTEER.setFirstName(FIRST_NAME);
         VOLUNTEER.setLastName(LAST_NAME);
         VOLUNTEER.setExtraInfo(EXTRA_INFO);
-        VOLUNTEER.setChatId(CHAT_ID);
         VOLUNTEER.setPhoneNumber(PHONE_NUMBER);
     }
 
@@ -93,7 +90,6 @@ public class VolunteerControllerTest {
                 .andExpect(jsonPath("$.firstName").value(FIRST_NAME))
                 .andExpect(jsonPath("$.lastName").value(LAST_NAME))
                 .andExpect(jsonPath("$.extraInfo").value(EXTRA_INFO))
-                .andExpect(jsonPath("$.chatId").value(CHAT_ID))
                 .andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER));
     }
 
@@ -119,7 +115,6 @@ public class VolunteerControllerTest {
                 .andExpect(jsonPath("$.firstName").value(FIRST_NAME))
                 .andExpect(jsonPath("$.lastName").value(LAST_NAME))
                 .andExpect(jsonPath("$.extraInfo").value(EXTRA_INFO))
-                .andExpect(jsonPath("$.chatId").value(CHAT_ID))
                 .andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER));
     }
 
@@ -138,7 +133,6 @@ public class VolunteerControllerTest {
                 .andExpect(jsonPath("$.firstName").value(FIRST_NAME))
                 .andExpect(jsonPath("$.lastName").value(LAST_NAME))
                 .andExpect(jsonPath("$.extraInfo").value(EXTRA_INFO))
-                .andExpect(jsonPath("$.chatId").value(CHAT_ID))
                 .andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER));
     }
 
@@ -165,7 +159,6 @@ public class VolunteerControllerTest {
                 .andExpect(jsonPath("$.firstName").value(FIRST_NAME))
                 .andExpect(jsonPath("$.lastName").value(LAST_NAME))
                 .andExpect(jsonPath("$.extraInfo").value(EXTRA_INFO))
-                .andExpect(jsonPath("$.chatId").value(CHAT_ID))
                 .andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER));
     }
 
@@ -205,7 +198,6 @@ public class VolunteerControllerTest {
                 .andExpect(jsonPath("$.firstName").value(FIRST_NAME))
                 .andExpect(jsonPath("$.lastName").value(LAST_NAME))
                 .andExpect(jsonPath("$.extraInfo").value(EXTRA_INFO))
-                .andExpect(jsonPath("$.chatId").value(CHAT_ID))
                 .andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER));
     }
 
