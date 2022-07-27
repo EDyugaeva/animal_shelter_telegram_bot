@@ -76,50 +76,8 @@ class PhotoOfPetControllerTest {
     public void testUpLoadPhotoOfPetIsToBig() throws Exception {
         when(reportService.findReport(any())).thenReturn(REPORT);
         REPORT.setId(ID);
-        final MultipartFile PHOTO = new MultipartFile() {
-            @Override
-            public String getName() {
-                return null;
-            }
-
-            @Override
-            public String getOriginalFilename() {
-                return null;
-            }
-
-            @Override
-            public String getContentType() {
-                return null;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public long getSize() {
-                return 1024*301;
-            }
-
-            @Override
-            public byte[] getBytes() throws IOException {
-                return new byte[0];
-            }
-
-            @Override
-            public InputStream getInputStream() throws IOException {
-                return null;
-            }
-
-            @Override
-            public void transferTo(File dest) throws IOException, IllegalStateException {
-
-            }
-        };
         mockMvc.perform(MockMvcRequestBuilders
                         .post(LOCAL_URL)
-                        .param("photo", String.valueOf(PHOTO))
                         .contentType(MediaType.IMAGE_JPEG)
                         .accept(MediaType.IMAGE_JPEG))
                 .andExpect(status().isNotFound());
