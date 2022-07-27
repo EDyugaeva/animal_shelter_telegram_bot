@@ -193,10 +193,13 @@ public class ReportController {
             },
             tags = "Reports"
     )
-    @PutMapping("/markReport")
-    public ResponseEntity<Report> setMarkOnReport(@RequestParam(name = "Id отчета") Long id,
-                                                  @RequestParam(name = "Хороший/нормальный/плохой") String result) {
+    @PutMapping("{id}/mark-report")
+    public ResponseEntity<Report> setMarkOnReport(@PathVariable Long id,
+                                                  @Parameter(description = "Result", example = "report is nice") @RequestParam("result") String result) {
         logger.info("Call setMarkOnReport in ReportController");
+        if (reportService.findReport(id) == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
         return ResponseEntity.ok(reportService.setMarkOnReport(id, result));
     }
 }

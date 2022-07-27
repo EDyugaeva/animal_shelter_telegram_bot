@@ -10,6 +10,7 @@ public class ConstantsForControllerTests {
     public final static String PET_URL = "pet";
     public final static String PET_OWNER_URL = "pet-owner";
     public final static String REPORT_URL = "report";
+    public final static String MARK_REPORT_URL = "mark-report";
     public final static String VOLUNTEER_URL = "volunteer";
     public final static String ALL_URL = "all";
 
@@ -28,4 +29,5 @@ public class ConstantsForControllerTests {
     public final static String DATE_OF_REPORT = "12.12.2021";
     public final static String DIET = "Meat";
     public final static String RESULT = "Report is fine";
+    public final static String CHANGE_IN_BEHAVIOR = "Change in behavior of pet";
 }

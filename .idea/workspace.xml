@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c372aedf-8a59-4bde-b1cc-193faa7e50ea" name="Changes" comment="Refactor VolunteerController and finish write tests VolunteerControllerTest" />
+    <list default="true" id="c372aedf-8a59-4bde-b1cc-193faa7e50ea" name="Changes" comment="Refactor PetControllerTest">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/controller/ReportController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/service/impl/ReportServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pro/sky/animal_shelter_telegram_bot/service/impl/ReportServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/ConstantsForControllerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/ConstantsForControllerTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/ReportControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pro/sky/animal_shelter_telegram_bot/controller/ReportControllerTest.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -104,7 +110,7 @@
       <recent name="pro.sky.animal_shelter_telegram_bot.controller" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.PetControllerTest">
+  <component name="RunManager" selected="JUnit.ReportControllerTest">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -558,7 +564,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658909192291</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Refactor PetControllerTest">
+      <created>1658909457888</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1658909457888</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -608,12 +621,12 @@
     <MESSAGE value="Add method FindAllPets" />
     <MESSAGE value="Creat new tests, refactor tests and check tests for PetController" />
     <MESSAGE value="Refactor MainControllerTest" />
-    <MESSAGE value="Refactor PetControllerTest" />
     <MESSAGE value="Refactor VolunteerControllerTest, VolunteerService" />
     <MESSAGE value="Refactor ReportControllerTest, PetOwnerControllerTest" />
     <MESSAGE value="Update VolunteerControllerTest. Delete test value chatId, because in model Volunteer add @JsoneIgnore in chatId" />
     <MESSAGE value="Refactor VolunteerController and finish write tests VolunteerControllerTest" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor VolunteerController and finish write tests VolunteerControllerTest" />
+    <MESSAGE value="Refactor PetControllerTest" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor PetControllerTest" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
