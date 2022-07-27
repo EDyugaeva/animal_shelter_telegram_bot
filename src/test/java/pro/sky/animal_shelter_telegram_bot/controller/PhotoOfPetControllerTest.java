@@ -65,15 +65,4 @@ class PhotoOfPetControllerTest {
                         .accept(MediaType.IMAGE_JPEG))
                 .andExpect(status().isNotFound());
     }
-
-    @Test
-    public void testUpLoadPhotoOfPetIsToBig() throws Exception {
-        when(reportService.findReport(any())).thenReturn(REPORT);
-        REPORT.setId(ID);
-        mockMvc.perform(MockMvcRequestBuilders
-                        .post(LOCAL_URL)
-                        .contentType(MediaType.IMAGE_JPEG)
-                        .accept(MediaType.IMAGE_JPEG))
-                .andExpect(status().isNotFound());
-    }
 }
